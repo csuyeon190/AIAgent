@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>삼성SDS 사례연구</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 폰트: 한글은 Noto Sans KR, 영문은 Montserrat 사용 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 메인 컨테이너 -->
+    <main class="container">
+        <!-- 헤더 영역 -->
+        <header class="header">
+            <h1 class="page-title">사례연구</h1>
+        </header>
+
+        <!-- 탭 네비게이션 -->
+        <nav class="tab-navigation" role="tablist">
+            <button 
+                class="tab-button active" 
+                data-tab="cloud" 
+                role="tab"
+                aria-selected="true"
+                aria-controls="cloud-panel">
+                클라우드
+            </button>
+            <button 
+                class="tab-button" 
+                data-tab="admin" 
+                role="tab"
+                aria-selected="false"
+                aria-controls="admin-panel">
+                행정
+            </button>
+        </nav>
+
+        <!-- 로딩 인디케이터 -->
+        <div class="loading-indicator" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>데이터를 불러오는 중...</p>
+        </div>
+
+        <!-- 콘텐츠 패널 -->
+        <div class="content-wrapper">
+            <!-- 클라우드 탭 패널 -->
+            <section 
+                id="cloud-panel" 
+                class="tab-panel active" 
+                role="tabpanel"
+                aria-labelledby="cloud-tab">
+                <div class="card-grid" id="cloudGrid"></div>
+                <button class="load-more-button" id="cloudLoadMore" style="display: none;">
+                    더보기
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </section>
+
+            <!-- 행정 탭 패널 -->
+            <section 
+                id="admin-panel" 
+                class="tab-panel" 
+                role="tabpanel"
+                aria-labelledby="admin-tab">
+                <div class="card-grid" id="adminGrid"></div>
+                <button class="load-more-button" id="adminLoadMore" style="display: none;">
+                    더보기
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </section>
+        </div>
+
+        <!-- 에러 메시지 -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <svg class="error-icon" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p>데이터를 불러오는데 실패했습니다. 다시 시도해주세요.</p>
+        </div>
+    </main>
+
+    <script src="script_local.js"></script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+/* ========================================
+   CSS 변수 정의 - 일관된 디자인 시스템
+   ======================================== */
+:root {
+    /* 삼성 브랜드 컬러 */
+    --primary-blue: #1428A0;
+    --light-blue: #4A6CF7;
+    --accent-blue: #2563EB;
+    
+    /* 그레이스케일 */
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+    
+    /* 레이아웃 */
+    --container-max-width: 1200px;
+    --gap: 24px;
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+    
+    /* 그림자 */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   기본 리셋 및 전역 스타일
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--gray-900);
+    background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   컨테이너 및 레이아웃
+   ======================================== */
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 60px 24px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* 페이드인 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   헤더 영역
+   ======================================== */
+.header {
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+.page-title {
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
+    position: relative;
+    display: inline-block;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-blue), var(--light-blue));
+    border-radius: 2px;
+}
+
+/* ========================================
+   탭 네비게이션
+   ======================================== */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 48px;
+    padding: 8px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tab-button {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 32px;
+    border: none;
+    background: transparent;
+    color: var(--gray-600);
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all var(--transition-speed) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    z-index: -1;
+}
+
+.tab-button:hover {
+    color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+.tab-button.active {
+    color: white;
+}
+
+.tab-button.active::before {
+    opacity: 1;
+}
+
+/* ========================================
+   로딩 인디케이터
+   ======================================== */
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--gray-200);
+    border-top-color: var(--primary-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.loading-indicator p {
+    margin-top: 20px;
+    color: var(--gray-600);
+    font-size: 0.95rem;
+}
+
+/* ========================================
+   에러 메시지
+   ======================================== */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    margin: 40px 0;
+}
+
+.error-icon {
+    width: 64px;
+    height: 64px;
+    color: #EF4444;
+    margin-bottom: 16px;
+}
+
+.error-message p {
+    color: var(--gray-700);
+    font-size: 1rem;
+}
+
+/* ========================================
+   콘텐츠 패널
+   ======================================== */
+.content-wrapper {
+    position: relative;
+}
+
+.tab-panel {
+    display: none;
+    animation: slideIn 0.4s ease-out;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========================================
+   카드 그리드
+   ======================================== */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--gap);
+    margin-bottom: 40px;
+}
+
+/* 반응형: 태블릿 */
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+}
+
+/* 반응형: 모바일 */
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* ========================================
+   케이스 스터디 카드
+   ======================================== */
+.case-card {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+    position: relative;
+    animation: cardFadeIn 0.5s ease-out backwards;
+}
+
+/* 카드 순차 애니메이션 */
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.case-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+/* 이미지 영역 */
+.card-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+    position: relative;
+    overflow: hidden;
+}
+
+/* 이미지 로딩 시 Skeleton 효과 */
+.card-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    to {
+        left: 100%;
+    }
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.case-card:hover .card-image img {
+    transform: scale(1.1);
+}
+
+/* 이미지가 로드되면 skeleton 효과 제거 */
+.card-image.loaded::before {
+    display: none;
+}
+
+/* 이미지 플레이스홀더 (로고 표시) */
+.card-image-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    opacity: 0.3;
+}
+
+/* 카드 콘텐츠 */
+.card-content {
+    padding: 24px;
+}
+
+.card-logo {
+    height: 32px;
+    margin-bottom: 16px;
+    object-fit: contain;
+    object-position: left;
+}
+
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em;
+}
+
+.card-description {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 4.2em;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card-tag {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    background: var(--gray-100);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* ========================================
+   더보기 버튼
+   ======================================== */
+.load-more-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 40px auto 0;
+    padding: 14px 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-speed) ease;
+}
+
+.load-more-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.load-more-button:active {
+    transform: translateY(0);
+}
+
+.arrow-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-speed) ease;
+}
+
+.load-more-button:hover .arrow-icon {
+    transform: translateY(3px);
+}
+
+/* ========================================
+   반응형 디자인
+   ======================================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 40px 16px;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .tab-navigation {
+        width: 100%;
+    }
+    
+    .tab-button {
+        flex: 1;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.75rem;
+    }
+    
+    .card-image {
+        height: 160px;
+    }
+    
+    .card-content {
+        padding: 16px;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+    
+    .card-description {
+        font-size: 0.8125rem;
+    }
+}
+
+/* ========================================
+   유틸리티 클래스
+   ======================================== */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
