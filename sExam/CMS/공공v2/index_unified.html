@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>삼성SDS 사례연구</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 폰트: 한글은 Noto Sans KR, 영문은 Montserrat 사용 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 메인 컨테이너 -->
+    <main class="container">
+        <!-- 헤더 영역 -->
+        <header class="header">
+            <h1 class="page-title">사례연구</h1>
+        </header>
+
+        <!-- 탭 네비게이션 -->
+        <nav class="tab-navigation" role="tablist">
+            <button 
+                class="tab-button active" 
+                data-tab="cloud" 
+                role="tab"
+                aria-selected="true"
+                aria-controls="content-panel">
+                클라우드
+            </button>
+            <button 
+                class="tab-button" 
+                data-tab="admin" 
+                role="tab"
+                aria-selected="false"
+                aria-controls="content-panel">
+                행정
+            </button>
+        </nav>
+
+        <!-- 로딩 인디케이터 -->
+        <div class="loading-indicator" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>데이터를 불러오는 중...</p>
+        </div>
+
+        <!-- 콘텐츠 패널 (하나로 통합) -->
+        <div class="content-wrapper" id="contentPanel">
+            <!-- 카드 그리드 (공통 사용) -->
+            <div class="cont_list" id="cardGrid"></div>
+            
+            <!-- 더보기 버튼 (공통 사용) -->
+            <div class="btn_more" id="loadMoreBtn" style="display: none;">
+                <a href="#" class="btn_m btn_ty round">
+                    <span>더 보기</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 에러 메시지 -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <svg class="error-icon" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p>데이터를 불러오는데 실패했습니다. 다시 시도해주세요.</p>
+        </div>
+    </main>
+
+    <script src="script_unified.js"></script>
+</body>
+</html>
