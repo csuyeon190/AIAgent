@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Slider</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <h1 class="page-title">✦ Image Slider</h1>
+
+    <!-- ======== SLIDER CONTAINER ======== -->
+    <div class="slider-wrapper">
+
+      <!-- Left Arrow -->
+      <button class="arrow arrow-left" id="arrowLeft" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <!-- Slides Track -->
+      <div class="slider-viewport" id="sliderViewport">
+        <div class="slides-track" id="slidesTrack">
+
+          <!-- Slide 1 -->
+          <div class="slide" data-index="0">
+            <img src="images/slide_city.png" alt="미래 도시" />
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+              <span class="slide-tag">FUTURE CITY</span>
+              <h2 class="slide-title">미래를 향한<br/>빛나는 도시</h2>
+              <p class="slide-desc">네온빛으로 물든 미래 도시의 스카이라인을 감상하세요.</p>
+              <button class="slide-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="slide" data-index="1">
+            <img src="images/slide_nature.png" alt="자연" />
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+              <span class="slide-tag">NATURE</span>
+              <h2 class="slide-title">자연의 빛,<br/>숲속의 고요함</h2>
+              <p class="slide-desc">햇살이 내리쬐는 열대우림의 신비로운 풍경 속으로.</p>
+              <button class="slide-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="slide" data-index="2">
+            <img src="images/slide_tech.png" alt="AI 기술" />
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+              <span class="slide-tag">TECHNOLOGY</span>
+              <h2 class="slide-title">AI가 연결하는<br/>디지털 세계</h2>
+              <p class="slide-desc">신경망과 데이터가 만들어 가는 미래 기술을 경험하세요.</p>
+              <button class="slide-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="slide" data-index="3">
+            <img src="images/slide_interior.png" alt="인테리어" />
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+              <span class="slide-tag">INTERIOR</span>
+              <h2 class="slide-title">고급스러운<br/>공간의 미학</h2>
+              <p class="slide-desc">따뜻한 황금빛 조명과 모던한 인테리어가 만나는 곳.</p>
+              <button class="slide-btn">자세히 보기</button>
+            </div>
+          </div>
+
+          <!-- Slide 5 -->
+          <div class="slide" data-index="4">
+            <img src="images/slide_mountain.png" alt="산" />
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+              <span class="slide-tag">LANDSCAPE</span>
+              <h2 class="slide-title">황금빛 노을,<br/>설산의 장엄함</h2>
+              <p class="slide-desc">황혼이 물드는 웅장한 산맥 위로 드라마틱한 구름이 펼쳐집니다.</p>
+              <button class="slide-btn">자세히 보기</button>
+            </div>
+          </div>
+
+        </div><!-- /slides-track -->
+      </div><!-- /slider-viewport -->
+
+      <!-- Right Arrow -->
+      <button class="arrow arrow-right" id="arrowRight" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+      <!-- Dot Indicators -->
+      <div class="dots-container" id="dotsContainer"></div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar" id="progressBar"></div>
+
+      <!-- Slide Counter -->
+      <div class="slide-counter">
+        <span id="currentNum">1</span>
+        <span class="counter-sep">/</span>
+        <span id="totalNum">5</span>
+      </div>
+
+      <!-- Auto-play Toggle -->
+      <button class="autoplay-btn" id="autoplayBtn" aria-label="Toggle autoplay">
+        <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+        <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      </button>
+
+    </div><!-- /slider-wrapper -->
+  </div><!-- /page-wrapper -->
+
+  <script src="slider.js"></script>
+</body>
+</html>

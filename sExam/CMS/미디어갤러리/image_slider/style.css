@@ -1,0 +1,402 @@
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --accent: #4f9fff;
+  --accent-glow: rgba(79, 159, 255, 0.55);
+  --arrow-size: 52px;
+  --dot-size: 10px;
+  --transition-speed: 700ms;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Outfit', sans-serif;
+  background: #0a0d14;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   PAGE WRAPPER
+============================================================ */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 40px 24px;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ffffff 0%, #4f9fff 60%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+}
+
+/* ============================================================
+   SLIDER WRAPPER
+============================================================ */
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 30px 90px rgba(0,0,0,0.7),
+    0 0 60px rgba(79,159,255,0.15);
+}
+
+/* ============================================================
+   VIEWPORT & TRACK
+============================================================ */
+.slider-viewport {
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16 / 6;
+  background: #111;
+}
+
+.slides-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-speed) cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+}
+
+/* ============================================================
+   SLIDE
+============================================================ */
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+}
+
+/* Ken Burns effect on active slide */
+.slide.active img {
+  animation: kenBurns 8s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+  from { transform: scale(1.00) translate(0, 0); }
+  to   { transform: scale(1.07) translate(-1%, -1%); }
+}
+
+/* ============================================================
+   SLIDE OVERLAY
+============================================================ */
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.45) 45%,
+    rgba(0,0,0,0.10) 100%
+  );
+  z-index: 1;
+}
+
+/* ============================================================
+   SLIDE CONTENT
+============================================================ */
+.slide-content {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  padding: 48px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 60%;
+  /* Hidden by default – animated in when slide is active */
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.5s ease 0.35s, transform 0.5s ease 0.35s;
+}
+
+.slide.active .slide-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(79,159,255,0.14);
+  border: 1px solid rgba(79,159,255,0.35);
+  padding: 4px 12px;
+  border-radius: 20px;
+  width: fit-content;
+  backdrop-filter: blur(6px);
+}
+
+.slide-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+.slide-desc {
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  font-weight: 300;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+}
+
+.slide-btn {
+  margin-top: 4px;
+  padding: 10px 26px;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  border-radius: 30px;
+  background: transparent;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  width: fit-content;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+
+.slide-btn:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: #fff;
+  box-shadow: 0 0 18px rgba(255,255,255,0.25);
+}
+
+/* ============================================================
+   ARROW BUTTONS
+============================================================ */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  background: rgba(10, 13, 20, 0.5);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s,
+    transform 0.2s;
+  padding: 0;
+}
+
+.arrow svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.arrow-left  { left: 20px; }
+.arrow-right { right: 20px; }
+
+.arrow:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.arrow:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+/* ============================================================
+   DOT INDICATORS
+============================================================ */
+.dots-container {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, transform 0.3s, width 0.35s;
+  flex-shrink: 0;
+}
+
+.dot.active {
+  background: #fff;
+  width: 28px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+.dot:hover:not(.active) {
+  background: rgba(255,255,255,0.7);
+  transform: scale(1.2);
+}
+
+/* ============================================================
+   PROGRESS BAR
+============================================================ */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  z-index: 10;
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ============================================================
+   SLIDE COUNTER
+============================================================ */
+.slide-counter {
+  position: absolute;
+  bottom: 18px;
+  right: 80px;
+  z-index: 10;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+#currentNum {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.counter-sep {
+  opacity: 0.5;
+  margin: 0 2px;
+}
+
+/* ============================================================
+   AUTOPLAY BUTTON
+============================================================ */
+.autoplay-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 22px;
+  z-index: 10;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(10, 13, 20, 0.5);
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+  padding: 0;
+}
+
+.autoplay-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.autoplay-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(79,159,255,0.12);
+}
+
+/* ============================================================
+   TRANSITION VARIANTS
+============================================================ */
+/* Fade overlay used during slide change */
+.slider-viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  pointer-events: none;
+  z-index: 5;
+  transition: background 0.15s;
+}
+
+.slider-viewport.transitioning::after {
+  background: rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 768px) {
+  .slider-viewport { aspect-ratio: 16 / 9; }
+  .slide-content   { padding: 28px 32px; max-width: 85%; }
+  .arrow-left       { left: 10px; }
+  .arrow-right      { right: 10px; }
+  .slide-counter    { right: 60px; }
+  .autoplay-btn     { right: 14px; }
+}
+
+@media (max-width: 480px) {
+  .slider-viewport { aspect-ratio: 4 / 3; }
+  .slide-content   { padding: 20px 20px; max-width: 100%; gap: 8px; }
+  .slide-btn       { display: none; }
+  :root { --arrow-size: 40px; }
+}

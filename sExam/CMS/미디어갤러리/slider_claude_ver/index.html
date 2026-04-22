@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프리미엄 이미지 슬라이드 캐러셀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="carousel.css">
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="carousel" id="carousel">
+            <div class="carousel-track" id="carouselTrack">
+                
+                <!-- 
+                ========================================
+                이미지 배경 슬라이드 사용 방법:
+                ========================================
+                
+                1. 이미지 파일 준비:
+                   - 원하는 배경 이미지를 같은 폴더에 저장하세요
+                   - 예: slide-image-1.png, slide-image-2.png, my-image.jpg 등
+                
+                2. 이미지 경로 변경:
+                   - 아래 <img src="..."> 부분에서 파일명을 변경하세요
+                   - 예: <img src="slide-image-1.png" alt="설명">
+                
+                3. 슬라이드 추가/삭제:
+                   - 슬라이드를 추가하려면 <div class="carousel-slide">...</div> 전체를 복사하세요
+                   - 삭제하려면 해당 슬라이드 전체를 삭제하세요
+                   - JavaScript가 자동으로 개수를 감지합니다
+                
+                4. 텍스트 내용 수정:
+                   - slide-label: 상단 작은 텍스트
+                   - slide-title: 메인 제목
+                   - slide-description: 설명 문구
+                   - slide-cta: 버튼 텍스트
+                ========================================
+                -->
+
+                <!-- Slide 1 - 업로드하신 이미지 1 -->
+                <div class="carousel-slide active">
+                    <img src="slide-image-1.png" alt="셀타나인 ChatGPT Enterprise">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <div class="slide-label">셀타나인</div>
+                        <h2 class="slide-title">셀타나인이 ChatGPT Enterprise를<br>선택한 이유</h2>
+                        <p class="slide-description">
+                            셀타나인은 ChatGPT Enterprise를 단순한 생성형 AI 도구로서가 아니라, 가장 제한적인 AI 활용 방식에서 벗어나 전사 공유 AI 인프라를 구축했습니다.
+                        </p>
+                        <button class="slide-cta">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- Slide 2 - 업로드하신 이미지 2 -->
+                <div class="carousel-slide">
+                    <img src="slide-image-2.png" alt="GS칼텍스 GDC 전환기">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <div class="slide-label">GS칼텍스</div>
+                        <h2 class="slide-title">비용과 품질,<br>두 마리 토끼를 잡은 GS칼텍스의 GDC 전환기</h2>
+                        <p class="slide-description">
+                            GS칼텍스가 삼성SDS GDC를 통해 어떻게 비용 절감과 품질 향상을 동시에 달성했는지 확인해보세요.
+                        </p>
+                        <button class="slide-cta">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- Slide 3 - 추가 슬라이드 예시 (이미지 경로 변경 필요) -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&h=900&fit=crop" alt="데이터 분석">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <div class="slide-label">Data Analytics</div>
+                        <h2 class="slide-title">인사이트로<br>성장하다</h2>
+                        <p class="slide-description">
+                            빅데이터 분석과 AI 기반 예측으로 비즈니스 성과를 극대화합니다.
+                        </p>
+                        <button class="slide-cta">자세히 보기 →</button>
+                    </div>
+                </div>
+
+                <!-- 
+                ========================================
+                슬라이드 추가 템플릿:
+                아래 코드를 복사해서 원하는 만큼 추가하세요
+                ========================================
+                
+                <div class="carousel-slide">
+                    <img src="your-image-name.jpg" alt="이미지 설명">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <div class="slide-label">카테고리</div>
+                        <h2 class="slide-title">메인 제목을<br>입력하세요</h2>
+                        <p class="slide-description">
+                            상세 설명을 여기에 작성하세요.
+                        </p>
+                        <button class="slide-cta">버튼 텍스트</button>
+                    </div>
+                </div>
+                
+                ========================================
+                -->
+
+            </div>
+
+            <!-- Navigation Arrows -->
+            <div class="carousel-arrow left" id="prevBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </div>
+            <div class="carousel-arrow right" id="nextBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                </svg>
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="carousel-pagination" id="pagination"></div>
+
+            <!-- Controls -->
+            <div class="carousel-controls">
+                <div class="control-btn" id="playPauseBtn">
+                    <svg id="pauseIcon" viewBox="0 0 24 24">
+                        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                    </svg>
+                    <svg id="playIcon" viewBox="0 0 24 24" style="display: none;">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="carousel.js"></script>
+</body>
+</html>
