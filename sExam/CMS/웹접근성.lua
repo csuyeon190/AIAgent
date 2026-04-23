@@ -1,3 +1,9 @@
 Cello Square 서비스 핵심 가치 다이어그램. 중앙의 Cello(Ops and mgmt efficiency)를 중심으로 세 주체가 순환 연결된다. Operation(물류 운영)은 Automation으로, Customers(고객)는 Self-Service로, Partners(파트너)는 Openness 방식으로 Cello와 연결되며, Supply Chain Digitalization을 통한 운영 및 관리 효율화를 지향한다.
 
 Cello Square 물류 Analytics 대시보드 화면. 상단에 Analytics, Volume, Transit Time, Inventory-1, Inventory-2, Cost 탭이 있으며 Analytics 탭이 선택된 상태다. POL, POD, HBL, PO_NO, Delayed, Service, ETA 등의 필터가 제공된다. 주요 지표로 459.1 FEU, 46.1K Tot_Ton, 8.1M In-Transit Inventories(Units), $570.8K AR_PAY_AMT(USD)가 표시된다. 하단 좌측에는 POD별 459.1 FEU 도넛 차트가, 우측에는 전 세계 항구별 ETA 및 FEU 현황이 세계 지도 위에 시각화되어 있다.
+
+Cello Square service value diagram. Cello (Ops and mgmt efficiency) is positioned at the center, connected to three surrounding stakeholders in a circular flow: Operation linked via Automation, Customers linked via Self-Service, and Partners linked via Openness. The overall concept represents Supply Chain Digitalization aimed at improving operational and management efficiency.
+
+
+Cello Square logistics Analytics dashboard. The top navigation includes tabs for Analytics, Volume, Transit Time, Inventory-1, Inventory-2, and Cost, with the Analytics tab selected. Filter options include POL, POD, HBL, PO_NO, Delayed, Service, and ETA. Key metrics displayed are 459.1 FEU, 46.1K Tot_Ton, 8.1M In-Transit Inventories (Units), and $570.8K AR_PAY_AMT (USD). The lower left shows a donut chart breaking down 459.1 FEU by POD, and the right side displays a world map visualizing ETA and FEU status across global ports.
+
