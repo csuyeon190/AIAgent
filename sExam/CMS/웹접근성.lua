@@ -1,4 +1,3 @@
-Samsung SDS FabriX 서비스 구성도. 사내/외 지식·업무시스템·3rd Party SaaS Agent를 입력으로 제작(AI Lab), 공유(Store), 활용(Chat) 3단계로 구성되며, 하단에 Agent DevOps와 AI Governance가 기반 레이어로 지원한다.
+Cello Square 서비스 핵심 가치 다이어그램. 중앙의 Cello(Ops and mgmt efficiency)를 중심으로 세 주체가 순환 연결된다. Operation(물류 운영)은 Automation으로, Customers(고객)는 Self-Service로, Partners(파트너)는 Openness 방식으로 Cello와 연결되며, Supply Chain Digitalization을 통한 운영 및 관리 효율화를 지향한다.
 
-Samsung Cloud Platform과 Customer Data Center 간 하이브리드 클라우드 아키텍처 구성도. 상단의 Users가 Cloud Console을 통해 양쪽 환경을 관리한다. 좌측 Samsung Cloud Platform의 Region 내 VPC에는 Subnet 아래 Virtual Server와 Block Storage VM이 구성되며, Cloud Console 하단에 Logging/Audit과 Cloud Monitoring이 위치한다. 우측 Customer Data Center의 Onsite VPC에는 동일하게 Virtual Server와 Block Storage VM이 있으며, 외부에 File Storage와 Object Storage가 배치된다. 두 환경은 Leased Line으로 양방향 연결된다. Customer Data Center 우측에는 Legacy System, Direct Connect, Internet Gateway가 위치하며 Internet과 연결된다.
-
+Cello Square 물류 Analytics 대시보드 화면. 상단에 Analytics, Volume, Transit Time, Inventory-1, Inventory-2, Cost 탭이 있으며 Analytics 탭이 선택된 상태다. POL, POD, HBL, PO_NO, Delayed, Service, ETA 등의 필터가 제공된다. 주요 지표로 459.1 FEU, 46.1K Tot_Ton, 8.1M In-Transit Inventories(Units), $570.8K AR_PAY_AMT(USD)가 표시된다. 하단 좌측에는 POD별 459.1 FEU 도넛 차트가, 우측에는 전 세계 항구별 ETA 및 FEU 현황이 세계 지도 위에 시각화되어 있다.
