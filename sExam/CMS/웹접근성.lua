@@ -36,3 +36,55 @@ Fourth, Business Continuity: Cloud Scalability and Elasticity when and wherever 
 
 Business Expectations listed at the bottom: Design R&D supporting infrastructure concept model to enhance manufacturing capability; Build high-scalable and high-use IT platform based on cloud technology; Integrated management of cloud resources by establishing governance.
 
+
+
+
+
+
+
+=====
+Circular hub-and-spoke diagram on a dark blue background illustrating the four core strengths of Samsung SDS Endpoint Security. The center circle displays the label "Samsung SDS Endpoint Security." Four satellite nodes are connected to the center by dotted lines, positioned at the top, right, bottom, and left respectively. Top: Verified, Reliable Solution. Right: Global Support System. Bottom: Competitive Price. Left: Extensive Business Experience.
+
+
+Diagram illustrating storage device control and logging functionality. The upper section displays icons and labels for seven device types subject to control: Network Drive, CD/DVD RW, USB Memory, External HDD, Imaging Device, Scanner, and Smartphone. A blue horizontal banner labeled "Storage Device Control/Logging" spans the width below the device icons, representing the control layer. Below the banner, a dashed vertical line connects downward to an icon labeled "User PC," indicating that all listed storage devices are monitored and controlled at the user endpoint level.
+
+
+
+
+Flowchart illustrating two document security workflows processed through three sequential stages enclosed in a blue-bordered panel.
+
+The three stages are: User Authentication, Permission Management, and Encryption/Decryption.
+
+Top workflow – Save Document: A plain DOC file on the left enters the process. Stage 1 verifies user information. Stage 2 configures document access permissions based on policy. Stage 3 encrypts the document. The output on the right is an encrypted NASCA document (DOCX with NASCA badge).
+
+Bottom workflow – Open NASCA Document: An encrypted NASCA document on the left enters the process. Stage 1 verifies user information. Stage 2 verifies that the document access permission matches the authenticated user. Stage 3 decrypts the document. The output on the right is a plain 
+
+
+
+
+
+Horizontal flowchart illustrating the SecuPrint secure printing process across five stages connected by arrows.
+
+Stage 1 – SecuPrint Client: A computer monitor with a lock icon and the SecuPrint logo represents the user's endpoint where the print job originates.
+
+Stage 2 – Authentication: A suited figure holding an envelope beside a database icon represents the user authentication step.
+
+Stage 3 – Printer Selection: The authenticated job is routed to either a Network Printer (multifunction copier, upper path) or a Local Printer (desktop printer, lower path).
+
+Stage 4 – Watermarking: Printed documents are stamped with a "SAMSUNG SDS" watermark, as shown by sample document images with diagonal watermark text.
+
+Stage 5 – Storing Print Logs: The watermarked documents are stored alongside a database icon, representing secure print log archiving for audit and compliance purposes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
