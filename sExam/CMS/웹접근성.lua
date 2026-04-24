@@ -126,6 +126,29 @@ On the right, Brity Copilot connects bidirectionally to an "LLM" node (represent
 
 
 
+============================
+
+
+Screenshot of a Brity Meeting video conference session titled "2024 Marketing Annual Planning" with a progress time of 25:09. Four participants are visible in video tiles: a smiling woman (highlighted with a green active-speaker border), a man in a suit, a man in the foreground, and a woman in the background.
+
+At the bottom of the video area, real-time caption subtitles display two speakers' statements:
+- John Miller: "Last year, our company's market share was around 11%, marking a 1% increase from the previous year. Having said that, compared to our competition, our brand recognition in the US —"
+- Erica Yu: "Our company's service has been rated higher by clients in terms of security compared to our competitors' services. How about emphasizing this aspect more in our promotions?"
+
+On the right side, a "Caption Script" panel is open with Korean selected as the translation language and "Original Caption" checkbox enabled. The panel shows timestamped transcripts for both John Miller and Erica Yu, with John Miller's speech translated into Korean below the original English text. Erica Yu's entry shows "Translating…" indicating live translation in progress. A toolbar at the bottom includes controls for Mic, Camera, Share, Record, Reaction, Copilot, More, Caption Script, Participants, Chat, and an End button.
+
+
+
+
+Diagram illustrating Brity Copilot's data access control policy, with a shield-and-lock icon and the "Brity Copilot" title at the top center.
+
+Left panel – Able to query (blue): Labeled "Free Search" with a bidirectional blue arrow indicating open data flow. Lists three types of queryable information: Market Trend, Latest News, and Public Information, followed by an ellipsis indicating additional items. The panel footer reads "Able to query" on a blue background.
+
+Right panel – Unable to query (pink/red): Labeled "Blocking data" with a downward pink arrow indicating restricted outbound flow. Lists three types of blocked information: Confidential data, Personnel Information, and Source Code (marked with an AI badge and a search icon with an X). The panel footer reads "Unable to query" with a warning triangle icon on a pink background, signifying that sensitive enterprise data is prevented from being sent to the AI model.
+
+
+
+
 
 
 
