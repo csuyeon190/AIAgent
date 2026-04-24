@@ -78,6 +78,50 @@ Stage 5 – Storing Print Logs: The watermarked documents are stored alongside a
 
 
 
+=====================================
+
+
+Diagram on a dark navy background illustrating the product composition of Brity Copilot. The upper section, labeled "Brity Works," contains four app icons arranged in a two-by-two grid: Mail (envelope icon), Messenger (chat bubble icon), Meeting (video camera icon), and Drive (folder icon). A plus sign below the Brity Works panel connects to a lower section labeled "Gen AI," which contains the Brity Copilot logo — a blue triangular icon — alongside the product name "Brity Copilot." The layout conveys that Brity Copilot is the result of combining the Brity Works collaboration suite with Generative AI capabilities.
+
+
+
+
+Hub-and-spoke diagram illustrating Brity Copilot AI capabilities across four application areas. A central circle contains icons for four apps: Mail, Messenger, Meeting, and Office. Each app connects via arrows to a callout box listing its AI features.
+
+Mail (upper left): Summarize mail, Draft a mail, Draft a reply mail. A screenshot of the Brity Copilot mail interface is shown in the background.
+
+Messenger (upper right): Search Knowledge, Modify message, Summarize Chat. A screenshot of the Brity Copilot messenger interface is shown in the background.
+
+Meeting (lower left): Real-time captions, Meeting Summary, Live Translation, Meeting Minutes. A screenshot of a video meeting interface with Brity Copilot active is shown in the background.
+
+Office (lower right): Search data, Summarize, Draft a document. A screenshot of the Brity Copilot office interface with spreadsheet and presentation thumbnails is shown in the background.
+
+
+
+
+
+
+
+Screenshot composite showing two Brity Copilot UI features in use.
+
+Left panel – AI Email Composition: A mail compose window is open with fields for Subject, Recipients, and Attach. An overlay panel labeled "AI email Composition" shows a prompt: "Compose an email draft requesting attendance for a meeting on date regarding subject," with quick-select template buttons for Business Request, Meeting Request, and Business Reporting. A partially drafted email body is visible below.
+
+Right panel – Brity Copilot Chat (Knowledge Search): A chat panel dated Thursday, February 15, 2024 shows a conversation in which the user requests to "Search keywords in the Business System." Brity Copilot responds by asking which keyword to search for. A follow-up query asks how to perform a keyword search and how to check results in the Enterprise system. A dropdown menu appears with search scope options: All, Drive, Mailbox, and Business System (highlighted). A callout at the bottom reads: "Search the file from Business System including Keyword."
+
+
+
+
+System architecture diagram illustrating the technical structure of Brity Copilot.
+
+At the top left, a box labeled "Collaboration Solution" contains icons for four apps: Mail, Messenger, Meeting, and Drive. These feed data types — email, message, script, and file — downward into the central Brity Copilot engine.
+
+At the top right, a box labeled "Business System" contains icons for HR, SAP, and ERP systems. These feed "data" downward into the same central engine.
+
+The central blue-bordered box represents Brity Copilot, which contains a "Graph" layer comprising two components: Connector (Plug-in) and Knowledge Search.
+
+On the left, an illustration of a person working at a laptop sends queries to and receives responses from Brity Copilot via bidirectional arrows.
+
+On the right, Brity Copilot connects bidirectionally to an "LLM" node (represented as a blue circle), indicating that large language model inference powers the AI responses.
 
 
 
