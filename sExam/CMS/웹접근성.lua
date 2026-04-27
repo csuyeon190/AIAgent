@@ -148,6 +148,11 @@ Right panel – Unable to query (pink/red): Labeled "Blocking data" with a downw
 
 
 
+=====================
+
+
+
+Samsung Cloud Platform 인프라 구성도. 상단의 사용자(사용자 아이콘)가 인터넷 클라우드를 통해 인터넷 게이트웨이로 연결된다. Public IP 신청 절차를 거쳐 IGW 방화벽으로 트래픽이 전달된다. 방화벽 통과 후 VPC(가상 사설 클라우드) 영역 내 서브넷에 진입하며, 서브넷 안의 Security Group으로 보호되는 GPU 서버에 접근한다. VPC 우측에는 Cloud Monitoring, Logging & Audit, Backup 세 가지 관리 서비스가 배치되어 있다. VPC 하단에는 File Storage, Object Storage, Block Storage 세 종류의 스토리지 서비스가 연결되어 있다.
 
 
 
