@@ -157,6 +157,9 @@ Samsung Cloud Platform 인프라 구성도. 상단의 사용자(사용자 아이
 
 Samsung Cloud Platform 인프라 구성도. VPC(가상 사설 클라우드) 영역 안에 Virtual Server와 Bare Metal Server 두 종류의 서버가 나란히 배치되어 있다. 두 서버는 아래 방향 화살표로 Object Storage에 연결된다. Object Storage에는 VPC 외부의 인터넷 클라우드에서도 화살표가 연결되어, 인터넷을 통한 외부 접근이 가능한 구성임을 나타낸다.
 
+삼성SDS 하이브리드 클라우드 플랫폼 서비스 구성도. 
+AI 기반 분석, 클라우드 마이그레이션, 통합 운영, 보안의 4가지 핵심 요소가 
+순환 구조로 연결되어 있으며, 컨설팅부터 운영까지 End-to-End 서비스를 나타냅니다.
 
 
 
