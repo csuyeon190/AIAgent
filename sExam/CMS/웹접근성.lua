@@ -162,5 +162,21 @@ AI 기반 분석, 클라우드 마이그레이션, 통합 운영, 보안의 4가
 순환 구조로 연결되어 있으며, 컨설팅부터 운영까지 End-to-End 서비스를 나타냅니다.
 
 
+=========================
+
+Quick Query 아키텍처 구성도. 
+
+상단의 사용자(User)는 서비스 요청 및 배포(Request/Distribute Services)를 수행하며, 
+Apache Ranger를 통해 권한을 관리(Manage Permissions)합니다.
+
+Quick Query 영역은 Trino Coordinator, Trino Worker, Hive Metastore, Query Runner, 
+Metadata Database로 구성됩니다.
+
+Data Source 영역은 RDB(PostgreSQL, MariaDB, MS-SQL, MySQL 등), Hadoop, File로 구성되며, 
+Object Storage와 연결됩니다.
+
+하단의 데이터 엔지니어(Data Engineer)는 Quick Query로 데이터를 처리(Process Data)하고, 
+결과를 Object Storage에 저장(Save Results)합니다.
+
 
 
