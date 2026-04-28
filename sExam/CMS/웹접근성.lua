@@ -209,6 +209,18 @@ Caidentia three-stage AI workflow diagram: Source stage enables Vendor Response 
 
 Caidentia cost estimation diagram. A parts component feeds into a cost breakdown table — including Materials Cost, Manufacturing Methods (Process, Tools, Labors), and Overhead — with alert indicators on incomplete fields, and outputs a downloadable cost estimation report.
 
+================#==================
+
+
+PLM system architecture diagram showing bidirectional data flow between Product Planning, R&D, and Partner stakeholders on the left, through PLM and Development Platform in the center, to Manufacturing Management, Quality Management, and Manufacturing System on the right via a Shop-Specific App.
+
+Development platform structure diagram with a Dashboard at the top spanning eight modules — Product/Tech Roadmap, Mass Production Product Development, Integrated Development Environment, Workplace, R&D Project, Standard Document Management, RFQ Management, and Collaboration Platform — all connected horizontally by a Digital Thread.
+
+R&D platform architecture diagram under a Digital Thread, showing an Application layer with eight modules and Scalable Integration on the left, connected bidirectionally to a Platform Core layer on the right covering Project Management, Deliverable Management, Activity/WBS, Version Control, and Lifecycle.
+
+Intelligent Services platform overview diagram showing three service pillars — Planning, Development, and IT Support — on the left, and a Digital Thread architecture on the right spanning Customer Experience Management, Product/Tech Roadmap, Project Management, Integrated Development Environment, and Requirements/Specification Management, built on a Common/Development Platform and Core Solution foundation.
+
+
 
 
 
