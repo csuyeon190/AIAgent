@@ -242,6 +242,12 @@ Brity Drive File Lifecycle Management (FLCM) diagram. On the left, a panel shows
 
 Brity Drive central file storage architecture diagram. Three personal devices — two mobile phones and a laptop — are connected via arrows to a central Brity Drive file storage server. A legend on the right explains PC Control policy: Local Disk C and D are restricted folders under PC Control policy, while Personal Folder and Brity Drive K drive are designated as exception folders that allow access.​​​​​​​​​​​​​​​​
 
+==========================
+
+Diagram illustrating file sharing between HQ and Branch using Brity Drive and Messenger. A flow shows an HQ user uploading files to a Workgroup Folder via Drive, then notifying branch staff through Messenger with the message: “This is the latest marketing template. Please update this month’s promotion to the file.” Below, two roles are described: the HQ Marketing Manager creates standard marketing templates, uploads them to the Workgroup folder, and sends the document link through Messenger; the Branch Marketing Manager checks the template in the Workgroup folder and updates the promotion of each branch to the template.
+
+
+Diagram showing file centralization on Brity Drive with the instruction to save all files in the Brity Drive folder, not on a local PC. A Mail icon on the left contains Excel, Word, and PowerPoint files. An arrow points to Drive (a cloud-based Brity Drive folder) on the upper right, indicating the approved file destination. A blocked arrow with a prohibition symbol points to Local PC on the lower right, which is marked as an Anti-Save Area where Local Drive C and Local Drive D are restricted from saving files.​​​​​​​​​​​​​​​​
 
 
 
