@@ -256,3 +256,16 @@ EMM (On-Premises) architecture diagram showing five management areas arranged in
 
 
 Illustration of a soldier in tactical gear using a mobile device displaying a military field map with unit positions. A security shield icon labeled “Offering” connects to three solution components: EMM (On-Premises) with Dual VPN Chaining and DualDAR, Knox E-FOTA, and Secure Setting.​​​​​​​​​​​​​​​​
+
+
+
+Illustration of a soldier in tactical gear using a mobile device displaying a military field map with unit positions. A security shield icon labeled “Offering” connects to three solution components: EMM (On-Premises) with Dual VPN Chaining and DualDAR, Knox E-FOTA, and Secure Setting.​​​​​​​​​​​​​​​​
+
+EMM (On-Premises) ecosystem diagram. A central EMM hub connects to five components in a figure-eight loop: Samsung Knox Solutions, Samsung Tech Support, and Samsung Devices on the left ring; Customer’s Applications, Other Devices, and 3rd Party Security Solutions on the right ring.
+
+EMM (On-Premises) frontline worker use case illustration. A Kiosk Wizard-configured mobile device displays the ABC Energy app in the center. On the left, two workers share the device via Shared Device feature. On the right, a Centralized Management Center administrator provides Remote Support when an issue occurs.
+
+EMM (On-Premises) tenant management dashboard illustration. An administrator views dual monitors displaying Tenant Management dashboards with user count by tenant shown as a pie chart, device count by platform as a bar chart, and tenant user status. Above the screens, multiple company buildings labeled A through Z are connected, representing multi-tenant management for managed service providers.
+
+EMM (On-Premises) air gap network use case illustration. The top half shows an IT Admin managing multiple devices wirelessly from a laptop, while a User accesses apps on a smartphone. The bottom half shows a cruise ship surrounded by a disconnected air gap network boundary, representing offline device and app management without an internet connection.​​​​​​​​​​​​​​​​
+
