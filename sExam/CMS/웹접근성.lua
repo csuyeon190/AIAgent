@@ -1,4 +1,4 @@
-Cello Square 서비스 핵심 가치 다이어그램. 중앙의 Cello(Ops and mgmt efficiency)를 중심으로 세 주체가 순환 연결된다. Operation(물류 운영)은 Automation으로, Customers(고객)는 Self-Service로, Partners(파트너)는 Openness 방식으로 Cello와 연결되며, Supply Chain Digitalization을 통한 운영 및 관리 효율화를 지향한다.
+ㅣCello Square 서비스 핵심 가치 다이어그램. 중앙의 Cello(Ops and mgmt efficiency)를 중심으로 세 주체가 순환 연결된다. Operation(물류 운영)은 Automation으로, Customers(고객)는 Self-Service로, Partners(파트너)는 Openness 방식으로 Cello와 연결되며, Supply Chain Digitalization을 통한 운영 및 관리 효율화를 지향한다.
 
 Cello Square 물류 Analytics 대시보드 화면. 상단에 Analytics, Volume, Transit Time, Inventory-1, Inventory-2, Cost 탭이 있으며 Analytics 탭이 선택된 상태다. POL, POD, HBL, PO_NO, Delayed, Service, ETA 등의 필터가 제공된다. 주요 지표로 459.1 FEU, 46.1K Tot_Ton, 8.1M In-Transit Inventories(Units), $570.8K AR_PAY_AMT(USD)가 표시된다. 하단 좌측에는 POD별 459.1 FEU 도넛 차트가, 우측에는 전 세계 항구별 ETA 및 FEU 현황이 세계 지도 위에 시각화되어 있다.
 
@@ -253,3 +253,6 @@ Diagram showing file centralization on Brity Drive with the instruction to save 
 
 EMM (On-Premises) architecture diagram showing five management areas arranged in a circular layout: secure network access, field workforce management, multi-device management, document and communication management, and admin console.​​​​​​​​​​​​​​​​
 
+
+
+Illustration of a soldier in tactical gear using a mobile device displaying a military field map with unit positions. A security shield icon labeled “Offering” connects to three solution components: EMM (On-Premises) with Dual VPN Chaining and DualDAR, Knox E-FOTA, and Secure Setting.​​​​​​​​​​​​​​​​
