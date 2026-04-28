@@ -249,5 +249,7 @@ Diagram illustrating file sharing between HQ and Branch using Brity Drive and Me
 
 Diagram showing file centralization on Brity Drive with the instruction to save all files in the Brity Drive folder, not on a local PC. A Mail icon on the left contains Excel, Word, and PowerPoint files. An arrow points to Drive (a cloud-based Brity Drive folder) on the upper right, indicating the approved file destination. A blocked arrow with a prohibition symbol points to Local PC on the lower right, which is marked as an Anti-Save Area where Local Drive C and Local Drive D are restricted from saving files.​​​​​​​​​​​​​​​​
 
+=========
 
+EMM (On-Premises) architecture diagram showing five management areas arranged in a circular layout: secure network access, field workforce management, multi-device management, document and communication management, and admin console.​​​​​​​​​​​​​​​​
 
