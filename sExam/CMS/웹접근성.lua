@@ -180,3 +180,22 @@ Object Storage와 연결됩니다.
 
 
 
+
+
+
+
+Quick Query system architecture diagram.
+
+At the top, a User sends requests and distributes services downward into the system. 
+Apache Ranger handles permission management via a separate connection.
+
+The Quick Query component consists of five modules: Trino Coordinator, Trino Worker, 
+Hive Metastore, Query Runner, and Metadata Database.
+
+The Data Source component includes RDB (PostgreSQL, MariaDB, MS-SQL, MySQL, etc.), 
+Hadoop, and File storage, all connected to an Object Storage layer.
+
+At the bottom, a Data Engineer processes data through Quick Query (Process Data) 
+and saves results to Object Storage (Save Results).
+
+
