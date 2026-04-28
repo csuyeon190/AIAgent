@@ -222,6 +222,10 @@ Intelligent Services platform overview diagram showing three service pillars —
 
 
 
+===============================
+
+Samsung SDS hybrid cloud End-to-End service diagram. Four icons are vertically linked in a chain-like structure against a dark background, representing the full cloud service lifecycle: AI-powered intelligence (teal, head with cube icon), verified cloud management (blue, cloud with checkmark icon), integrated network orchestration (magenta, network topology icon), and security (blue, shield with lock icon).
+
 
 
 
