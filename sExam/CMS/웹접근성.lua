@@ -226,6 +226,22 @@ Intelligent Services platform overview diagram showing three service pillars —
 
 Samsung SDS hybrid cloud End-to-End service diagram. Four icons are vertically linked in a chain-like structure against a dark background, representing the full cloud service lifecycle: AI-powered intelligence (teal, head with cube icon), verified cloud management (blue, cloud with checkmark icon), integrated network orchestration (magenta, network topology icon), and security (blue, shield with lock icon).
 
+=======================##########
+Brity Drive interface screenshot showing web and mobile views. The web dashboard displays three navigation tabs — My files, Shared files, and Workgroups — with corresponding folder icons highlighted. The mobile app shows a Home screen with Favorites, Recent Files, and a bottom navigation bar with My files, Shared Files, and Workgroups tabs.
+
+
+Brity Drive online and offline access diagram. On the left, with Wi-Fi ON, a user selects ‘Add to Secure folder’ from the Brity Drive web interface. On the right, with Wi-Fi OFF, the file is accessible via a local Secure Folder on the PC, allowing continued editing in applications such as Excel without an internet connection.
+
+
+Brity Drive advanced search interface. A search for ‘Quotation’ returns 193 results across multiple file types including folders, shared files, and documents. A Search Filter panel is open on the right, offering filtering options by Keyword, Type, Location, Owner, Editor, Modified Date, Expiration Date, and Tags.
+
+
+Brity Drive file sharing options. On the left, the Internal Sharing dialog allows setting permission levels — Can view, Can copy, Can edit, or Can share — for up to 5 recipients, with an internal link copy option. On the right, the External Sharing dialog allows creating a new external sharing link with configurable version info, link expiration date, download count limit, and password protection.
+
+Brity Drive File Lifecycle Management (FLCM) diagram. On the left, a panel shows department-specific retention periods: Human Resources 3 years, Financial Management 5 years, Planning 10 years, and Development 30 years. The center shows the FLCM dashboard filtering files into ‘To be Expired Files’ and ‘Non-Compliance Files’ categories. At the bottom, a flow diagram shows that detected expired or non-compliant files automatically trigger a notification email alert.
+
+Brity Drive central file storage architecture diagram. Three personal devices — two mobile phones and a laptop — are connected via arrows to a central Brity Drive file storage server. A legend on the right explains PC Control policy: Local Disk C and D are restricted folders under PC Control policy, while Personal Folder and Brity Drive K drive are designated as exception folders that allow access.​​​​​​​​​​​​​​​​
+
 
 
 
