@@ -198,4 +198,18 @@ Hadoop, and File storage, all connected to an Object Storage layer.
 At the bottom, a Data Engineer processes data through Quick Query (Process Data) 
 and saves results to Object Storage (Save Results).
 
+=====
+Samsung SDS Caidentia differentiates from most SRM solutions by covering the full procurement lifecycle: Design, Source, Procure, and Pay — where most SRM solutions cover only Source, Procure, and Pay.
+
+
+Caidentia AI capabilities diagram showing six use cases — Cost Estimation, Quotation Analysis, Price Forecasting, Item Similarity Analysis, PO Pattern Analysis, and Spend Category Classification — powered by three AI patent technologies: NLP, Similarity Analysis, and Classification.
+
+Caidentia three-stage AI workflow diagram: Source stage enables Vendor Response Analysis and Scoring to expedite sourcing lead time and ensure transparency; Contract stage provides Contract Validation to mitigate risk and reduce low-value tasks; Procure stage offers a Procurement Chatbot to ensure guidance and maintain scalable accessibility.
+
+
+Caidentia cost estimation diagram. A parts component feeds into a cost breakdown table — including Materials Cost, Manufacturing Methods (Process, Tools, Labors), and Overhead — with alert indicators on incomplete fields, and outputs a downloadable cost estimation report.
+
+
+
+
 
