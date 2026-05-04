@@ -1,4 +1,4 @@
-ㅣCello Square 서비스 핵심 가치 다이어그램. 중앙의 Cello(Ops and mgmt efficiency)를 중심으로 세 주체가 순환 연결된다. Operation(물류 운영)은 Automation으로, Customers(고객)는 Self-Service로, Partners(파트너)는 Openness 방식으로 Cello와 연결되며, Supply Chain Digitalization을 통한 운영 및 관리 효율화를 지향한다.
+===ㅣCello Square 서비스 핵심 가치 다이어그램. 중앙의 Cello(Ops and mgmt efficiency)를 중심으로 세 주체가 순환 연결된다. Operation(물류 운영)은 Automation으로, Customers(고객)는 Self-Service로, Partners(파트너)는 Openness 방식으로 Cello와 연결되며, Supply Chain Digitalization을 통한 운영 및 관리 효율화를 지향한다.
 
 Cello Square 물류 Analytics 대시보드 화면. 상단에 Analytics, Volume, Transit Time, Inventory-1, Inventory-2, Cost 탭이 있으며 Analytics 탭이 선택된 상태다. POL, POD, HBL, PO_NO, Delayed, Service, ETA 등의 필터가 제공된다. 주요 지표로 459.1 FEU, 46.1K Tot_Ton, 8.1M In-Transit Inventories(Units), $570.8K AR_PAY_AMT(USD)가 표시된다. 하단 좌측에는 POD별 459.1 FEU 도넛 차트가, 우측에는 전 세계 항구별 ETA 및 FEU 현황이 세계 지도 위에 시각화되어 있다.
 
@@ -268,4 +268,20 @@ EMM (On-Premises) frontline worker use case illustration. A Kiosk Wizard-configu
 EMM (On-Premises) tenant management dashboard illustration. An administrator views dual monitors displaying Tenant Management dashboards with user count by tenant shown as a pie chart, device count by platform as a bar chart, and tenant user status. Above the screens, multiple company buildings labeled A through Z are connected, representing multi-tenant management for managed service providers.
 
 EMM (On-Premises) air gap network use case illustration. The top half shows an IT Admin managing multiple devices wirelessly from a laptop, while a User accesses apps on a smartphone. The bottom half shows a cruise ship surrounded by a disconnected air gap network boundary, representing offline device and app management without an internet connection.​​​​​​​​​​​​​​​​
+
+========##=============================
+
+
+브리티웍스(Brity Works) 기능 소개 구성도. '달라지는 팀워크 브리티웍스' 타이틀과 함께 8가지 주요 기능이 2행 4열로 배치되어 있다.
+
+첫 번째 행:
+1. Integration — 연결되는 업무 경험: 서비스 간 강력한 연계로 Copilot, 메일, 미팅, 드라이브, 일정, 메모, 할 일, Apps 등 확장 서비스를 한 화면에서 이용할 수 있는 모바일 앱 화면.
+2. Copilot — AI 통합 검색: 내·외부 지식을 한번에 검색하는 AI 기능으로, 정책 제도 홍보 사례 정리 등 업무 질의에 대한 AI 답변 화면.
+3. Direct Message — 쪽지로 즉시 소통: 빠르고 안전하게 쪽지를 주고받는 기능으로, 받은 쪽지 목록과 메시지 내용이 표시된 모바일 앱 화면.
+
+두 번째 행:
+4. Connectivity — 끊김없는 협업: 다양한 디바이스로 협업할 수 있는 기능으로, PC와 모바일에서 동시에 대화 목록이 표시된 화면.
+5. Voice/Video Chat — 음성·영상·화면 공유: 회의실처럼 생생하게 소통하는 기능으로, 4명이 참여 중인 화상 통화 화면.
+6. Contacts — 편리한 연락처 확인: 업무 단위부터 조직도까지 연락처를 확인할 수 있는 기능으로, 행정안전부 조직도와 부서 목록이 표시된 모바일 앱 화면.
+7. Secret Chat — 비밀 대화방: 암호화로 완벽히 보호되는 비밀 대화방 기능으로, 잠금 아이콘이 표시된 암호화 채팅 화면.
 
