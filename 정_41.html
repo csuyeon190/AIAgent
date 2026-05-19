@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Samsung SDS alt Accessibility Audit Report — Batch 4 (8 Pages, Social Icons Excluded)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic',Arial,sans-serif;
+  background:#f0f2f5;color:#1a1a1a;font-size:13px;line-height:1.6}
+header{background:#0f4fa8;color:#fff;padding:22px 28px 16px}
+header h1{font-size:17px;font-weight:700;margin-bottom:6px}
+header p{font-size:11px;opacity:.7;line-height:1.7}
+.bar{background:#fff;border-bottom:2px solid #0f4fa8;padding:9px 18px;
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.bar input{padding:6px 10px;border:1px solid #cdd3dc;border-radius:6px;
+  font-size:12px;width:220px;outline:none}
+.bar input:focus{border-color:#0f4fa8}
+.bar select{padding:5px 8px;border:1px solid #cdd3dc;border-radius:6px;
+  font-size:12px;outline:none}
+.badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}
+.be{background:#fdecea;color:#c0392b}
+.bf{background:#fff3cd;color:#856404}
+.bo{background:#eafaf1;color:#1a7a42}
+main{padding:10px 18px 50px}
+.page{margin-bottom:8px;border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.phd{background:#fff;padding:13px 18px;cursor:pointer;
+  display:flex;align-items:center;gap:10px;user-select:none;
+  border-left:4px solid #0f4fa8}
+.phd:hover{background:#f5f7fa}
+.arr{font-size:11px;color:#0f4fa8;min-width:14px}
+.pinfo{flex:1;min-width:0}
+.ptitle{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.purl{font-size:11px;color:#0f4fa8;text-decoration:none}
+.purl:hover{text-decoration:underline}
+.pcnt{font-size:11px;font-weight:700;white-space:nowrap;padding:3px 10px;border-radius:12px}
+.pcnt-r{background:#fdecea;color:#c0392b}
+.pcnt-y{background:#fff3cd;color:#856404}
+.pcnt-g{background:#eafaf1;color:#1a7a42}
+.openbtn{font-size:11px;background:#0f4fa8;color:#fff;padding:4px 10px;
+  border-radius:5px;text-decoration:none;white-space:nowrap}
+.openbtn:hover{background:#0d3d87}
+.pbody{display:none;background:#fafbfc;border-top:1px solid #e8edf3;padding:16px 18px}
+.pbody.open{display:block}
+.sec{margin-bottom:18px}
+.sec-title{font-size:12px;font-weight:700;color:#0f4fa8;margin-bottom:4px;
+  padding-bottom:4px;border-bottom:1px solid #dde3ec}
+.sec-note{font-size:11px;color:#666;margin-bottom:8px}
+.atbl{width:100%;border-collapse:collapse;font-size:12px}
+.atbl th{background:#edf1f9;padding:7px 10px;text-align:left;
+  font-weight:700;border:1px solid #dde3ec;white-space:nowrap}
+.atbl td{padding:7px 10px;border:1px solid #dde3ec;vertical-align:top}
+.file-cell{width:28%;word-break:break-all}
+.cur-cell{width:18%;word-break:break-all}
+.sug-cell{width:36%;line-height:1.6}
+.file-cell a{color:#0f4fa8;font-size:11px;text-decoration:none}
+.file-cell a:hover{text-decoration:underline}
+code{background:#f0f2f5;padding:1px 5px;border-radius:3px;font-size:11px}
+.hidden{display:none}
+.summary{font-size:12px;color:#444;padding:4px 0 4px 4px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Samsung SDS alt Accessibility Audit Report — Batch 4 · 8 Pages (EN, Social Icons Excluded)</h1>
+  <p>Scope: Case Studies · Tech Reports · ESG News (EN) · 8 URLs / Standard: Text visible in images reflected in alt / Generated: 2025-05-15</p>
+</header>
+<div class="bar">
+  <input id="srch" placeholder="Search title or URL…" oninput="flt()">
+  <select id="fIssue" onchange="flt()">
+    <option value="">All Issues</option>
+    <option value="has">Has Issues</option>
+    <option value="none">No Issues</option>
+  </select>
+  <span class="summary" id="nShow">Showing 8/8</span>
+</div>
+<main>
+
+<!-- ============================================================ PAGE 1 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(1)">
+  <span class="arr" id="a1">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">Zero Service Suspension with Cloud Security Control | Service Company A</div>
+    <a class="purl" href="https://www.samsungsds.com/en/case-study/cloud-security-monitoring.html" target="_blank" onclick="event.stopPropagation()">en/case-study/cloud-security-monitoring.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 5 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/case-study/cloud-security-monitoring.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b1">
+  <div class="sec">
+    <div class="sec-title">Representative Images (Thumbnail / PC / MO)</div>
+    <div class="sec-note">All 3 images have no alt value</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/02/dt_customer010.png" target="_blank">[img] dt_customer010.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Zero Service Suspension with Cloud Security Control — Service Company A case study representative thumbnail image</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/11/bg_benefit_cloud7.png" target="_blank">[img] bg_benefit_cloud7.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Zero Service Suspension with Cloud Security Control — Service Company A case study representative image (PC)</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/11/bg_benefit_cloud7_mo.png" target="_blank">[img] bg_benefit_cloud7_mo.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Zero Service Suspension with Cloud Security Control — Service Company A case study representative image (Mobile)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Our Offerings Solution Images</div>
+    <div class="sec-note">Both offering link images have no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/security-control/__icsFiles/afieldfile/2020/08/14/Offering_Security_control_service.png" target="_blank">[img] Offering_Security_control_service.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Security Monitoring &amp; Control solution icon</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/cloud-security/__icsFiles/afieldfile/2020/08/14/Offering_Cloud_security_service.png" target="_blank">[img] Offering_Cloud_security_service.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Cloud Security Service solution icon</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 2 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(2)">
+  <span class="arr" id="a2">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">Innovation in tracking speed for freight that is misunderstood as DDoS attack | Global Logistics Company</div>
+    <a class="purl" href="https://www.samsungsds.com/en/case-study/1240137_5121.html" target="_blank" onclick="event.stopPropagation()">en/case-study/1240137_5121.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 3 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/case-study/1240137_5121.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b2">
+  <div class="sec">
+    <div class="sec-title">Representative Thumbnail Image</div>
+    <div class="sec-note">Thumbnail image has no alt. Note: this page has meta robots noindex — body text not rendered; only thumbnail and offering images are present in the accessible DOM</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/07/20/dt_customer012.png" target="_blank">[img] dt_customer012.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Innovation in tracking speed for freight that is misunderstood as DDoS attack — Global Logistics Company case study representative thumbnail image (Brity RPA reduced freight tracking processing time from 225 hours to 11 hours)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Our Offerings Solution Images</div>
+    <div class="sec-note">Both offering link images have no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/ai-automation/__icsFiles/afieldfile/2024/08/08/brity-rpa.png" target="_blank">[img] brity-rpa.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Brity Automation solution icon</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/digital-transformation-logistics-service/__icsFiles/afieldfile/2020/08/27/Offering_Cello_Digital_Service.png" target="_blank">[img] Offering_Cello_Digital_Service.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">IT-based Logistics Services solution icon</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 3 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(3)">
+  <span class="arr" id="a3">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">Realization of data-based environment/safety/health system | Global Electronics Manufacturer A</div>
+    <a class="purl" href="https://www.samsungsds.com/en/case-study/ehs-casestudy-2.html" target="_blank" onclick="event.stopPropagation()">en/case-study/ehs-casestudy-2.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 6 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/case-study/ehs-casestudy-2.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b3">
+  <div class="sec">
+    <div class="sec-title">Representative Images (Thumbnail / PC / MO)</div>
+    <div class="sec-note">All 3 images have no alt value</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/29/thumb_3.jpg" target="_blank">[img] thumb_3.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Realization of data-based environment/safety/health system — Global Electronics Manufacturer A case study representative thumbnail image</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/29/bg_benefit_3.jpg" target="_blank">[img] bg_benefit_3.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Realization of data-based environment/safety/health system — Global Electronics Manufacturer A case study representative image (PC)</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/29/bg_benefit_3_mo.jpg" target="_blank">[img] bg_benefit_3_mo.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Realization of data-based environment/safety/health system — Global Electronics Manufacturer A case study representative image (Mobile)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Body Challenge Requirements Diagram</div>
+    <div class="sec-note">In-body infographic image has no alt — written based on caption text immediately following the image in the source</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/11/12/EHS-case01-new-en-01.png" target="_blank">[img] EHS-case01-new-en-01.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">EHS System Requirements Diagram — Requirements 01 Time/Cost: A lot of time/cost required for managing environment/safety/health; need an efficient integrated EHS system for the entire company / Requirements 02 Legal regulations: Drastic increase in management items due to strengthened regulations in Korea and overseas; need systematic management regarding laws and regulations / Requirements 03 Risk: Occurrence of environment and safety disasters; need to secure preventive systems as well as visualize risks in real time</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Our Offerings Solution Images</div>
+    <div class="sec-note">Both offering link images have no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/ai-ml/__icsFiles/afieldfile/2020/09/18/Offering_Brightics_Machine_Learning_1.png" target="_blank">[img] Offering_Brightics_Machine_Learning_1.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Brightics Machine Learning solution icon</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/iot-platform/__icsFiles/afieldfile/2020/08/14/Offering_Brightics_IoT.png" target="_blank">[img] Offering_Brightics_IoT.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Brightics IoT solution icon</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 4 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(4)">
+  <span class="arr" id="a4">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">Financial process automation saved 23,000 work hours in a year | Engineering B (Brity RPA)</div>
+    <a class="purl" href="https://www.samsungsds.com/en/case-study/brity-rpa-engineering.html" target="_blank" onclick="event.stopPropagation()">en/case-study/brity-rpa-engineering.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 5 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/case-study/brity-rpa-engineering.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b4">
+  <div class="sec">
+    <div class="sec-title">Representative Images (Thumbnail / PC / MO)</div>
+    <div class="sec-note">All 3 images have no alt value</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/11/1232261_thumb.png" target="_blank">[img] 1232261_thumb.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Engineering B — Financial process automation saved 23,000 work hours in a year with Brity RPA case study representative thumbnail image</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/02/bg_benefit_epc3.png" target="_blank">[img] bg_benefit_epc3.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Engineering B — Financial process automation saved 23,000 work hours in a year with Brity RPA case study representative image (PC)</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/case-study/__icsFiles/afieldfile/2020/09/02/bg_benefit_epc3_mo.png" target="_blank">[img] bg_benefit_epc3_mo.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Engineering B — Financial process automation saved 23,000 work hours in a year with Brity RPA case study representative image (Mobile)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Our Offerings Solution Images</div>
+    <div class="sec-note">Both offering link images have no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/ai-automation/__icsFiles/afieldfile/2024/08/08/brity-rpa.png" target="_blank">[img] brity-rpa.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Brity Automation solution icon</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/cloud-management-service/__icsFiles/afieldfile/2020/09/15/Offering_Cloud_Management_Services_1.jpg" target="_blank">[img] Offering_Cloud_Management_Services_1.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Cloud Management solution icon</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 5 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(5)">
+  <span class="arr" id="a5">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">Content Delivery Network (CDN), a solution to deliver content faster and more efficiently | Cloud Tech Report</div>
+    <a class="purl" href="https://www.samsungsds.com/en/techreport/networking-cdn.html" target="_blank" onclick="event.stopPropagation()">en/techreport/networking-cdn.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 8 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/techreport/networking-cdn.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b5">
+  <div class="sec">
+    <div class="sec-title">Representative Images (Thumbnail / PC / MO)</div>
+    <div class="sec-note">All 3 images have no alt value</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/__icsFiles/afieldfile/2023/11/06/en_thumb03_1102.png" target="_blank">[img] en_thumb03_1102.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Content Delivery Network (CDN), a solution to deliver content faster and more efficiently — Cloud Tech Report representative thumbnail image</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/__icsFiles/afieldfile/2023/04/19/PC_CDN.jpg" target="_blank">[img] PC_CDN.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Content Delivery Network (CDN) — Cloud Tech Report representative image (PC)</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/__icsFiles/afieldfile/2023/04/19/MO_CDN_1.jpg" target="_blank">[img] MO_CDN_1.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Content Delivery Network (CDN) — Cloud Tech Report representative image (Mobile)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Body Diagram / Chart Images (Figures 1–5)</div>
+    <div class="sec-note">5 in-body infographic images have no alt — written based on captions immediately following each image in the source</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo14_1.png" target="_blank">[img] img_techreport_repo14_1.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">CDN market size from 2017 to 2024 (Unit: Billion USD) — USD 12.4B in 2019, USD 13.9B in 2020, expected 12% growth in 2021, projected USD 22.1B in 2024; Asian regions show rapid growth. Source: Graph of the CDN market growth (t4.ai/industry/cdn-market-share)</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo14_2.png" target="_blank">[img] img_techreport_repo14_2.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">CDN (Content Delivery Network) architecture diagram — the CDN is located closer to users than the origin server where the content is stored, so users can enjoy fast request/response time and low-latency access through edge locations distributed globally</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo14_3.png" target="_blank">[img] img_techreport_repo14_3.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Cache behaviors depending on whether QueryString (QS) is included in the cache key — identical QS means objects are the same (cached); different QS means they are treated as different objects; advantage: decreases origin server overload and shortens request/response time for users</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo14_4.png" target="_blank">[img] img_techreport_repo14_4.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Gartner Magic Quadrant on WAAP (Web Application and API Protection) in 2021 — Leaders: Akamai, Imperva / Challengers: Cloudflare, F5, Fastly, Amazon Web Services, Barracuda / Niche Players: Fortinet, Microsoft / Visionaries: Radware, ThreatX</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo14_5.png" target="_blank">[img] img_techreport_repo14_5.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">CDN image solution diagram — a single original image is recreated and delivered to users in accordance with the user's device environment (network speed, screen size, etc.), eliminating the need to manage multiple image files of different qualities and sizes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 6 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(6)">
+  <span class="arr" id="a6">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">The solution to cloud security, EAMS PAM | Cloud Tech Report</div>
+    <a class="purl" href="https://www.samsungsds.com/en/techreport/eams-pam.html" target="_blank" onclick="event.stopPropagation()">en/techreport/eams-pam.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 7 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/techreport/eams-pam.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b6">
+  <div class="sec">
+    <div class="sec-title">Representative Images (Thumbnail / PC / MO)</div>
+    <div class="sec-note">Thumbnail appears twice (same file used for thumbnail and MO hero); PC hero image is different. All have no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/__icsFiles/afieldfile/2023/11/06/en_thumb09_1102.png" target="_blank">[img] en_thumb09_1102.png (thumbnail)</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">The solution to cloud security, EAMS PAM — Cloud Tech Report representative thumbnail image</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/__icsFiles/afieldfile/2023/02/21/06_1.png" target="_blank">[img] 06_1.png (PC hero)</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">The solution to cloud security, EAMS PAM — Cloud Tech Report representative image (PC): EAMS PAM protects privileged accounts using dynamic credentials (OTP) and workflow-based authorization in cloud environments</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/__icsFiles/afieldfile/2023/11/06/en_thumb09_1102.png" target="_blank">[img] en_thumb09_1102.png (MO hero)</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">The solution to cloud security, EAMS PAM — Cloud Tech Report representative image (Mobile)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Body Architecture / Flow Diagram Images</div>
+    <div class="sec-note">4 in-body diagram images have no alt — written based on labels and captions in the article source</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo6_2.png" target="_blank">[img] img_techreport_repo6_2.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">EAMS PAM token-based permission management architecture — Clients (User / System) → Authentication (User, Azure, Google Cloud, Kubernetes, LDAP, PKI Certificate) → EAMS PAM (center: Check policy) → Secret Management (SSH, Key/Value, Database, Azure, Google Cloud); tokens issued per service control which services consume privileged accounts and when</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo6_3.png" target="_blank">[img] img_techreport_repo6_3.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">EAMS PAM cloud virtual machine access management network diagram — Internal network: User → HTTPS → EAMS PAM / HTTPS → VPC (Public Subnet: EAMS Web Terminal → SSH/RDP → instances); centralized access management for cloud VMs without opening SSH/RDP ports directly</td>
+        </tr>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/techreport/img_techreport_repo6_4.png" target="_blank">[img] img_techreport_repo6_4.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">EAMS PAM account management flow diagram for cloud VMs — Step 1: Clients access EAMS PAM and request passwords / Step 2: EAMS PAM returns passwords to the clients / Step 3: Clients enter passwords and access Cloud VMs / Step 4: Cloud VMs verify the passwords through EAMS PAM; one-time password becomes invalid once the server session is disconnected</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 7 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(7)">
+  <span class="arr" id="a7">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">Samsung SDS Ranked 2025 World's Most Trustworthy Company | ESG News</div>
+    <a class="purl" href="https://www.samsungsds.com/en/sustainability-news/2025-world-trustworthy-comapnies.html" target="_blank" onclick="event.stopPropagation()">en/sustainability-news/2025-world-trustworthy-comapnies.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 4 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/sustainability-news/2025-world-trustworthy-comapnies.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b7">
+  <div class="sec">
+    <div class="sec-title">Representative Thumbnail Image</div>
+    <div class="sec-note">Thumbnail image has no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/sustainability-news/__icsFiles/afieldfile/2025/09/05/2025_thumb.png" target="_blank">[img] 2025_thumb.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Samsung SDS Ranked 2025 World's Most Trustworthy Company — ESG News representative thumbnail image</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Body Award Badge Image</div>
+    <div class="sec-note">Award image alt exists but describes only visual styling, not the text content in the image — improvement needed</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/kr/sustainability-news/newsweek_2025.png" target="_blank">[img] newsweek_2025.png</a></td>
+          <td class="cur-cell"><code>newsweek_2025</code></td>
+          <td><span class="badge bf">⚠ Filename-level alt</span></td>
+          <td class="sug-cell">WORLD'S MOST TRUSTWORTHY COMPANIES 2025 — Newsweek × Statista award badge; Samsung SDS ranked 2nd in the Software &amp; Telecommunications category</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Like Icon Image</div>
+    <div class="sec-note">Like/heart icon image — current alt value is English "like" which is appropriate, but explicit Korean equivalent is recommended for consistency with EN site convention; keeping as-is is acceptable</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/resource/en/images/icon/ico_post_heart.png" target="_blank">[img] ico_post_heart.png</a></td>
+          <td class="cur-cell"><code>like</code></td>
+          <td><span class="badge bo">✔ Acceptable (minor improvement)</span></td>
+          <td class="sug-cell">Like</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ PAGE 8 -->
+<div class="page" data-issue="has">
+<div class="phd" onclick="tog(8)">
+  <span class="arr" id="a8">▶</span>
+  <div class="pinfo">
+    <div class="ptitle">SCP Receives Greenhouse Gas Inventory System (GIS) Certification | ESG News</div>
+    <a class="purl" href="https://www.samsungsds.com/en/sustainability-news/scp-gis-certificate-2024.html" target="_blank" onclick="event.stopPropagation()">en/sustainability-news/scp-gis-certificate-2024.html</a>
+  </div>
+  <span class="pcnt pcnt-r">⚠ 4 issues</span>
+  <a class="openbtn" href="https://www.samsungsds.com/en/sustainability-news/scp-gis-certificate-2024.html" target="_blank" onclick="event.stopPropagation()">Open</a>
+</div>
+<div class="pbody" id="b8">
+  <div class="sec">
+    <div class="sec-title">Representative Thumbnail Image</div>
+    <div class="sec-note">Thumbnail image has no alt</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/sustainability-news/__icsFiles/afieldfile/2024/08/16/esgnews_img_0814.jpg" target="_blank">[img] esgnews_img_0814.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">SCP Receives Greenhouse Gas Inventory System (GIS) Certification — ESG News representative thumbnail image</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Body GIS Certificate Image</div>
+    <div class="sec-note">Certificate document image — currently no alt. Text on the certificate is visible and must be reflected in the alt value per accessibility requirements</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/en/sustainability-news/esgnews_img2_0814.jpg" target="_blank">[img] esgnews_img2_0814.jpg</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">SCP GIS (Greenhouse Gas Inventory System) Certification document — Certificate number: KMR_GIS_24-003 / Issued by: KMR (Korea Management Register) / Organization: SAMSUNG SDS, 125, Olympic-ro 35-gil, Songpa-gu, Seoul / Platform: SCP (Samsung Cloud Platform) / Scope of Certification: Scope 3 emission measuring platform indirectly emitted when using Samsung Cloud Services / Certification types: Compute–Virtual Machine (power consumption per memory, actual usage ratio between memory and CORE), Compute–Baremetal, Storage–Block/File/Object (greenhouse gas emission factors based on inventory regardless of usage), Indirect–Compute Storage etc. (electricity consumption per unit cost) / Initial certification approval date: June 17, 2024 / Certification expiration date: June 16, 2026</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Like Icon Image</div>
+    <table class="atbl">
+      <thead><tr><th>Image File</th><th>Current alt</th><th>Diagnosis</th><th>Suggested alt (reflecting text in image)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="file-cell"><a href="https://image.samsungsds.com/resource/en/images/icon/ico_post_heart.png" target="_blank">[img] ico_post_heart.png</a></td>
+          <td class="cur-cell"><code>(empty)</code></td>
+          <td><span class="badge be">✕ No alt</span></td>
+          <td class="sug-cell">Like</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+</main>
+<script>
+function tog(id){
+  var b=document.getElementById('b'+id);
+  var a=document.getElementById('a'+id);
+  var o=b.classList.contains('open');
+  b.classList.toggle('open',!o);
+  a.textContent=o?'▶':'▼';
+}
+function flt(){
+  var s=document.getElementById('srch').value.toLowerCase();
+  var iss=document.getElementById('fIssue').value;
+  var v=0;
+  document.querySelectorAll('.page').forEach(function(el){
+    var ok=(!s||(el.querySelector('.ptitle').textContent.toLowerCase().includes(s)||
+                  el.querySelector('.purl').textContent.toLowerCase().includes(s)))
+           &&(!iss||el.dataset.issue===iss);
+    el.classList.toggle('hidden',!ok);
+    if(ok)v++;
+  });
+  document.getElementById('nShow').textContent='Showing '+v+'/8';
+}
+</script>
+</body>
+</html>
