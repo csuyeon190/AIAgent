@@ -30,3 +30,5 @@ SESG Platform의 Issue Discovery(이슈 발굴) 화면. 상단에 AI Suggest 기
 
 
 
+A multi-page form interface titled “Navigate to a Specific Page (Out of 13).” A dropdown selector shows the current section as “Section 7: About the Decision,” and a progress bar indicates the user is on page 7 of 13. The section heading reads “About the Decision” and contains two input areas. The first is a large text area with the label “Please describe the decision(s) that will be automated,” currently empty. The second is a checkbox group labeled “Does the decision pertain to any of the categories below (check all that apply),” listing seven options, all unchecked: Health related services; Economic interests (grants and contributions, tax benefits, debt collection); Social assistance (employment insurance, disability claims); Access and mobility (security clearances, border crossings); Licensing and issuance of permits; Employment (recruitment, hiring, promotion, performance evaluation, monitoring, security clearance); and Other (please specify). A status bar at the bottom displays Impact Level: 1, Current Score: 0, Raw Impact Score: 0, and Mitigation Score: 0.
+
