@@ -41,3 +41,48 @@ Architecture diagram titled “Minimize human intervention through GenAI and str
 
 
 
+
+
+==============
+
+Diagram showing three core features of a GenAI service: 1. GenAI service structure utilizing internal knowledge and data (Data icon); 2. Contextual and Seamless user experience for improved work efficiency (Tool and Output icons); 3. Enterprise-grade GenAI security management (Security icon).
+
+
+Architecture diagram of Brity Copilot showing data flow between internal data sources (knowledge assets, HR information, management information), external data sources (market trends, academic materials, latest news), and two LLM types: Private LLM and Public LLM. Key features: multi-LLM selection enabling simultaneous use of multiple LLMs by purpose, and fine-tuned Private LLM for company-specific optimized responses.
+
+
+Diagram illustrating Brity Copilot's internal data integration structure. Internal data sources including collaboration solutions (mail, messages, documents) and business systems connect via Connector (Plug-in) and Knowledge Search modules to an LLM. Key benefits: unified search across mail, chat, and documents for relevant information retrieval, and plug-in integration with internal business systems for structured data processing, enabling a practical enterprise knowledge management system.
+
+
+Screenshot of Brity Copilot for Documentation integrated within Microsoft Word, displaying a document titled "Cloud Market 2023 Q2 Trends." The Copilot panel on the right shows a document summary with callouts highlighting two features: unified search across business materials for quick summary review, and internal LLM selection for enterprise document search.
+
+
+Security architecture diagram of Brity Copilot deployed on Private Cloud (SCP). The system includes two security options: keyword filtering to block sensitive information before it reaches the Public LLM, and access permission settings to prevent unauthorized access to the Private LLM and business systems. Bottom section highlights two security controls: keyword filtering to prevent leakage of sensitive information and source code, and organization/user-level data access permission management.
+
+
+Timeline diagram showing the evolution of PLM (Product Lifecycle Management) systems from 1990 to 2023 and beyond. Phases: PDM (1990) focused on Time-To-Market; CPC (2000) focused on Collaboration; PLM (2000–2010) focused on Digital Enterprise; PLM Digital Transformation (2010–2023) focused on Digital Workplace, data-driven R&D, and cloud-based product integration. The next phase beyond ChatGPT (2023) is marked with a question mark, indicating future direction.
+
+
+Diagram showing collaboration between an Engineer and AI Copilot across three product development stages. In Product Planning (market and technology analysis): Engineer reviews fact-based content; AI Copilot searches and provides materials. In Product Development (design): Engineer makes final decisions on content; AI Copilot searches, summarizes, and drafts. In Product Development (testing and verification): Engineer focuses on core tasks; AI Copilot supports repetitive work.
+
+
+User experience flow diagram showing a To-Be scenario for a design engineer named Kim, interacting with AI Copilot across two phases: Ideation and Design. In the Ideation phase: Kim confirms content, requests analysis, and determines review direction; Copilot recognizes requests, collects data, generates analysis results, and sends reports. In the Design phase: Kim requests design generation and confirms and finalizes the design; Copilot generates designs with simulation results and transmits final designs. A side panel describes the scenario: an automotive parts engineer receives an urgent design request for parts to be adopted in an India-bound strategic model.
+
+
+Architecture diagram of a Generative AI service platform integrated with a unified work environment called Brity Works. The APP layer includes four domains: Design and Development, Product Management, SW Management, and Digital Twin. The Collaboration Platform layer (Brity Works) provides Dashboard and Widgets, Messenger and Video Conferencing, Workspace (Document Management), and 3D Collaboration. The AI Platform layer consists of three module groups: Data Modules (Collection and Preprocessing, Structured Data, Vectorization), Learning Modules (LLM Model Serving, LLMOps Support, Model Repository, Learning Data Management, Fine Tuning, Pre-training), and Service Modules (Orchestrator, Filtering, Knowledge Search).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
