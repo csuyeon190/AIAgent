@@ -30,5 +30,14 @@ SESG Platform의 Issue Discovery(이슈 발굴) 화면. 상단에 AI Suggest 기
 
 
 
-A multi-page form interface titled “Navigate to a Specific Page (Out of 13).” A dropdown selector shows the current section as “Section 7: About the Decision,” and a progress bar indicates the user is on page 7 of 13. The section heading reads “About the Decision” and contains two input areas. The first is a large text area with the label “Please describe the decision(s) that will be automated,” currently empty. The second is a checkbox group labeled “Does the decision pertain to any of the categories below (check all that apply),” listing seven options, all unchecked: Health related services; Economic interests (grants and contributions, tax benefits, debt collection); Social assistance (employment insurance, disability claims); Access and mobility (security clearances, border crossings); Licensing and issuance of permits; Employment (recruitment, hiring, promotion, performance evaluation, monitoring, security clearance); and Other (please specify). A status bar at the bottom displays Impact Level: 1, Current Score: 0, Raw Impact Score: 0, and Mitigation Score: 0.
+A multi-page form interface titled “Navigate to a Specific Page (Out of 13).” A dropdown selector shows the current section as “Section 7: About the Decision,” and a progress bar indicates the user is on page 7 of 13. The section heading reads “About the Decision” and contains two input areas. The first is a large text area with the label “Please describe the decision(s) that will be automated,” currently empty. The second is a checkbox group labeled “Does the decision pertain to any of the categories below (check all that apply),” listing seven options, all unchecked: Health related services; Economic interests (grants and contributions, tax benefits, debt collection); Social assistance (employment insurance, disability claims); Access and mobility (security clearances, border crossings); Licensing and issuance of permits; Employment (recruitment, hiring, promotion, performance evaluation, monitoring, security clearance); and Other (please specify). A status bar at the bottom displays Impact Level: 1, Current Score: 0, Raw Impact Score: 0, and Mitigation Score: 
+
+
+
+
+
+Architecture diagram titled “Minimize human intervention through GenAI and strengthen connectivity between systems.” Three user groups on the left connect to four system layers in the center, all integrated with GenAI on the right. The first layer, ① Collaboration System (C&C), serves all employees and includes Mail, Messenger, Meeting, and Drive. The second layer, ② Core Business System, serves business managers and includes ERP, SCM, HCM, CRM, and additional systems. The third and fourth layers serve developers and operators respectively: ③ System Development includes Plan, Build, Code, and Release stages supported by DevOps; ④ System Operation includes Deploy, Monitor, Operate, and Test stages. All four layers connect via arrows to the GenAI cloud on the right, representing AI-driven integration across the entire enterprise system landscape.
+
+
+
 
