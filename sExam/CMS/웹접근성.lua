@@ -122,6 +122,15 @@ Screenshot of a laptop displaying a third-party e-commerce store product page fo
 
 
 
+=========================
+
+
+주요 AI 기업별 에이전트 기능 출시 현황 비교표. 범례: 진한 초록색(출시 완료), 연한 초록색(미리보기), 회색(미출시). 비교 항목은 브라우저 기반 에이전트, 컴퓨터 사용 에이전트, 에이전트 빌더, 에이전트 관리 대시보드 4가지이며, 비교 대상 기업은 OpenAI, Anthropic, Microsoft, AWS, SAP, Google, Manus(Meta*), Oracle, Salesforce, ServiceNow, Databricks, Snowflake 총 12개사임. OpenAI는 4개 항목 모두 출시 완료 또는 미리보기 단계이며, Anthropic은 에이전트 관리 대시보드가 미출시 상태임. SAP, Oracle, Databricks, Snowflake는 브라우저 기반 에이전트 및 컴퓨터 사용 에이전트 항목이 미출시 상태임. 출처: The Information 보도. *Meta는 Manus 인수에 합의함.
+
+OpenAI Frontier 플랫폼 아키텍처 다이어그램. 총 4개 레이어로 구성됨. 인터페이스 레이어: ChatGPT Enterprise, ChatGPT Atlas, 비즈니스 애플리케이션. 에이전트 레이어: 사용자 에이전트, OpenAI 에이전트, 서드파티 에이전트. OpenAI Frontier 레이어(3단 구성): 평가 및 최적화(성능 향상을 위한 내장 평가 및 최적화 루프), 에이전트 실행(에이전트가 실제 작업을 계획·수행·복구할 수 있는 모델 인텔리전스 및 도구), 비즈니스 컨텍스트(데이터·시스템·워크플로우 전반의 공유 비즈니스 컨텍스트). 하단: 사용자의 레코드 시스템(Your systems of record). 우측에 민감하고 규제된 업무를 위한 엔터프라이즈 보안 및 거버넌스 기능이 전체 레이어를 아우르는 형태로 표시됨.
+
+골드만삭스 리서치 영역형 차트. 제목: 소프트웨어 시장의 수익 풀이 AI 에이전트 방향으로 이동할 것으로 전망됨. 부제: SaaS(서비스형 소프트웨어)와 AI 에이전트의 총 유효 시장(TAM) 변화 예측(예시적 수치). 2025년부터 2030년까지의 시장 규모 변화를 두 개의 누적 영역으로 표시. SaaS TAM(진한 파란색)은 2025년 약 300억 달러에서 2030년 약 200억 달러로 감소. Agent TAM(연한 파란색)은 2025년 거의 0에서 2030년 약 500억 달러 이상으로 급격히 증가. 출처: Gartner, Goldman Sachs Research. Gartner 데이터 발행일: 2024년 10월 10일.
+
 
 
 
