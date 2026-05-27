@@ -148,8 +148,20 @@ OpenAI Frontier 플랫폼 아키텍처 다이어그램. 총 4개 레이어로 �
 
 
 
+========
 
 
+Screenshot of Brity Copilot Meeting Assistant feature (3 of 3) demonstrating real-time multilingual subtitle and voice translation during a video conference, enabling meetings without language barriers.
+
+Three participants are shown in separate video tiles:
+
+Left tile: Lee Eun-ho, Seoul, South Korea (Brity Copilot overseas marketing lead). Speaking in Korean. Subtitles displayed in Korean: "I'd like to hear your thoughts on this. Is there any additional material needed here?"
+
+Center tile: Wang Wei, Beijing, China (2024 International Forum event lead). Translated Voice indicator shows Korean to Chinese (中國語). Subtitles displayed in Chinese: "我想听听你对此的想法。这里还有您需要的更多信息吗？" (I'd like to hear your thoughts on this. Is there more information you need here?)
+
+Right tile: Maximilian, Berlin, Germany (2024 International Forum event lead). Translated Voice indicator shows Korean to German (Deutsch). Subtitles displayed in German: "Ich würde gerne Ihre Meinung dazu hören. Benötigen Sie hier weitere Informationen?" (I would like to hear your opinion on this. Do you need more information here?)
+
+Navigation tabs at top: Key Schedule & Work Briefing / Meeting Assistant (3/3, currently selected) / Voice Task Processing / Away Task Processing.
 
 
 
