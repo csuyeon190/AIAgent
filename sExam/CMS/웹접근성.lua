@@ -72,7 +72,53 @@ User experience flow diagram showing a To-Be scenario for a design engineer name
 Architecture diagram of a Generative AI service platform integrated with a unified work environment called Brity Works. The APP layer includes four domains: Design and Development, Product Management, SW Management, and Digital Twin. The Collaboration Platform layer (Brity Works) provides Dashboard and Widgets, Messenger and Video Conferencing, Workspace (Document Management), and 3D Collaboration. The AI Platform layer consists of three module groups: Data Modules (Collection and Preprocessing, Structured Data, Vectorization), Learning Modules (LLM Model Serving, LLMOps Support, Model Repository, Learning Data Management, Fine Tuning, Pre-training), and Service Modules (Orchestrator, Filtering, Knowledge Search).
 
 
+67
+Photo of an Amazon warehouse fulfillment center showing a worker in a pink shirt scanning packages on a roller conveyor belt. Multiple Amazon-branded cardboard boxes move along the conveyor line in a large industrial facility with high ceilings and yellow structural supports.
 
+68
+Circular flywheel diagram illustrating Amazon's growth strategy. The cycle flows clockwise: Lower Cost Structure leads to Lower Prices, which improves Customer Experience, driving more Traffic, attracting more Sellers, expanding Selection, which feeds back into Lower Cost Structure. The Amazon logo and the word "Growth" are displayed at the center.
+
+69
+Four-panel photo collage of Amazon Go cashierless convenience stores. Top left: exterior of an Amazon Go store with customers entering. Top right: automated entry gates with turnstiles inside the store. Bottom left: a customer browsing fully stocked product shelves. Bottom right: a person holding a smartphone displaying the Amazon Go app with a receipt, next to a beverage.
+
+70
+Product photo of the Amazon Echo smart speaker, a tall black cylindrical device, displayed against a dark background with the Amazon Echo logo shown in white and teal text to the right.
+
+71
+Product lineup photo for Amazon Basics showing a variety of everyday household and lifestyle items arranged on a white background under the Amazon Basics logo. Items include a knife block set, a camera tripod, a duffel bag, gray towels, headphones, dinnerware, dumbbells, a pet bed, a keyboard and mouse, a memory card, and a wooden hanger.
+
+72
+Interior photo of an Amazon fulfillment center showing an extensive automated conveyor belt system with multiple branching tracks and yellow safety railings. An Amazon Fulfillment sign is visible in the foreground.
+
+73
+Aerial photo of a large Amazon warehouse interior showing vast rows of tall storage shelving stocked with products, extending to the far end of the facility. Workers in orange safety vests and forklifts operate in the central floor area between the shelving rows.
+
+74
+Infographic titled "How Amazon FBA Works" showing a six-step process using illustrated figures. Step 1: Seller decides to make money on Amazon FBA. Step 2: Find a profitable product already in demand on Amazon. Step 3: Find a supplier or manufacturer for the chosen product. Step 4: Send inventory to the Amazon Fulfillment Center via truck. Step 5: Amazon FBA packs, fulfills, and ships the products. Step 6: Seller sits back and waits for profits.
+
+75
+Diagram titled "The Drop-Ship Model" illustrating a three-step e-commerce fulfillment process. Step 1: Your store's products are synced with the products of your drop-ship partner (shown with bidirectional dotted arrows between an online storefront and a warehouse). Step 2: Your customer places and pays for an order (shown with a dotted arrow from a house icon to the online store). Step 3: The supplier ships the product directly to your customer (shown with a solid arrow from the warehouse to the customer's house).
+
+76
+Side-by-side comparison illustration titled "Typical Warehouse VS Amazon's Warehouse." The left side shows a traditional warehouse with shelves organized by product type, each shelf holding only one type of item in uniform rows. The right side shows Amazon's warehouse with shelves storing mixed product types and sizes together, representing a chaotic storage model optimized for algorithmic retrieval efficiency.
+
+77
+Photo of a yellow industrial robotic arm in an Amazon facility, positioned over an Amazon-branded cardboard box on a conveyor or work surface. The robot is equipped with a suction cup end effector, demonstrating automated package handling.
+
+78
+Stacked bar chart titled "Amazon's Fleet Growth 2016–2021" showing quarterly growth in the number of Amazon Air cargo aircraft from 2016 through Q3 2021. The fleet grew from approximately 1 aircraft in 2016 to nearly 70 by Q3 2021. Aircraft types are shown in four colors: 767-200 (blue), 767-300 (orange), 737-800 (gray), and ATR72-500 (yellow). Source: Insight IQ.
+
+79
+Photo of multiple delivery drivers loading Amazon packages into personal vehicles parked along a curb. Workers are transferring brown paper bags and boxes from hand trucks into car trunks, representing Amazon's Flex last-mile delivery program.
+
+80
+Photo of a woman retrieving a package from an Amazon Scout autonomous delivery robot outside a residential home. The six-wheeled robot is light blue with the Amazon Prime logo, and its lid is open to reveal the package compartment.
+
+81
+Comparison graphic showing the Amazon logo on an orange background on the left versus the Shopify logo on a dark green background on the right, separated by the word "VS" in white, representing a comparison between the two e-commerce platforms.
+
+82
+Screenshot of a laptop displaying a third-party e-commerce store product page for headphones priced at $49 with a 4.5-star rating. A zoomed-in callout highlights the "Buy with Prime" button, showing a delivery promise of "Get it as soon as Tomorrow, Apr 22" with free delivery and returns, illustrating Amazon's Buy with Prime feature for external storefronts.
 
 
 
