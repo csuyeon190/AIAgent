@@ -187,6 +187,41 @@ Key Discussion Points:
 - Mid-to-long-term goals: reducing carbon emissions and strengthening information security and personal data protection
 - Progress report scheduled for October 20; action plans for each task to be completed by October 30
 
+==================
+
+
+
+
+
+CNCF (Cloud Native Computing Foundation) Landscape diagram showing the cloud native 
+ecosystem organized into three horizontal layers, each containing multiple technology 
+categories with associated vendor and open-source project logos.
+
+Layer 1 — App Definition and Development (purple):
+- Database: TiKV (CNCF), Vitess (CNCF), and numerous other database solutions
+- Streaming & Messaging: CloudEvents (CNCF), NATS (CNCF), and related tools
+- Application Definition & Image Build: Helm (CNCF), Backstage, Buildpacks.io (CNCF), 
+  KubeVirt (CNCF), and related tools
+- Continuous Integration & Delivery: Argo (CNCF), Flux (CNCF), and numerous CI/CD tools
+
+Layer 2 — Orchestration & Management (dark blue):
+- Scheduling & Orchestration: Kubernetes (CNCF), Crossplane (CNCF), Volcano (CNCF)
+- Coordination & Service Discovery: CoreDNS (CNCF), etcd (CNCF), Netflix-related tools
+- Remote Procedure Call: gRPC, Thrift, and related tools
+- Service Proxy: Envoy (CNCF), Contour, BFE, and related proxies
+- API Gateway: Ambassador, Kong, and numerous gateway solutions
+- Service Mesh: Linkerd (CNCF), Istio, and related mesh technologies
+
+Layer 3 — Runtime (brown):
+- Cloud Native Storage: Longhorn (CNCF), Carina, and numerous storage solutions 
+  spanning multiple vendors including IBM, Huawei, and others
+- Container Runtime: containerd (CNCF), CRI-O (CNCF), rkt, and related runtimes
+- Cloud Native Network: Cilium (CNCF), CNI (CNCF), and numerous networking solutions
+
+Each category contains dozens of technology logos representing both CNCF-graduated 
+or incubating projects (labeled "CNCF") and broader ecosystem tools. The diagram 
+represents hundreds of cloud native technologies across the full stack from runtime 
+infrastructure to application-level tooling.
 
 
 
