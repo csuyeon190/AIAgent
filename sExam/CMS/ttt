@@ -33,6 +33,20 @@ if (selectedFieldList.length) {
         }
     });
 }
+=========#########
+
+
+if (obj === "기타") {
+    let filteredArr = _.filter(tmpArtList, function (data) {
+        return !MAIN_CATEGORIES.some(category => 
+            data.field.includes(category)
+        );
+    });
+    $.each(filteredArr, function (j, data) {
+        artList.push(data);
+    });
+}
+
 
 
 import ftplib
