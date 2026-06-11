@@ -1,4 +1,28 @@
-=============
+==========================================================================
+
+
+                                 <div class="searchSort_select event_select">
+                                        <strong class="blind">검색 정렬 기준</strong>
+                                        <div class="select_box">
+                                            <button type="button" id="optSort" class="select_btn" data-option="option_recent" role="combobox" aria-controls="selBoxSchOrderby " aria-haspopup="listbox">
+                                                <span>최신순</span>
+                                            </button>
+                                            <ul id="selBoxSchOrderby " class="list" aria-labelledby="optSort">
+                                                <li><a href="javascript:;" id="option_title" data-order="desc" class="link_comm" role="button">등록일 최신순</a></li>
+                                                <li><a href="javascript:;" id="option_recent" data-order="asc" class="link_comm" role="button">등록일 오래된순</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+=========================================================================
 
 
 전체 코드 작성해 드릴게요!
