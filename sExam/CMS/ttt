@@ -200,11 +200,22 @@ if (obj === "기타") {
 </body>
 </html>
 
+=================================================================
+<div class="sort-dropdown">
+          <button class="sort-button open" id="sort-button" type="button">
+            <span id="sort-label">등록일 최신순</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="sort-menu" id="sort-menu">
+            <button class="sort-option selected" data-label="등록일 최신순" type="button">등록일 최신순</button>
+            <button class="sort-option" data-label="등록일 오래된순" type="button">등록일 오래된순</button>
+          </div>
+        </div>
 
 
-
-
-=#####====================================
+=================================================================
 
 import ftplib
 import os
