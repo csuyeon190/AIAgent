@@ -35,7 +35,7 @@ if (selectedFieldList.length) {
 }
 =========#########
 
-
+const MAIN_CATEGORIES = ["AI", "cloud", "보안", "CX"];
 if (obj === "기타") {
     let filteredArr = _.filter(tmpArtList, function (data) {
         return !MAIN_CATEGORIES.some(category => 
@@ -45,7 +45,40 @@ if (obj === "기타") {
     $.each(filteredArr, function (j, data) {
         artList.push(data);
     });
+}else{
+
 }
+===========================================================================================
+[
+    {
+    "id": "1294610",
+    "field": "보안",
+    "title": "양자내성보안채널 구성방법 (PQC-TLS over WebSocket)",
+    "link": "/kr/patents/1294610_12144.html",
+    "writer" :"김승영, 원성훈, 엄인섭, 이원용",
+    "regist_date" :"20251230-125000",
+    "registnumber": "P23-22772-US01"
+    },{
+    "id": "1294609",
+    "field": "물류자동화",
+    "title": "순환형 축을 이용한 원통형 자재 입출고 장치 및 보관 자동 시스템",
+    "link": "/kr/patents/1294609_12144.html",
+    "writer" :"김승영, 원성훈, 엄인섭, 이원용",
+    "regist_date" :"20250812-104000",
+    "registnumber": "P21-22405-US02"
+    },{
+    "id": "1294562",
+    "field": "AI",
+    "title": "사용 중인 서비스 데이터 기반 강화학습 모델 학습 방법 및 장치",
+    "link": "/kr/patents/1294562_12144.html",
+    "writer" :"홍길동, 김연구, 이개발 외 2인",
+    "regist_date" :"20250702-104000",
+    "registnumber": "US 12,198,019"
+    }
+]
+
+
+============================================================================================
 
 
 
