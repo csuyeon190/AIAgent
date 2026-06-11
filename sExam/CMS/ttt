@@ -9,6 +9,30 @@ if (selectedFieldList.length) {
                 })
             }
 
+const MAIN_CATEGORIES = ["AI", "cloud", "보안", "CX"];
+
+if (selectedFieldList.length) {
+    $.each(selectedFieldList, function (i, obj) {
+        
+        if (obj === "기타") {
+            // 4개 카테고리 중 어디에도 포함되지 않는 아티클
+            let filteredArr = _.filter(tmpArtList, function (data) {
+                return !MAIN_CATEGORIES.some(category => 
+                    data.field.some(field => field.includes(category))
+                );
+            });
+            $.each(filteredArr, function (j, data) {
+                artList.push(data);
+            });
+        } else {
+            // 기존 로직
+            let filteredArr = _.filter(tmpArtList, data => data.field.includes(obj));
+            $.each(filteredArr, function (j, data) {
+                artList.push(data);
+            });
+        }
+    });
+}
 
 
 import ftplib
