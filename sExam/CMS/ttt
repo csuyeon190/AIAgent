@@ -1,3 +1,16 @@
+
+if (selectedFieldList.length) {
+                $.each(selectedFieldList, function (i, obj) {
+                    // let filteredArr = _.filter(totalData, {eyebrow : obj } );
+                    let filteredArr = _.filter(tmpArtList, data => data.field.includes(obj));
+                    $.each(filteredArr, function (j, data) {
+                        artList.push(data);
+                    });
+                })
+            }
+
+
+
 import ftplib
 import os
 
