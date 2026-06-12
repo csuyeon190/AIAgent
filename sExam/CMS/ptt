@@ -1,1 +1,192 @@
+[ 마크업부분 ]
+ <div class="scrollbar-inner">
+                                    <!-- chk_tree -->
+                                    <ul class="chk_tree" id="field_check">
+                                        <li class="li chk_tree_all">
+                                            <div>
+                                                <input type="checkbox" name="res_chk02_all" class="chk_all"
+                                                    id="res_chk02_all" onclick="chkAll(this);" value="field_all">
+                                                <label for="res_chk02_all"><span
+                                                        class="icon"></span><strong>전체</strong></label>
+                                            </div>
+                                        </li>
+                                        <li class="li">
+                                            <div>
+                                                <input type="checkbox" name="res_chk02" class="chk_li" id="res_chk02_1"
+                                                    onclick="chk(this);" value="AI">
+                                                <label for="res_chk02_1"><span class="icon"></span>AI</label>
+                                            </div>
+                                        </li>
+                                        <li class="li">
+                                            <div>
+                                                <input type="checkbox" name="res_chk02" class="chk_li" id="res_chk02_2"
+                                                    onclick="chk(this);" value="Cloud">
+                                                <label for="res_chk02_2"><span class="icon"></span>Cloud</label>
+                                            </div>
+                                        </li>
 
+
+
+                                        <li class="li">
+                                            <div>
+                                                <input type="checkbox" name="res_chk02" class="chk_li" id="res_chk02_3"
+                                                    onclick="chk(this);" value="보안">
+                                                <label for="res_chk02_3"><span class="icon"></span>보안</label>
+                                            </div>
+                                        </li>
+                                        <li class="li">
+                                            <div>
+                                                <input type="checkbox" name="res_chk02" class="chk_li" id="res_chk02_4"
+                                                    onclick="chk(this);" value="CX">
+                                                <label for="res_chk02_4"><span class="icon"></span>CX</label>
+                                            </div>
+                                        </li>
+                                        <li class="li">
+                                            <div>
+                                                <input type="checkbox" name="res_chk02" class="chk_li" id="res_chk02_5"
+                                                    onclick="chk(this);" value="기타">
+                                                <label for="res_chk02_5"><span class="icon"></span>기타</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- //chk_tree -->
+                                </div>
+                                <!-- //scrollbar-inner -->
+                                <button class="btn_tab_close" onclick="btn_tab_close(this);"><span class="blind">분야 탭
+                                        닫기</span></button>
+                            </div>
+                            <!-- view -->
+                        </li>
+                    </ul>
+                    <!-- //resource_tab_ty -->
+                </div>
+
+
+// "20251230-125000" → 숫자로 변환 (정렬용)
+function parseDate(dateStr) {
+    return parseInt(dateStr.replace("-", ""));
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+
+    // ── 드롭다운 열기 / 닫기 ──
+    const sortWrap = document.querySelector('.searchSort_select');
+    const optSortBtn = document.getElementById('optSort');
+    const sortSpan = optSortBtn.querySelector('span');
+
+    optSortBtn.addEventListener('click', function () {
+        const isOpen = sortWrap.classList.toggle('open');
+        // 접근성: aria-expanded 동기화
+        optSortBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.searchSort_select')) {
+            sortWrap.classList.remove('open');
+            optSortBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // ── 정렬 옵션 클릭 ──
+    document.querySelectorAll('#selBoxSchOrderby .link_comm').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const order = this.dataset.order;
+            const label = this.textContent;
+
+            // 버튼 텍스트 변경
+            sortSpan.textContent = label;
+
+            // on 클래스 이동
+            document.querySelectorAll('#selBoxSchOrderby .link_comm').forEach(el => el.classList.remove('on'));
+            this.classList.add('on');
+
+            // 드롭다운 닫기
+            sortWrap.classList.remove('open');
+            optSortBtn.setAttribute('aria-expanded', 'false');
+            
+
+
+            // 정렬 실행
+            renderCateArticles("all", order);
+        });
+    });
+
+
+
+
+[ javascript 부분 ]
+
+    dataUrl = $("#publicationCont").attr("data-url");
+    dataUrl = dataUrl + '?q=' + getRandNum();
+    btnMore = document.querySelector(".btn_more");
+    lang = $('html').attr('lang');
+
+    $('.chk_tree input[type=checkbox]').on("change", function () {
+
+
+        let $this = $(this);
+
+        cpage = 0;
+
+        $('#sorryTxt').hide();
+
+        //let $yearChecklist = $("#year_check").find("input.chk_li");
+        let $fieldChecklist = $("#field_check").find("input.chk_li");
+        /*
+        selectedYearList = [];
+        if ($this.val() == "year_all") {
+            $.each($yearChecklist, function (i, el) {
+                selectedYearList.push($(el).val());
+
+            });
+
+        } else {
+            $.each($yearChecklist, function (i, el) {
+                if ($(el).prop("checked") == true) {
+                    let eyeTxt = $(el).val();
+                    selectedYearList.push(eyeTxt);
+                }
+            });
+        }
+        */
+
+
+        selectedFieldList = [];
+        if ($this.val() == "field_all") {
+            $.each($fieldChecklist, function (i, el) {
+                selectedFieldList.push($(el).val());
+
+            });
+
+        } else {
+            $.each($fieldChecklist, function (i, el) {
+                if ($(el).prop("checked") == true) {
+                    let eyeTxt = $(el).val();
+                    selectedFieldList.push(eyeTxt);
+                }
+            });
+        }
+
+        if ($fieldChecklist.length == selectedFieldList.length ||
+            selectedFieldList.length == 0 ||
+            $fieldChecklist.length == selectedFieldList.length) {
+            renderCateArticles("all");
+        } else {
+            renderCateArticles("check");
+        }
+
+
+
+
+    });
+
+
+---------------------------------
+
+원하는 분야를 체크하는 체크박스 리스트가 있는데, 카테고리를 체크한 이후에도, 최신순, 오래된순 선택 했을 때
+해당 데이터들에 한하여 최신순, 또는 오래된 순으로 리스트를 확인하고 싶다. 지금은 전체 리스트가 정렬된다. 어느 부분을 수정하면 좋을까?
