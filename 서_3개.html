@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samsung SDS — ALT 텍스트 웹접근성 진단 | ESG·인사이트 3건</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#f4f5f9;--surface:#fff;--border:#e0e2ef;
+    --accent:#1428a0;--accent2:#3b54d4;
+    --esg:#1a7c5c;--esg2:#0f6048;--esg-bg:#e8f5f0;
+    --en:#6031b8;--en2:#4a1f9c;
+    --text:#1a1c2e;--muted:#7476a0;
+    --good:#1a8a5a;--good-bg:#e8f7f0;
+    --bad:#c0392b;--bad-bg:#fdf0ee;
+    --warn:#d97706;--warn-bg:#fff8ec;
+    --shadow:0 2px 16px rgba(20,40,160,.07)
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);padding:48px 20px 80px;font-size:14px;line-height:1.6}
+  .container{max-width:1160px;margin:0 auto}
+  .page-header{background:var(--accent);color:#fff;border-radius:14px;padding:32px 40px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:flex-end}
+  .page-header h1{font-size:20px;font-weight:700;letter-spacing:-.5px}
+  .page-header p{font-size:13px;opacity:.8;margin-top:6px;font-family:'IBM Plex Mono',monospace}
+  .page-header .meta{text-align:right;font-size:12px;opacity:.7;font-family:'IBM Plex Mono',monospace;line-height:1.8}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;background:var(--surface);border-radius:10px;padding:14px 20px;margin-bottom:28px;border:1px solid var(--border)}
+  .badge-status{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;font-family:'IBM Plex Mono',monospace;white-space:nowrap}
+  .s-ok{background:var(--good-bg);color:var(--good)}.s-miss{background:var(--bad-bg);color:var(--bad)}.s-fix{background:var(--warn-bg);color:var(--warn)}.s-skip{background:#f0f0f7;color:var(--muted)}
+  .section-block{background:var(--surface);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:36px}
+  .section-head{padding:18px 28px 14px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .section-num{color:#fff;font-size:12px;font-family:'IBM Plex Mono',monospace;font-weight:600;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .num-esg-kr{background:var(--esg)}
+  .num-ins-kr{background:var(--accent)}
+  .num-esg-en{background:var(--en)}
+  .section-title{font-size:15px;font-weight:600}
+  .section-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-left:auto}
+  .section-url{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:0 28px 10px}
+  .section-url a{text-decoration:none}
+  .url-esg-kr a{color:var(--esg2)}
+  .url-ins-kr a{color:var(--accent2)}
+  .url-esg-en a{color:var(--en2)}
+  .cat-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace}
+  .cat-esg-kr{background:var(--esg-bg);color:var(--esg)}
+  .cat-ins-kr{background:#e8ecff;color:var(--accent)}
+  .cat-esg-en{background:#f0eeff;color:var(--en)}
+  .img-table{width:100%;border-collapse:collapse}
+  .img-table thead tr{background:#f7f8fc}
+  .img-table th{text-align:left;padding:9px 14px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);font-weight:500;letter-spacing:.4px;border-bottom:1px solid var(--border)}
+  .img-table td{padding:11px 14px;border-bottom:1px solid #f0f1f8;vertical-align:top;font-size:13px}
+  .img-table tr:last-child td{border-bottom:none}
+  .img-table tr:hover td{background:#f8f9ff}
+  .col-no{width:32px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c0c3d8}
+  .img-path{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);word-break:break-all}
+  .img-type-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace}
+  .t-thumb{background:#e8ecff;color:var(--accent)}.t-infog{background:#fff0f0;color:#b03060}
+  .t-chart{background:#fff3e0;color:#c05000}.t-table{background:#e8f6f0;color:#1a8040}
+  .t-diag{background:#f0e8ff;color:#5030a0}.t-photo{background:#e8f0ff;color:#1050b0}
+  .t-logo{background:#f5f5f5;color:#606080}.t-author{background:#ffeef8;color:#a03060}
+  .t-drawing{background:#fff8e8;color:#a06020}.t-cert{background:#e8f5e8;color:#1a6020}
+  .t-ss{background:#e8ffe8;color:#006030}.t-ui{background:#f5f5f5;color:#a0a0b0}
+  .alt-current{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);font-style:italic}
+  .alt-empty{color:var(--bad);font-weight:600;font-family:'IBM Plex Mono',monospace;font-size:12px}
+  .suggest-text{background:#eef2ff;border-left:3px solid var(--accent2);padding:8px 12px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.5}
+  .suggest-text.esg{border-color:var(--esg);background:var(--esg-bg)}
+  .suggest-text.en{border-color:var(--en);background:#f0eeff}
+  .suggest-ok{color:var(--good);font-style:italic;font-size:12px}
+  .dl-bar{display:flex;gap:12px;justify-content:flex-end;margin-bottom:12px}
+  .dl-btn{background:var(--accent);color:#fff;border:none;padding:9px 20px;font-size:13px;font-family:'Noto Sans KR',sans-serif;font-weight:500;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .dl-btn:hover{background:var(--accent2)}
+  .dl-btn.outline{background:white;color:var(--accent);border:1px solid var(--accent)}
+  .summary-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 24px;margin-bottom:24px;display:flex;gap:32px;flex-wrap:wrap;align-items:center}
+  .summary-item{text-align:center}
+  .summary-item .num{font-size:28px;font-weight:700;font-family:'IBM Plex Mono',monospace}
+  .summary-item .label{font-size:11px;color:var(--muted);margin-top:2px}
+  .num-miss{color:var(--bad)}.num-fix{color:var(--warn)}.num-ok{color:var(--good)}.num-total{color:var(--accent)}
+  @media print{.dl-bar,.dl-btn{display:none!important}body{background:white;padding:16px}.section-block{box-shadow:none;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="page-header">
+  <div>
+    <h1>Samsung SDS — 이미지 ALT 텍스트 웹접근성 진단 보고서</h1>
+    <p>ESG 에코뉴스(KR) · 인사이트리포트(KR) · ESG Eco News(EN) | 3건 신규 진단</p>
+  </div>
+  <div class="meta">진단일: 2026-05-18<br>소셜 공유 아이콘·숨김 이미지 제외<br>국문↔국문 / 영문↔영문</div>
+</div>
+
+<!-- 요약 통계 -->
+<div class="summary-box">
+  <div class="summary-item"><div class="num num-total">22</div><div class="label">총 진단 이미지</div></div>
+  <div class="summary-item"><div class="num num-miss">12</div><div class="label">✗ 누락</div></div>
+  <div class="summary-item"><div class="num num-fix">3</div><div class="label">△ 개선필요</div></div>
+  <div class="summary-item"><div class="num num-ok">4</div><div class="label">✓ 적절</div></div>
+  <div class="summary-item"><div class="num" style="color:var(--muted)">3</div><div class="label">— 제외(소셜·숨김)</div></div>
+  <div style="margin-left:auto;font-size:12px;color:var(--muted);line-height:1.8">
+    <span style="display:inline-block;width:12px;height:12px;background:var(--esg);border-radius:3px;vertical-align:middle;margin-right:4px"></span>ESG 에코뉴스 (KR)<br>
+    <span style="display:inline-block;width:12px;height:12px;background:var(--accent);border-radius:3px;vertical-align:middle;margin-right:4px"></span>인사이트리포트 (KR)<br>
+    <span style="display:inline-block;width:12px;height:12px;background:var(--en);border-radius:3px;vertical-align:middle;margin-right:4px"></span>ESG Eco News (EN)
+  </div>
+</div>
+
+<div class="legend">
+  <span style="font-size:12px;color:var(--muted);font-weight:600;margin-right:4px">범례</span>
+  <div style="display:flex;align-items:center;gap:6px;font-size:12px"><span class="badge-status s-ok">✓ 적절</span> alt값이 이미지 내용을 충분히 반영</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:12px"><span class="badge-status s-miss">✗ 누락</span> alt="" 또는 alt 속성 없음</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:12px"><span class="badge-status s-fix">△ 개선필요</span> alt있으나 내용과 불일치하거나 부족</div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:12px"><span class="badge-status s-skip">— 제외</span> 소셜 공유 아이콘·숨김 이미지</div>
+</div>
+
+<div class="dl-bar">
+  <button class="dl-btn outline" onclick="downloadCSV()">⬇ CSV 다운로드</button>
+  <button class="dl-btn" onclick="window.print()">🖨 인쇄/PDF</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     아티클 1 : KR ESG 에코뉴스
+     ══════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-head">
+    <span class="section-num num-esg-kr">ESG KR</span>
+    <span class="cat-tag cat-esg-kr">에코뉴스</span>
+    <span class="section-title">미래 세대와 함께 생각해보는 환경, 삼성SDS Kids Green 그림 공모전</span>
+    <span class="section-date">2024-06-20</span>
+  </div>
+  <div class="section-url url-esg-kr">
+    <a href="https://www.samsungsds.com/kr/sustainability-insight/kids-green-drawing-contest.html" target="_blank">https://www.samsungsds.com/kr/sustainability-insight/kids-green-drawing-contest.html</a>
+  </div>
+  <table class="img-table">
+    <thead><tr><th>#</th><th>이미지 파일명</th><th>유형</th><th>현재 alt값</th><th>상태</th><th>개선 alt 텍스트</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="col-no">1</td>
+      <td class="img-path">thumb.jpg</td>
+      <td><span class="img-type-badge t-thumb">썸네일</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">미래 세대와 함께 생각해보는 환경, 삼성SDS Kids Green 그림 공모전 아티클 대표 이미지</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">2</td>
+      <td class="img-path">20240627_01.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 유치부 수상작 — '지구와 함께 살기'. 지구와 자연이 공존하는 모습을 어린이가 그린 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">3</td>
+      <td class="img-path">20240627_02.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 유치부 수상작 — '고래를 살려주세요!'. 바다 오염으로 위협받는 고래를 보호하자는 메시지를 어린이가 그린 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">4</td>
+      <td class="img-path">20240627_03.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 유치부 수상작 — '지구를 지키자'. 지구 환경 보호를 주제로 어린이가 그린 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">5</td>
+      <td class="img-path">20240627_04.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 유치부 수상작 — '동물친구들의 분리수거날'. 동물들이 함께 분리수거하는 모습을 어린이가 그린 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">6</td>
+      <td class="img-path">20240627_05.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 유치부 수상작 — '바다 속 쓰레기를 주워요'. 바닷속 쓰레기 문제와 청소 활동을 주제로 어린이가 그린 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">7</td>
+      <td class="img-path">20240627_06.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 유치부 수상작 — '지구 지키러 가는 길'. 지구 환경 보호를 위해 나아가는 여정을 표현한 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">8</td>
+      <td class="img-path">20240627_07.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 초등부 수상작 — '깨끗한 바다를 만들어주세요'. 해양 오염 문제 해결을 촉구하는 메시지를 담은 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">9</td>
+      <td class="img-path">20240627_08.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 초등부 수상작 — '되돌릴 수 있어요! 지구는 도니까!'. 지구 환경이 회복 가능함을 긍정적으로 표현한 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">10</td>
+      <td class="img-path">20240627_09.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 초등부 수상작 — '지구의 눈물은 우리의 눈물'. 기후 위기와 환경 파괴로 고통받는 지구의 모습을 감성적으로 표현한 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">11</td>
+      <td class="img-path">20240627_10.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 초등부 수상작 — '인류가 모르는 환경파괴의 최후'. 인류의 무분별한 환경파괴가 초래할 결말을 경고하는 메시지를 담은 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">12</td>
+      <td class="img-path">20240627_11.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 초등부 수상작 — '지금 우리가 해야 할 일은'. 환경 보호를 위해 지금 당장 행동해야 한다는 메시지를 담은 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">13</td>
+      <td class="img-path">20240627_12.jpg</td>
+      <td><span class="img-type-badge t-drawing">어린이 그림</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text esg">삼성SDS Kids Green 그림 공모전 초등부 수상작 — '플라스틱나무, 기린의 치통 그리고 생쥐치과'. 플라스틱 오염이 동물들에게 미치는 영향을 재치 있게 표현한 어린이 환경 그림</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">—</td>
+      <td class="img-path">소셜 공유 아이콘 7종<br>(LinkedIn·Facebook·Twitter·KakaoTalk·Instagram·Naver·링크복사)</td>
+      <td><span class="img-type-badge t-ui">소셜 아이콘</span></td>
+      <td class="alt-current">각 플랫폼명</td>
+      <td><span class="badge-status s-skip">— 제외</span></td>
+      <td><span style="color:var(--muted);font-size:12px;font-style:italic">소셜 공유 아이콘 — 진단 범위 제외</span></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     아티클 2 : KR 인사이트리포트
+     ══════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-head">
+    <span class="section-num num-ins-kr">인사이트 KR</span>
+    <span class="cat-tag cat-ins-kr">자동화/협업</span>
+    <span class="section-title">삼성바이오로직스, 생성형 AI 기반 업무 자동화 사례</span>
+    <span class="section-date">2024-04-29</span>
+  </div>
+  <div class="section-url url-ins-kr">
+    <a href="https://www.samsungsds.com/kr/insights/samsung-biologics-case-with-brity-automation.html" target="_blank">https://www.samsungsds.com/kr/insights/samsung-biologics-case-with-brity-automation.html</a>
+  </div>
+  <table class="img-table">
+    <thead><tr><th>#</th><th>이미지 파일명</th><th>유형</th><th>현재 alt값</th><th>상태</th><th>개선 alt 텍스트</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="col-no">1</td>
+      <td class="img-path">thumb_re06.png</td>
+      <td><span class="img-type-badge t-thumb">썸네일</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text">삼성바이오로직스, 생성형 AI 기반 업무 자동화 사례 아티클 대표 이미지</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">2</td>
+      <td class="img-path">20240429_img_1.png</td>
+      <td><span class="img-type-badge t-diag">프로세스 도식</span></td>
+      <td class="alt-current">바이오 의약품 개발/생산 프로세스 이미지</td>
+      <td><span class="badge-status s-fix">△ 개선필요</span></td>
+      <td><div class="suggest-text">바이오 의약품 개발·생산 프로세스 (출처: 컨퍼런스 자료). 원료의약품 생산(배양 → 정제) → 완제의약품 생산(무균 충전) → 분석(품질 분석·안정성 연구) → 규제기관 승인(임상 및 판매·승인 지원) 4단계 End-to-End 프로세스. 생산 시설: 반도체 클린룸 + 초정제수/정제 시설 + 석유화학 배관 기술</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">3</td>
+      <td class="img-path">20240429_img_2.png</td>
+      <td><span class="img-type-badge t-diag">Pain-Point 도식</span></td>
+      <td class="alt-current">규제기관/고객사 Inspection 대응에 대한 Pain-Point 이미지</td>
+      <td><span class="badge-status s-fix">△ 개선필요</span></td>
+      <td><div class="suggest-text">규제기관·고객사 Inspection 대응 Pain-Point 개선 전후 비교 도식 (출처: 컨퍼런스 자료). AS-IS(복잡한 검색 과정): 감사단 질문 → 담당자 섭외 → 정보 검색 → 검색 내용 정리 → 실사 대응 (5단계 순차 수행). TO-BE(생성형 AI 적용 후): 감사단 질문 → 현장 정보 획득 (2단계로 단축)</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">4</td>
+      <td class="img-path">20240429_img_3.png</td>
+      <td><span class="img-type-badge t-diag">PoC 아키텍처 도식</span></td>
+      <td class="alt-current">PoC 핵심 프로세스 도식 이미지</td>
+      <td><span class="badge-status s-fix">△ 개선필요</span></td>
+      <td><div class="suggest-text">삼성바이오로직스 생성형 AI PoC 핵심 프로세스 도식 (출처: 삼성SDS). 사용자 → Web-Chat → Brity Automation → SR-LLM / Vector DB(DB Record·PDF 등에서 임베딩·인덱싱) → Brity Automation → SR-LLM → Brity Automation → Web-Chat → 사용자 순으로 연결되는 RAG 기반 질의응답 아키텍처</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">5</td>
+      <td class="img-path">20240429_img_4.png</td>
+      <td><span class="img-type-badge t-diag">데이터 플로우 도식</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text">GenAI SOP Q&A 데이터 플로우 (출처: 컨퍼런스 자료). Step 1 Build knowledge base: SOP Documents → Embedding → Vector DB 저장 (No data retention). Step 2 Develop Q&A Chatbot: Question → Embedding → Vectors → Vector DB 유사도 검색 → SOP Documents + Question + Prompt Parameters → LLM → Response. IN-HOUSE / LLM / SBL Internal 영역 구분 표시</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">6</td>
+      <td class="img-path">20240429_img_5.png</td>
+      <td><span class="img-type-badge t-diag">데이터 플로우 도식</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text">GenAI Quality Record Q&A 데이터 플로우 - Text-to-SQL 적용 (출처: 컨퍼런스 자료). 자연어 질의(Text) → LLM(Text-to-SQL 변환) → SQL 문장 생성. 전체 흐름: User Question / Get Table·Schema Definition / Get sample queries·results → Prompt → LLM → Validate → Execute Query(SBL Database Quality Record 연동) → Response. IN-HOUSE / LLM / SBL Internal 영역 구분 표시</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">7</td>
+      <td class="img-path">person.jpg (저자 홍은주)</td>
+      <td><span class="img-type-badge t-author">저자</span></td>
+      <td class="alt-empty">(없음)</td>
+      <td><span class="badge-status s-miss">✗ 누락</span></td>
+      <td><div class="suggest-text">홍은주 저자 프로필 사진</div></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     아티클 3 : EN ESG Eco News
+     ══════════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-head">
+    <span class="section-num num-esg-en">ESG EN</span>
+    <span class="cat-tag cat-esg-en">Eco News</span>
+    <span class="section-title">Samsung SDS Receives ISO 50001 (Energy Management System) Certification</span>
+    <span class="section-date">2023-10-12</span>
+  </div>
+  <div class="section-url url-esg-en">
+    <a href="https://www.samsungsds.com/en/sustainability-insight/energy-management-system.html" target="_blank">https://www.samsungsds.com/en/sustainability-insight/energy-management-system.html</a>
+  </div>
+  <table class="img-table">
+    <thead><tr><th>#</th><th>Image filename</th><th>Type</th><th>Current alt</th><th>Status</th><th>Improved alt text</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="col-no">1</td>
+      <td class="img-path">1283843-thum.jpg</td>
+      <td><span class="img-type-badge t-thumb">Thumbnail</span></td>
+      <td class="alt-empty">(none)</td>
+      <td><span class="badge-status s-miss">✗ Missing</span></td>
+      <td><div class="suggest-text en">Samsung SDS Receives ISO 50001 (Energy Management System) Certification – Article thumbnail</div></td>
+    </tr>
+    <tr>
+      <td class="col-no">2</td>
+      <td class="img-path">1283843-01.jpg</td>
+      <td><span class="img-type-badge t-cert">Ceremony photo</span></td>
+      <td class="alt-current">ISO 50001 Certificate Award Ceremony ("23.10.10)</td>
+      <td><span class="badge-status s-ok">✓ Adequate</span></td>
+      <td><span class="suggest-ok">Keep as is — date correction optional: "23.10.10" → "2023.10.10"</span></td>
+    </tr>
+    <tr>
+      <td class="col-no">—</td>
+      <td class="img-path">Social share icons<br>(LinkedIn · Facebook · Twitter · KakaoTalk)</td>
+      <td><span class="img-type-badge t-ui">Social icons</span></td>
+      <td class="alt-current">Share Linkedin / Share Facebook / Share Twitter / Share KakaoTalk</td>
+      <td><span class="badge-status s-ok">✓ Adequate</span></td>
+      <td><span class="suggest-ok">Keep as is (platform names are appropriate alt text for share icons)</span></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+</div><!-- /container -->
+
+<script>
+const allRows=[];
+document.querySelectorAll('.section-block').forEach(s=>{
+  const numEl=s.querySelector('.section-num');
+  const titleEl=s.querySelector('.section-title');
+  const dateEl=s.querySelector('.section-date');
+  const urlEl=s.querySelector('.section-url a');
+  const n=numEl?.innerText.trim()||'';
+  const t=titleEl?.innerText.trim()||'';
+  const d=dateEl?.innerText.trim()||'';
+  const u=urlEl?.href||'';
+  const lang=n.includes('EN')?'EN':'KR';
+  s.querySelectorAll('.img-table tbody tr').forEach(r=>{
+    const c=r.querySelectorAll('td');
+    if(c.length<6)return;
+    allRows.push([lang,n,d,t,u,c[0].innerText.trim(),c[1].innerText.trim(),c[2].innerText.trim(),c[3].innerText.trim(),c[4].innerText.trim(),c[5].innerText.trim()]);
+  });
+});
+function downloadCSV(){
+  const bom='\uFEFF';
+  const h='Lang,아티클구분,게시일,아티클제목,URL,이미지번호,파일명,유형,현재alt,상태,개선alt\n';
+  const rows=allRows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([bom+h+rows],{type:'text/csv;charset=utf-8;'}));
+  a.download='삼성SDS_ALT진단_ESG_인사이트_3건.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+</script>
+</body>
+</html>

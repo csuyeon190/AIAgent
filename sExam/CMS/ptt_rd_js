@@ -1,0 +1,80 @@
+[
+    {
+    "id": "1",
+    "field": "보안",
+    "title": "MSA 분산 ",
+    "link": "/kr/p/1.html",
+    "writer" :"임종인",
+    "regist_date" :"20250225-125000",
+    "registnumber": "P2101"
+    },{
+    "id": "2",
+    "field": "AI",
+    "title": "다층 구조",
+    "link": "/kr/p/1.html",
+    "writer" :"황봉규",
+    "regist_date" :"20250204-104000",
+    "registnumber": "P2201"
+    },{
+    "id": "3",
+    "field": "AI",
+    "title": "HTML 문서",
+    "link": "/kr/p/1.html",
+    "writer" :"황봉규",
+    "regist_date" :"20250204-104000",
+    "registnumber": "PUS01"
+    },{
+    "id": "4",
+    "field": "보안",
+    "title": "양자내성보안채널",
+    "link": "/kr/p/1.html",
+    "writer" :"김승영",
+    "regist_date" :"20251230-125000",
+    "registnumber": "S01"
+    },{
+    "id": "5",
+    "field": "물류자동화",
+    "title": "순환형 축",
+    "link":"/kr/p/1.html",
+    "writer" :"김승영",
+    "regist_date" :"20250812-104000",
+    "registnumber": "S02"
+    },{
+    "id": "6",
+    "field": "AI",
+    "title": "서비스 데이터",
+    "link": "/kr/p/1.html",
+    "writer" :"홍길동",
+    "regist_date" :"20250702-104000",
+    "registnumber": "019"
+    }
+]
+
+
+document.querySelectorAll('#selBoxSchOrderby .link_comm').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const order = this.dataset.order;
+        const label = this.textContent;
+
+        sortSpan.textContent = label;
+
+        document.querySelectorAll('#selBoxSchOrderby .link_comm').forEach(el => el.classList.remove('on'));
+        this.classList.add('on');
+
+        sortWrap.classList.remove('open');
+        optSortBtn.setAttribute('aria-expanded', 'false');
+
+        // 카테고리 체크 상태에 따라 type 결정
+        let $fieldChecklist = $("#field_check").find("input.chk_li");
+        let type;
+        if ($fieldChecklist.length == selectedFieldList.length || selectedFieldList.length == 0) {
+            type = "all";
+        } else {
+            type = "check";
+        }
+
+        renderCateArticles(type, order);
+    });
+});

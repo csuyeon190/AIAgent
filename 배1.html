@@ -1,0 +1,728 @@
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서</title>
+<style>
+  :root{
+    --bg: #f7f7f5;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #1351b4;
+    --accent-soft: #e8efff;
+    --border: #d9d9d9;
+    --warn: #b8860b;
+    --good: #2e7d32;
+    --row-alt: #fafafa;
+    --code-bg: #f0f0ee;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;}
+  .wrap{max-width:1320px;margin:0 auto;padding:48px 32px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:24px;margin-bottom:32px;}
+  h1{font-size:28px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;}
+  .subtitle{color:var(--muted);font-size:14px;margin:4px 0;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:28px 0 36px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+  .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .card .value{font-size:28px;font-weight:700;margin-top:6px;color:var(--accent);}
+  .note{background:#fffbe6;border-left:4px solid var(--warn);padding:14px 18px;border-radius:4px;margin:24px 0;font-size:14px;}
+  .note strong{color:var(--warn);}
+  h2{font-size:20px;font-weight:700;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .url-title{font-size:14px;color:var(--accent);word-break:break-all;font-family:'Menlo','Consolas',monospace;background:var(--accent-soft);padding:6px 10px;border-radius:4px;display:inline-block;margin-bottom:12px;}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);font-size:13px;margin-bottom:24px;table-layout:fixed;}
+  thead th{background:var(--ink);color:#fff;text-align:left;padding:12px 10px;font-weight:600;font-size:12px;letter-spacing:0.3px;}
+  tbody td{border-top:1px solid var(--border);padding:12px 10px;vertical-align:top;word-break:break-word;}
+  tbody tr:nth-child(even){background:var(--row-alt);}
+  col.col-no{width:42px;}
+  col.col-file{width:24%;}
+  col.col-current{width:34%;}
+  col.col-improved{width:42%;}
+  .filename{font-family:'Menlo','Consolas',monospace;font-size:12px;color:#444;}
+  .empty-alt{color:#c0392b;font-style:italic;}
+  .keep{color:var(--good);font-weight:600;}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle;}
+  .badge.warn{background:#ffe8e0;color:#c0392b;}
+  .badge.good{background:#e8f6e8;color:var(--good);}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);}
+  details{margin:8px 0 16px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:13px;}
+  details summary{cursor:pointer;font-weight:600;}
+  .legend{font-size:12px;color:var(--muted);margin:8px 0 16px;}
+  @media print{
+    body{background:#fff;}
+    .wrap{padding:20px;}
+    table{font-size:11px;page-break-inside:auto;}
+    tr{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서</h1>
+  <p class="subtitle">대상 사이트: 삼성SDS 홈사이트 (www.samsungsds.com)</p>
+  <p class="subtitle">분석 일자: 2026-05-14</p>
+</header>
+
+<section>
+  <div class="summary">
+    <div class="card">
+      <div class="label">분석 대상 URL</div>
+      <div class="value">10 개</div>
+    </div>
+    <div class="card">
+      <div class="label">분석 대상 이미지(콘텐츠 노출)</div>
+      <div class="value">62 개</div>
+    </div>
+    <div class="card">
+      <div class="label">개선 필요 이미지</div>
+      <div class="value">59 개</div>
+    </div>
+    <div class="card">
+      <div class="label">제외 이미지(숨김/장식)</div>
+      <div class="value">다수</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>※ 분석 기준 안내</strong><br>
+    1. 사용자에게 보이지 않는 트래킹 픽셀(Facebook Pixel, LinkedIn Insight Tag, GTM 등 1x1 픽셀의 noscript용 이미지)은 <em>분석에서 제외</em>하였습니다. 이러한 이미지는 ARIA 차원에서 사실상 숨김이며 빈 alt(<code>alt=""</code>)가 권장됩니다.<br>
+    2. 페이지 하단의 공유(Share) 아이콘 SVG(LinkedIn/Facebook/Twitter/KakaoTalk/Instagram/Naver/링크복사)는 페이지마다 동일한 UI 컴포넌트 패턴이므로 한 페이지에 한정해 대표적으로 다루었습니다. 다른 페이지의 동일 아이콘에도 같은 권고를 적용하면 됩니다.<br>
+    3. 본문 콘텐츠 이미지(상단 썸네일, 도식, 그래프, 사진)에 중점을 두어 분석하였습니다.<br>
+    4. "현재 Alt 값"이 비어있는 경우 <span class="empty-alt">(빈 값)</span>으로 표기하였습니다.<br>
+    5. 기존 Alt가 적절한 경우 <span class="keep">"기존 유지 권장"</span>으로 표기하였습니다.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- URL 1 -->
+<!-- ============================================================ -->
+<h2>1. QAFD-RAG: 질문의 의미로 지식 그래프를 탐색하는 Graph 기반 RAG <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/research-blog/qafd-rag-query-aware-flow-diffusion-graph-rag.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">qafd-rag-thumb.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>QAFD-RAG 기술블로그 대표 썸네일 이미지 - 질문의 의미로 지식 그래프를 탐색하는 Graph 기반 RAG</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">260406_1_01.png</td>
+  <td>세 가지 서로 다른 그래프 기반 RAG 방법(GraphRAG, LightRAG, QAFD-RAG)이 '애플에서 스티브 잡스의 제품을 소개하라'는 질의에 대해 데이터를 추출하는 방식을 비교한 시각화 자료입니다.</td>
+  <td>그림 1: GraphRAG, LightRAG, QAFD-RAG의 그래프 기반 검색 방식을 비교한 다이어그램. 사용자의 질문 “애플에서 스티브 잡스의 제품을 소개해줘”에 대해, GraphRAG는 관련·비관련 노드를 함께 포함한 큰 커뮤니티를 검색하고, LightRAG는 1-hop 이웃 노드를 중심으로 일부 불필요한 정보를 포함한다. 반면 QAFD-RAG는 질의 의미에 따라 그래프 경로 가중치를 조정해 Mac, macOS 등 관련 노드만 강조하고 Amazon River, Apple fruit 같은 비관련 노드는 억제한다. 노드 크기와 색상은 중요도, 간선 두께는 연관 강도를 나타낸다.</td>
+ <!-- <td class="keep">기존 유지 권장 <span class="badge good">적절</span></td> -->
+
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">260406_1_02.png</td>
+  <td>QAFD-RAG 시스템의 작동 과정을 보여주는 순서도로, 문서를 지식 그래프(KG)로 만드는 '인덱싱 단계'와 질의에 따라 답을 생성하는 '질의 단계'로 구성됩니다.</td>
+  <td>그림 2: QAFD-RAG의 2단계 처리 구조를 설명한 다이어그램. 첫 단계에서는 문서를 청크로 분할하고 엔터티 및 관계를 추출해 지식 그래프(KG)를 생성한다. 두 번째 단계에서는 사용자 질의를 기반으로 시드 노드를 선택하고 Query-Aware Flow Diffusion을 적용해 관련 서브그래프를 추출한 뒤, 이를 프롬프트에 포함해 최종 응답을 생성한다.</td>
+<!--  <td class="keep">기존 유지 권장 <span class="badge good">적절</span></td> -->
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 2 -->
+<!-- ============================================================ -->
+<h2>2. 더 짧아진 PQC 전자서명 – 비결은 '느슨한 벡터 커밋먼트'? <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/research-blog/pqc-vector-semi-commitment.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">card_list_img_보안논문_2.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>더 짧아진 PQC 전자서명 보안 논문 대표 썸네일 이미지</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지는 본문 내 도식/도표 이미지가 별도로 삽입되어 있지 않으며, 본문 내용은 수식과 텍스트로 구성되어 있습니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 3 -->
+<!-- ============================================================ -->
+<h2>3. AI의 새로운 지평: 어텐션, 창발, 그리고 Agentic AI <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/research-blog/agentic-ai-emergence-attention.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">agentic-ai_thumb_418x365.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>한국정보처리학회 2025년 IT21 글로벌 컨퍼런스 키노트 스피치 리뷰 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">250721_2_01.jpg</td>
+  <td>250721_2_01_images</td>
+  <td>IT21 글로벌 컨퍼런스 키노트 스피치를 시작하며 청중에게 인사하고 있는 권영준 삼성SDS 연구소장의 모습</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">250721_2_02.jpg</td>
+  <td>250721_2_02_images</td>
+  <td>키노트 스피치 중 '창발(Emergence)' 개념에 대해 설명하고 있는 권영준 삼성SDS 연구소장</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">250721_2_03.jpg</td>
+  <td>250721_2_03_images</td>
+  <td>키노트 스피치를 경청하고 있는 IT21 컨퍼런스 청중들의 모습</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">250721_2_04.jpg</td>
+  <td>250721_2_04_images</td>
+  <td>키노트 스피치 마무리에 청중들에게 질문을 던지고 있는 권영준 삼성SDS 연구소장</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">250721_2_05.png</td>
+  <td>250721_2_05_images</td>
+  <td>'학습 데이터 Self-Curation을 통한 LLM 응답 품질 향상 연구'를 발표하는 이준호 프로(AI연구팀)</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">250721_2_06.png</td>
+  <td>250721_2_06_images</td>
+  <td>'PAISE: PIM을 활용한 LLM 추론 가속 스케줄링 엔진'을 발표하는 이효정 프로(클라우드연구팀)</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td class="filename">250721_2_07.png</td>
+  <td>250721_2_07_images</td>
+  <td>'AI 기반의 테스트 자동생성 기술 연구 및 산업 현장 적용'을 발표하는 문석현 프로(보안연구팀)</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td class="filename">250721_2_08.png</td>
+  <td>250721_2_08_images</td>
+  <td>'프라이버시 강화 기술 및 응용 사례'를 발표하는 한규형 프로(보안연구팀)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 4 -->
+<!-- ============================================================ -->
+<h2>4. 자바 앱이 갑자기 꺼진다면? 그건 NPE 때문입니다 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/research-blog/npe-test-generation.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">research-blog_thumb_02.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>NPE(Null Pointer Exception) 자동 탐지 기술 소개 보안 논문 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">250617_6_01.JPG</td>
+  <td>250617_6_01 images</td>
+  <td>Apache Qpid Proton-j 프로젝트의 EncoderImpl.java 코드 예시로, calculateSize 메서드에서 t.getEncoding(k) 호출 시 NPE가 발생할 수 있는 지점을 보여줌</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">250617_6_02.JPG</td>
+  <td>250617_6_02 images</td>
+  <td>Apache Qpid Proton-j 프로젝트의 EncoderImpl.java 코드 예시 - NPE 원인이 되는 deduceTypeFromClass 메서드의 AMQPType 반환 로직 부분</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">250617_6_03.jpg</td>
+  <td>250617_6_03 images</td>
+  <td>NpeTest, EvoSuite, Randoop 도구별 산업용 암호화 라이브러리에서 발견된 NPE 개수를 비교한 벤다이어그램</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 5 -->
+<!-- ============================================================ -->
+<h2>5. 퍼블릭 클라우드에서 삼성 클라우드 플랫폼으로의 전환 성공 사례 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/techreport/migration-from-public-cloud-to-samsung-cloud-migration.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">Cloud_thumb_0918.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>퍼블릭 클라우드에서 삼성 클라우드 플랫폼(SCP)으로의 전환 성공 사례 클라우드 기술 백서 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">cloud_featured_0811_1.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 기술 백서 본문 헤더 이미지(PC용) - 퍼블릭 클라우드에서 SCP로의 전환</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">cloud_featured_0811.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 기술 백서 본문 헤더 이미지(모바일용) - 퍼블릭 클라우드에서 SCP로의 전환</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 6 -->
+<!-- ============================================================ -->
+<h2>6. Samsung Cloud Platform을 활용한 클라우드 DR 구축 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/techreport/cloud-dr-on-scp.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">0603_01_thumb.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>SCP를 활용한 클라우드 재해복구(DR) 구축 가이드 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">0603_01_pc.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 DR 구축 백서 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">0603_01_mo.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 DR 구축 백서 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">img_techreport_repo1284063_01.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>[그림1] 대표적인 IT 서비스 중단 사건 3건 요약 - 데이터센터 화재(K 메신저, 5일), 인적 실수(CSP A사, 4시간), HW/SW 결함(국가 행정망, 3일)</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">img_techreport_repo1284063_02.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>[그림2] RPO(Recovery Point Objective)와 RTO(Recovery Time Objective) 개념도 - 재난재해 발생 시점 기준으로 데이터 손실 허용 시점과 서비스 복구 목표 시간을 표시</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">img_techreport_repo1284063_03.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 3: DR 레벨 비교 표. 가로축은 Mirror, Hot, Warm, Cold 등 DR 구성 수준이고, 세로축은 RTO, RPO, 가용성, 복구 방식, 비용, 적용 업무를 나타낸다. Mirror에서 Cold로 갈수록 복구 시간과 데이터 손실 허용 범위는 증가하고 비용은 감소한다. Mirror는 실시간 이중화와 자동 전환을 제공하며, Cold는 백업 기반의 저비용 복구 방식이다.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">img_techreport_repo1284063_04.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 4: Legacy DR과 Cloud DR 비교 표. 가로축은 Legacy와 Cloud 방식, 세로축은 구축 방식, 비용, 운영, 확장성, 모의훈련 등의 비교 항목이다. Cloud DR은 물리 장비 구축 부담이 적고 구축 기간과 유지 비용이 낮으며, 자원 확장과 테스트가 상대적으로 유연한 특징을 보인다.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td class="filename">img_techreport_repo1284063_05.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 5: SCP DR 기능 지원 표. 가로축은 Compute, Networking, Storage, Database 영역이고, 세로축은 Virtual Server DR, VPC Peering, VPN, Storage 복제, DB Replica 등 DR 관련 기능이다. 인프라 전 영역에서 복제·연결·백업 기능을 제공하며, 서비스 유형별로 지원 가능한 DR 기능이 정리되어 있다.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td class="filename">img_techreport_repo1284063_06.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 6: SCP DR 구축 Use Case 표. 가로축은 SCP to SCP, On-Premise 또는 타 CSP to SCP 구성이고, 세로축은 Mirror, Hot, Warm, Cold DR 지원 여부이다. Mirror는 지원되지 않으며 Hot, Warm, Cold 중심으로 DR 구성이 가능함을 보여준다.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td class="filename">img_techreport_repo1284063_07.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 7: SCP 기반 Hot Level DR 구성도. 주 센터와 DR 센터를 VPC Peering으로 연결하고 Virtual Server, DBaaS, Storage 데이터를 비동기 복제하는 구조이다. 재해 발생 시 DR 센터 자원을 사용해 빠르게 서비스를 복구한다.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td class="filename">img_techreport_repo1284063_08.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 8: SCP 기반 Cold Level DR 구성도. 운영 데이터를 Object Storage에 백업 후 DR 센터로 복제하며, 평상시 DR 서버는 중지 상태로 유지된다. 재해 시 백업 데이터를 기반으로 서버를 복구해 서비스를 재개한다.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td class="filename">img_techreport_repo1284063_09.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 9: On-Premise 또는 타 CSP 연계 Hot Level DR 구성도. 전용회선과 Transit Gateway로 SCP DR 센터와 연결하고, OS·데이터·DB 복제 소프트웨어를 이용해 변경 데이터를 지속 복제하는 구조이다.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td class="filename">img_techreport_repo1284063_10.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>그림 10: On-Premise 또는 타 CSP 연계 Cold Level DR 구성도. 운영 환경 데이터를 Backup Server와 Object Storage에 저장하고 DR 센터로 복제한다. 재해 시 DR 서버를 기동해 백업 데이터를 복원하는 백업 중심 구조이다.</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 7 -->
+<!-- ============================================================ -->
+<h2>7. 삼성 클라우드 플랫폼, 클라우드 데이터베이스 상품의 이해 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/techreport/what-is-cloud-database.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">0822_01.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성 클라우드 플랫폼 클라우드 데이터베이스(Database) 상품의 이해 클라우드 기술 백서 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">01_w.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 데이터베이스 기술 백서 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">01_m_1.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 데이터베이스 기술 백서 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">img_techreport_repo20_1.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>IDC 조사 결과 기반 데이터베이스 클라우드 마이그레이션 현황 그래프 - 적극 이행 중 63%, 3년 내 시작 계획 29%, 검토 중 8% (출처: IDC, 2020년 12월)</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">img_techreport_repo20_2.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>SCP DB서비스 개요도 - RDB 7종(EPAS, PostgreSQL, MariaDB, MySQL, MS SQL Server, Tibero, Vertica) 및 NoSQL 2종(Redis, ElasticSearch)을 제공하는 자동화 기반 GUI 셀프 서비스 구성도</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">img_techreport_repo20_3.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>DBMS 이중화 통합 아키텍처 구성도 - WEB/WAS와 Primary/Secondary VM DB, Quorum 서비스를 활용한 Split Brain 예방 구성 및 Synchronous Replication 구조</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">img_techreport_repo20_4.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성 클라우드 플랫폼 DB 서비스 주요 기능 인포그래픽 - DB Provisioning, Backup & Recovery, 가동 관리, HA 구성, Scale Out, Monitoring, Parameter Configuration, Audit, Minor Patch, Read Replica 등</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td class="filename">img_techreport_repo20_5.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>SCP DB 서비스 적용 시 인건비 효율화 효과 비교 그래프 - 자동화 미적용 대비 가중치 81% 감소, 운영 DB 수량 1대→5대, 대당 인건비 5백만원→0.9백만원</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 8 -->
+<!-- ============================================================ -->
+<h2>8. 소중한 자원이 낭비되지 않도록, 클라우드 핀옵스에 포커스 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/techreport/cloud-finops.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">03_thumb.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 핀옵스(FinOps) 기술 백서 대표 썸네일 이미지</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">03_1.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 핀옵스 기술 백서 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">03_m.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 핀옵스 기술 백서 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">img_techreport_repo9_2.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>전 세계 클라우드 서비스 지출 규모를 나타낸 막대그래프. 가로축은 연도, 세로축은 지출 금액(십억 달러)이다. 시장 규모는 2019년 약 1,000억 달러 수준에서 2022년 약 2,000억 달러 이상으로 지속 증가하며, 특히 2020년 이후 성장 폭이 크게 확대되는 추세를 보여준다.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">img_techreport_repo9_3.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>FinOps 조직 참여 구조도. Executive, Finance, Procurement, Product Owner, Engineering, Operations 등 다양한 조직이 중앙의 FinOps 기능과 연결되어 있다. 기술·재무·서비스 조직이 함께 비용 최적화를 수행하는 협업 구조를 나타낸다.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">img_techreport_repo9_4.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성SDS Cloud inOne FinOps 정책 설정 화면 캡쳐 - 자원 최적화 총점, 비용 최적화 총점, PRD/STG/DEV별 자원 최적화 정책 기준, Rightsizing 자원관리 및 Unused 자원관리 설정 UI</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">img_techreport_repo9_5.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성SDS Cloud inOne FinOps 정책 시뮬레이션 화면 캡쳐 - 자원 최적화 및 비용 최적화 설정 옵션, 정책 기준에 따른 시뮬레이션 결과 차트 표시 UI</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td class="filename">img_techreport_repo9_6.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성SDS Cloud inOne FinOps 프로세스 설정 기능 화면 캡쳐 - 자원 최적화 추천 프로세스 5단계(Trigger, Notification, Review, Service Request, Completion) 흐름도</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 9 -->
+<!-- ============================================================ -->
+<h2>9. 클라우드 스토리지 기술의 이해 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/techreport/cloud-storage.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">09_thumb.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 스토리지(Cloud Storage) 기술의 이해 클라우드 기술 백서 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">09_1.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 스토리지 기술 백서 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">09_m.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>클라우드 스토리지 기술 백서 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">img_techreport_repo3_2.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>스토리지 종류별 접근 방식 다이어그램 - Application에서 Local Disk(직접 접근), SAN(FC/iSCSI/FCoE - Block), NAS(NFS/SMB - File), Object(REST API - Object)로 연결되는 스토리지 계층 구조도</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">img_techreport_repo3_3.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>자료가 네트워크로 연결되어 있는 것을 상징하는 이미지(페이지 장식용 이미지)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 10 -->
+<!-- ============================================================ -->
+<h2>10. 업스테이지가 GPU 수급난 속에서 H100을 확보한 방법 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/gpuaas-upstage.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">customer_detail_new_sample_hero.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>업스테이지 고객 성공 스토리 대표 히어로 이미지 - 삼성 클라우드 플랫폼 GPUaaS 도입 사례</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">customer_detail_new_sample_01.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>[Figure 1] 업스테이지의 비즈니스와 핵심 기술에 대해 소개하고 있는 업스테이지 김민성 LLM 사업개발 팀장의 인터뷰 모습</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">customer_detail_new_sample_03.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>[Figure 3] 업스테이지의 글로벌 웹사이트 메인 페이지 캡쳐 화면</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">customer_detail_new_sample_03.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>노트북으로 일하는 있는 모습(장식용 이미지)</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">customer_detail_new_sample_05.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>[Figure 4] 삼성 클라우드 플랫폼 GPUaaS를 업스테이지의 '엔진룸'에 비유하며 설명하고 있는 김민성 LLM 사업개발 팀장</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">customer_detail_new_sample_writer_img.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>본문 작성자 프로필 이미지 - 삼성SDS B2B 마케터 '보배'</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- 공통 영역 권고 -->
+<!-- ============================================================ -->
+<h2>※ 공통 UI 요소(전 페이지 공통)에 대한 권고</h2>
+<details>
+<summary>아래 항목은 모든 페이지에서 공통으로 나타나는 영역입니다. 클릭하여 권고안을 확인하세요.</summary>
+
+<table style="margin-top:14px;">
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>구분</th><th>이미지/요소</th><th>현재 Alt 값</th><th>개선 권고안</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>트래킹</td>
+  <td class="filename">facebook.com/tr (1x1px)</td>
+  <td>—</td>
+  <td><strong>분석 제외</strong> - 사용자 비노출 트래킹 픽셀. <code>alt=""</code> 및 <code>aria-hidden="true"</code> 처리 권장</td>
+</tr>
+<tr>
+  <td>트래킹</td>
+  <td class="filename">px.ads.linkedin.com/collect</td>
+  <td>—</td>
+  <td><strong>분석 제외</strong> - LinkedIn Insight Tag 트래킹 픽셀. <code>alt=""</code> 처리 권장</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_linkedin.svg</td>
+  <td>Linkedin (or LinkedIn)</td>
+  <td>"LinkedIn으로 공유하기" 로 개선 (단순 서비스명이 아닌 '동작'까지 명시)</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_facebook.svg</td>
+  <td>Facebook</td>
+  <td>"Facebook으로 공유하기"</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_twitter.svg</td>
+  <td>X(구Twitter) 또는 Twitter</td>
+  <td>"X(구 Twitter)로 공유하기"</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_kakao.svg</td>
+  <td>KakaoTalk 또는 kakaoTalk</td>
+  <td>"카카오톡으로 공유하기"</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_instargram.svg</td>
+  <td>Instagram 또는 instargram</td>
+  <td>"Instagram으로 공유하기" (※ 파일명 'instargram'은 오타로 보이며 인스타그램 의미)</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_naver.svg</td>
+  <td>네이버 또는 naver</td>
+  <td>"네이버 블로그로 공유하기"</td>
+</tr>
+<tr>
+  <td>공유아이콘</td>
+  <td class="filename">ico_share_link.svg</td>
+  <td>링크 복사 또는 link_copy</td>
+  <td>"페이지 링크 복사하기" <span class="badge good">기존 한글 '링크 복사'도 무난</span></td>
+</tr>
+</tbody>
+</table>
+</details>
+
+<!-- ============================================================ -->
+<!-- 종합 권고 -->
+<!-- ============================================================ -->
+<h2>종합 권고 사항</h2>
+<ol style="font-size:14px;line-height:1.9;">
+  <li><strong>상단 썸네일 이미지 Alt 누락이 가장 큰 문제</strong>입니다. 10개 페이지 모두 본문 상단의 메인 썸네일에 alt 속성이 빈 값으로 설정되어 있어, 스크린리더 사용자가 페이지의 핵심 시각 정보를 인지할 수 없는 상태입니다.</li>
+  <li><strong>도식/도표 이미지의 alt 누락</strong>이 두 번째로 큰 문제입니다. 특히 클라우드 기술 백서(URL 6, 7, 8, 9)의 모든 도식 이미지에 alt가 비어 있어, 본문의 보조 설명에만 의존하게 됩니다.</li>
+  <li><strong>파일명이 그대로 alt에 들어간 사례</strong>(예: <code>250721_2_01_images</code>, <code>250617_6_01 images</code>)는 의미 없는 식별자로 스크린리더가 읽어주면 사용자에게 혼란을 줍니다.</li>
+  <li><strong>WCAG 2.1 / KWCAG 2.2 준수</strong>를 위해 인포그래픽이나 복잡한 다이어그램은 alt에 핵심 정보를 담되, 매우 상세한 내용은 <code>aria-describedby</code> 또는 본문 캡션과 연동을 권장합니다.</li>
+  <li>장식용 분리선/배경 이미지, 트래킹 픽셀 등은 <strong><code>alt=""</code> + <code>role="presentation"</code></strong> 또는 <code>aria-hidden="true"</code>로 명시적 제외 처리를 권장합니다.</li>
+  <li>URL 1번(QAFD-RAG)의 본문 그림은 이미 모범 사례 수준의 alt가 작성되어 있어, <strong>다른 페이지에도 동일 수준으로 적용</strong>하는 것을 권장합니다.</li>
+</ol>
+
+<footer>
+  본 보고서는 페이지 HTML 소스의 <code>&lt;img&gt;</code> 태그 추출 결과를 기반으로 작성되었습니다. 동적으로 로드되는 이미지나 CSS background-image는 별도 점검이 필요할 수 있습니다.<br>
+  © 웹 접근성 분석 보고서
+</footer>
+
+</div>
+</body>
+</html>

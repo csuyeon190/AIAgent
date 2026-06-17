@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서 (2차)</title>
+<style>
+  :root{
+    --bg: #f7f7f5;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #1351b4;
+    --accent-soft: #e8efff;
+    --border: #d9d9d9;
+    --warn: #b8860b;
+    --good: #2e7d32;
+    --row-alt: #fafafa;
+    --code-bg: #f0f0ee;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;}
+  .wrap{max-width:1320px;margin:0 auto;padding:48px 32px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:24px;margin-bottom:32px;}
+  h1{font-size:28px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;}
+  .subtitle{color:var(--muted);font-size:14px;margin:4px 0;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:28px 0 36px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+  .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .card .value{font-size:28px;font-weight:700;margin-top:6px;color:var(--accent);}
+  .note{background:#fffbe6;border-left:4px solid var(--warn);padding:14px 18px;border-radius:4px;margin:24px 0;font-size:14px;}
+  .note strong{color:var(--warn);}
+  h2{font-size:20px;font-weight:700;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .url-title{font-size:14px;color:var(--accent);word-break:break-all;font-family:'Menlo','Consolas',monospace;background:var(--accent-soft);padding:6px 10px;border-radius:4px;display:inline-block;margin-bottom:12px;}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);font-size:13px;margin-bottom:24px;table-layout:fixed;}
+  thead th{background:var(--ink);color:#fff;text-align:left;padding:12px 10px;font-weight:600;font-size:12px;letter-spacing:0.3px;}
+  tbody td{border-top:1px solid var(--border);padding:12px 10px;vertical-align:top;word-break:break-word;}
+  tbody tr:nth-child(even){background:var(--row-alt);}
+  col.col-no{width:42px;}
+  col.col-file{width:24%;}
+  col.col-current{width:34%;}
+  col.col-improved{width:42%;}
+  .filename{font-family:'Menlo','Consolas',monospace;font-size:12px;color:#444;}
+  .empty-alt{color:#c0392b;font-style:italic;}
+  .keep{color:var(--good);font-weight:600;}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle;}
+  .badge.warn{background:#ffe8e0;color:#c0392b;}
+  .badge.good{background:#e8f6e8;color:var(--good);}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);}
+  details{margin:8px 0 16px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:13px;}
+  details summary{cursor:pointer;font-weight:600;}
+  .legend{font-size:12px;color:var(--muted);margin:8px 0 16px;}
+  .info-box{background:#eef5ff;border-left:4px solid var(--accent);padding:10px 14px;border-radius:4px;margin:8px 0 16px;font-size:13px;color:#333;}
+  @media print{
+    body{background:#fff;}
+    .wrap{padding:20px;}
+    table{font-size:11px;page-break-inside:auto;}
+    tr{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서 (2차)</h1>
+  <p class="subtitle">대상 사이트: 삼성SDS 홈사이트 (www.samsungsds.com)</p>
+  <p class="subtitle">분석 일자: 2026-05-14</p>
+</header>
+
+<section>
+  <div class="summary">
+    <div class="card">
+      <div class="label">분석 대상 URL</div>
+      <div class="value">10 개</div>
+    </div>
+    <div class="card">
+      <div class="label">분석 대상 이미지(콘텐츠 노출)</div>
+      <div class="value">26 개</div>
+    </div>
+    <div class="card">
+      <div class="label">개선 필요 이미지</div>
+      <div class="value">26 개</div>
+    </div>
+    <div class="card">
+      <div class="label">제외 이미지(숨김/장식)</div>
+      <div class="value">다수</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>※ 분석 기준 안내</strong><br>
+    1. 사용자에게 보이지 않는 트래킹 픽셀(Facebook Pixel, LinkedIn Insight Tag, GTM 등 1x1 픽셀의 noscript용 이미지)은 <em>분석에서 제외</em>하였습니다.<br>
+    2. 페이지 하단의 공유(Share) 아이콘 SVG, "관련 솔루션" 영역의 작은 솔루션 썸네일 등 페이지마다 동일한 UI 컴포넌트 패턴은 1차 보고서의 공통 권고를 그대로 적용하며 본 보고서에서는 별도 다루지 않습니다.<br>
+    3. 본문 콘텐츠 이미지(상단 메인 썸네일, 본문 헤더, 아키텍처 다이어그램, 인용 이미지 등)에 중점을 두어 분석하였습니다.<br>
+    4. 일부 페이지(고객사례 1, 7, 10)는 본문이 단축형으로 구성되어 썸네일/메타 이미지 외의 본문 이미지가 거의 없습니다. 해당 페이지는 상단 이미지 위주로 정리합니다.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- URL 1 -->
+<!-- ============================================================ -->
+<h2>1. 브리티 오토메이션으로 업무 자동화에 성공한 하이원 리조트 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/1286668_4762.html</div>
+
+<div class="info-box">
+※ 이 페이지는 단축형 고객사례 페이지로, 본문 콘텐츠가 다른 형식(비디오/PDF 링크 또는 동적 로딩)으로 제공되어 페이지 HTML에서 직접 추출 가능한 본문 콘텐츠 이미지가 확인되지 않았습니다. og:image로 지정된 메타 이미지는 다음과 같습니다.
+</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">SamsungSDS.jpg (og:image, 메타용)</td>
+  <td>—</td>
+  <td>(메타 이미지로 HTML 본문에 직접 표시되지 않음. 페이지 카드 공유 시에만 사용)</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 페이지 본문에 실제 게재된 이미지가 있다면 실 페이지에서 추가 점검이 필요합니다. 동적으로 로딩되는 영상 썸네일/배너 이미지가 있을 경우, 상단 키비주얼은 "하이원 리조트 브리티 오토메이션 업무 자동화 사례 대표 이미지" 형식의 alt를 권장합니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 2 -->
+<!-- ============================================================ -->
+<h2>2. 교육 수강 성과와 임직원 인사 특성과의 연관성 분석 (D 교육 서비스사) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/education-service-01.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">교육_thumb(646364).png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>교육 수강 성과와 임직원 인사 특성 연관성 분석 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">교육_pc(1318480).png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>교육 서비스사 데이터 결합 분석 사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">교육_mo(6001120).png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>교육 서비스사 데이터 결합 분석 사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">Education_Service.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>D사 교육정보와 A사 임직원 인사정보를 결합 전문기관을 통해 결합하는 분석 프로세스 다이어그램 - 가명처리된 교육정보와 인사정보가 Segmentation Recommendation으로 통합되는 구조</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 3 -->
+<!-- ============================================================ -->
+<h2>3. 아모레퍼시픽 SAP 전환 구축 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/amorepacific.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">아모레고객사례_썸네일.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>아모레퍼시픽 SAP 전환 구축 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">아모레고객사례_피쳐드.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>아모레퍼시픽 SAP 전환 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">mo.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>아모레퍼시픽 SAP 전환 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">amore_str_1.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>시스템 구성도: 아모레퍼시픽의 SAP on AWS 아키텍처 구성도. AWS Seoul Region 내 두 개의 Availability Zone에 SAP 애플리케이션 서버와 Oracle DB를 이중화 배치하고, ELB·Transit Gateway·WAF·CloudWatch를 연계한 구조이다. Oracle DB는 Master–Standby로 복제되며, SAP 서버도 이중화되어 장애 발생 시 서비스 연속성을 유지한다.</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 4 -->
+<!-- ============================================================ -->
+<h2>4. 디지털 전환을 위한 든든한 파트너, Brity Works (국도화학) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/brityworks-kukdo.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">01_C_kukdo_646_364.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>국도화학 Brity Works 디지털 전환 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">01_A_kukdo_1318_480.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>국도화학 Brity Works 디지털 전환 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">01_B_kukdo_600_1120.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>국도화학 Brity Works 디지털 전환 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">bw_arch_5.JPG</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>국도화학 Brity Works AWS 클라우드 아키텍처 구성도. 사용자는 CloudFront와 ELB를 통해 접속하며, 내부는 두 개의 Availability Zone에 애플리케이션 서버와 MariaDB를 분산 배치한 구조이다. MariaDB는 Master–Slave 복제로 구성되어 장애 발생 시에도 서비스 연속성을 유지한다.</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 5 -->
+<!-- ============================================================ -->
+<h2>5. 국민의 여정을 위한 업무 자동화 - 한국철도 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/case-study-brityrpa-korail.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">thumb_코레일.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>한국철도공사 브리티 RPA 도입 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">pc_코레일.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>한국철도공사 브리티 RPA 업무 자동화 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">mo_코레일.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>한국철도공사 브리티 RPA 업무 자동화 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">korail_01_img.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>한국철도공사 회사 간판 이미지</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">brityrpa_kospo_title1.jpg</td>
+  <td>Business Challenges</td>
+  <td class="keep">기존 유지 권장 <span class="badge good">적절</span> - 단, 한글 페이지이므로 "비즈니스 과제" 또는 "Business Challenges(비즈니스 과제) 섹션 제목 이미지" 형태로 보강 가능</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">brityrpa_kospo_title2.jpg</td>
+  <td class="empty-alt">(빈 값) — 본문에서 Transformation 텍스트로만 표시됨</td>
+  <td>Transformation(변화) 섹션 제목 이미지</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">brityrpa_kospo_title3.jpg</td>
+  <td>Results</td>
+  <td class="keep">기존 유지 권장 <span class="badge good">적절</span> - 보강 시 "Results(결과) 섹션 제목 이미지"</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 6 -->
+<!-- ============================================================ -->
+<h2>6. 데이터 기반의 글로벌 시장 예측, Brightics AI (글로벌 전자 제조사) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/data-driven-global-market-forecating-brighticsai.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">pc.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>글로벌 전자 제조사 Brightics AI 기반 글로벌 시장 예측 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">kv_img.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>데이터 기반 글로벌 시장 예측 Brightics AI 고객사례 키비주얼 이미지</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">mo.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>글로벌 전자 제조사 Brightics AI 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">BrighticsAI__1.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>시스템 구성도: Brightics AI 기반 글로벌 시장 예측 플랫폼 구성도. AWS Public Cloud 환경 위에 Brightics AI 분석 플랫폼과 머신러닝·딥러닝 예측 모델을 구축하고, 글로벌 시장 데이터를 수집·분석하는 구조이다. Data Scientist가 협업해 모델을 개발·운영하며, 클라우드의 탄력적인 자원 구조를 활용해 예측 정확도와 운영 효율을 높인다.</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 7 -->
+<!-- ============================================================ -->
+<h2>7. 기업 데이터 관리 혁신을 위한 AWS 기반 데이터뱅크 플랫폼 구축 (삼성엔지니어링) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/1253298_4762.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">1253298_thumb.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성엔지니어링 AWS 기반 데이터뱅크 플랫폼 구축 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">1253298_pc.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성엔지니어링 데이터뱅크 플랫폼 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">1253298_mo.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성엔지니어링 데이터뱅크 플랫폼 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지는 본문 내 별도의 아키텍처 다이어그램이나 도식 이미지가 없으며, 텍스트 위주로 구성되어 있습니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 8 -->
+<!-- ============================================================ -->
+<h2>8. [2020 i4L White Paper No.10] 2인 홈 배송 서비스 트렌드 및 사례 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/enterprise-asset/KO_WP_2Man_Home_Delivery_Service_Trends_and_Cases.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">KO_WP_2Man_Home_Delivery_Service_Trends_and_Cases_img.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>2020 i4L White Paper No.10 - 2인 홈 배송 서비스 트렌드 및 사례 백서 표지 이미지</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지는 화이트페이퍼 자료 다운로드 안내 페이지로, 본문 콘텐츠 이미지는 백서 표지 1개만 게재되어 있고 나머지는 동의 양식과 약관 텍스트로 구성되어 있습니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 9 -->
+<!-- ============================================================ -->
+<h2>9. [2020 i4L White Paper No.13] 위험물 물류 운송 전략 및 사례 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/enterprise-asset/Transport_of_Dangerous_Goods_Samsung_SDS_Strategy_Case_ko.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">2020_i4L_White_Paper_No13_Transport_of_Dangerous_Goods_Samsung_SDS_Strategy_Case_ko_img.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>2020 i4L White Paper No.13 - 위험물 물류 운송 전략 및 사례 백서 표지 이미지</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지도 화이트페이퍼 자료 다운로드 안내 페이지로, 본문 콘텐츠 이미지는 백서 표지 1개만 게재되어 있습니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 10 -->
+<!-- ============================================================ -->
+<h2>10. 정보의 다차원 분석을 통한 신속한 이슈 파악 및 관리 효율화 (글로벌 제조사 및 유통사) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/1239928_4762.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">bg_benefit_logistics4_thumb.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>Cello Dynamic Dashboard를 활용한 글로벌 제조사·유통사 정보 다차원 분석 고객사례 대표 썸네일</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지는 단축형 고객사례 페이지로, 페이지 상단의 대표 썸네일 외에 본문 콘텐츠 이미지가 페이지 HTML에 직접 노출되지 않습니다. 본문 콘텐츠가 실제 페이지에서 추가로 노출되는 경우 별도 점검을 권장합니다.</p>
+
+<!-- ============================================================ -->
+<!-- 종합 권고 -->
+<!-- ============================================================ -->
+<h2>종합 권고 사항 (2차 분석)</h2>
+<ol style="font-size:14px;line-height:1.9;">
+  <li><strong>고객사례 페이지의 공통 패턴 - 상단 3종 이미지 alt 누락</strong>: 거의 모든 고객사례 페이지에서 상단의 <code>썸네일.jpg / 피쳐드(PC).jpg / 모바일.jpg</code> 3종 이미지에 alt 속성이 빈 값으로 되어 있습니다. 이는 사이트의 템플릿 수준 이슈로 보이므로 <strong>CMS 또는 페이지 템플릿 차원에서 일괄 개선</strong>이 필요합니다.</li>
+  <li><strong>아키텍처 다이어그램의 정보 손실이 심각</strong>: 아모레퍼시픽(amore_str_1.png), 국도화학(bw_arch_5.JPG), Brightics AI(BrighticsAI__1.png) 등의 클라우드 아키텍처 도식은 본문에서 중요한 시각적 정보를 전달함에도 alt 값이 비어있어, 스크린리더 사용자는 본문 텍스트로 도식을 추가 설명하는 부분에 전적으로 의존해야 합니다. <strong>핵심 컴포넌트와 연결 구조를 요약한 alt 추가</strong>가 필요합니다.</li>
+  <li><strong>이미지가 곧 제목인 사례(코레일 페이지)</strong>: <code>brityrpa_kospo_title1/2/3.jpg</code>는 "Business Challenges", "Transformation", "Results" 등 섹션 제목을 이미지로 표현한 사례입니다. 일부에는 alt가 있으나(<code>"Business Challenges"</code>) 일부는 빈 값이며, 한글 사이트이므로 <strong>한글 의미를 보강한 alt(예: "Transformation(변화) 섹션 제목")</strong>이 더 유용합니다. 가장 좋은 방법은 텍스트로 대체하고 이미지를 장식용으로 처리하는 것입니다.</li>
+  <li><strong>화이트페이퍼 페이지의 표지 이미지</strong>: 백서 표지는 백서의 제목과 시리즈 정보(WP No.10 등)를 담고 있으므로, <strong>"백서 표지" 이상의 의미 있는 정보(제목, 시리즈명, 주제)를 alt에 포함</strong>해야 합니다.</li>
+  <li><strong>단축형 고객사례 페이지(URL 1, 10)</strong>: 본 보고서에서 추출된 이미지가 1개로 적습니다. 실 페이지에서 동적 콘텐츠(영상, 동적으로 로딩되는 이미지 갤러리, PDF 임베드 등)가 있을 수 있으므로 운영자가 페이지 내 실제 노출 콘텐츠를 별도 점검하는 것을 권장합니다.</li>
+  <li><strong>이전(1차) 보고서의 공통 권고 항목은 본 페이지들에도 동일 적용</strong>: 트래킹 픽셀 처리, 공유 아이콘 alt 개선("LinkedIn으로 공유하기" 등), 페이지 하단 "관련 솔루션" 영역의 작은 썸네일 이미지에 대한 alt 개선도 마찬가지로 진행하시면 됩니다.</li>
+</ol>
+
+<footer>
+  본 보고서는 페이지 HTML 소스의 <code>&lt;img&gt;</code> 태그 추출 결과를 기반으로 작성되었습니다. 동적으로 로드되는 이미지나 CSS background-image, 비디오 썸네일 등은 별도 점검이 필요할 수 있습니다.<br>
+  © 웹 접근성 분석 보고서 (2차)
+</footer>
+
+</div>
+</body>
+</html>

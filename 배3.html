@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서 (3차)</title>
+<style>
+  :root{
+    --bg: #f7f7f5;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #1351b4;
+    --accent-soft: #e8efff;
+    --border: #d9d9d9;
+    --warn: #b8860b;
+    --good: #2e7d32;
+    --row-alt: #fafafa;
+    --code-bg: #f0f0ee;
+    --err: #c0392b;
+    --err-soft: #ffe8e0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;}
+  .wrap{max-width:1320px;margin:0 auto;padding:48px 32px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:24px;margin-bottom:32px;}
+  h1{font-size:28px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;}
+  .subtitle{color:var(--muted);font-size:14px;margin:4px 0;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:28px 0 36px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+  .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .card .value{font-size:28px;font-weight:700;margin-top:6px;color:var(--accent);}
+  .note{background:#fffbe6;border-left:4px solid var(--warn);padding:14px 18px;border-radius:4px;margin:24px 0;font-size:14px;}
+  .note strong{color:var(--warn);}
+  h2{font-size:20px;font-weight:700;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .url-title{font-size:14px;color:var(--accent);word-break:break-all;font-family:'Menlo','Consolas',monospace;background:var(--accent-soft);padding:6px 10px;border-radius:4px;display:inline-block;margin-bottom:12px;}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);font-size:13px;margin-bottom:24px;table-layout:fixed;}
+  thead th{background:var(--ink);color:#fff;text-align:left;padding:12px 10px;font-weight:600;font-size:12px;letter-spacing:0.3px;}
+  tbody td{border-top:1px solid var(--border);padding:12px 10px;vertical-align:top;word-break:break-word;}
+  tbody tr:nth-child(even){background:var(--row-alt);}
+  col.col-no{width:42px;}
+  col.col-file{width:24%;}
+  col.col-current{width:34%;}
+  col.col-improved{width:42%;}
+  .filename{font-family:'Menlo','Consolas',monospace;font-size:12px;color:#444;}
+  .empty-alt{color:var(--err);font-style:italic;}
+  .keep{color:var(--good);font-weight:600;}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle;}
+  .badge.warn{background:#ffe8e0;color:var(--err);}
+  .badge.good{background:#e8f6e8;color:var(--good);}
+  .badge.en{background:#e3f2fd;color:#1565c0;}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);}
+  .legend{font-size:12px;color:var(--muted);margin:8px 0 16px;}
+  .info-box{background:#eef5ff;border-left:4px solid var(--accent);padding:10px 14px;border-radius:4px;margin:8px 0 16px;font-size:13px;color:#333;}
+  .err-box{background:var(--err-soft);border-left:4px solid var(--err);padding:10px 14px;border-radius:4px;margin:8px 0 16px;font-size:13px;color:#333;}
+  @media print{
+    body{background:#fff;}
+    .wrap{padding:20px;}
+    table{font-size:11px;page-break-inside:auto;}
+    tr{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서 (3차)</h1>
+  <p class="subtitle">대상 사이트: 삼성SDS 홈사이트 (www.samsungsds.com)</p>
+  <p class="subtitle">분석 일자: 2026-05-14</p>
+</header>
+
+<section>
+  <div class="summary">
+    <div class="card">
+      <div class="label">분석 대상 URL</div>
+      <div class="value">10 개</div>
+    </div>
+    <div class="card">
+      <div class="label">유효 페이지 / 페이지 없음</div>
+      <div class="value">8 / 2</div>
+    </div>
+    <div class="card">
+      <div class="label">분석 대상 이미지</div>
+      <div class="value">36 개</div>
+    </div>
+    <div class="card">
+      <div class="label">개선 필요 이미지</div>
+      <div class="value">29 개</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>※ 분석 기준 안내</strong><br>
+    1. 사용자에게 보이지 않는 트래킹 픽셀(Facebook Pixel, LinkedIn Insight Tag, GTM 등)은 분석에서 제외하였습니다.<br>
+    2. 공유 아이콘, "관련 솔루션" 영역의 작은 솔루션 썸네일 등은 1~2차 보고서의 공통 권고를 그대로 적용합니다.<br>
+    3. 한글 페이지(8개)는 한글 alt로, 영문 페이지(1개 유효)는 영어 alt로 작성하였습니다.<br>
+    4. <span class="empty-alt">붉은색</span>은 alt 누락, <span class="keep">초록색</span>은 기존 alt가 적절한 경우입니다.<br>
+    5. 본 보고서에서 URL 1번(blockchain-loan-platform)과 URL 10번(security-of-llm-and-agentic-ai-systems.htm)은 페이지가 존재하지 않습니다(404 오류).
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- URL 1 -->
+<!-- ============================================================ -->
+<h2>1. blockchain-loan-platform <span class="badge warn">페이지 없음 (404)</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/blockchain-loan-platform.html</div>
+
+<div class="err-box">
+<strong>※ 페이지 접근 결과:</strong> 이 URL은 현재 존재하지 않으며, 사이트의 "Page not found" 오류 페이지로 리다이렉트됩니다. 분석할 본문 이미지가 없습니다. URL이 정확한지 다시 확인하시거나, 페이지가 이전되었는지 확인이 필요합니다.
+</div>
+
+<!-- ============================================================ -->
+<!-- URL 2 -->
+<!-- ============================================================ -->
+<h2>2. 물류 업무 자동화의 새로운 해법, Brity RPA (White Paper) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/enterprise-asset/Logistics-BrityWorks-wp-ko.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">2019_cello_no2_ko.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>물류 업무 자동화의 새로운 해법, Brity RPA - Cello White Paper 표지 이미지</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지는 화이트페이퍼 다운로드 안내 페이지로, 백서 표지 이미지 1개 외에는 본문 콘텐츠 이미지가 없습니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 3 -->
+<!-- ============================================================ -->
+<h2>3. A건설 Digital 건설안전 관리 플랫폼 구축 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/construction-safety-management.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">1232260_thumb.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>A건설 Digital 건설안전 관리 플랫폼 구축 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">bg_benefit_epc2.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>A건설 Digital 건설안전 관리 플랫폼 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">bg_benefit_epc2_mo.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>A건설 Digital 건설안전 관리 플랫폼 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 본 페이지는 본문 내 별도의 아키텍처 다이어그램이나 도식 이미지가 없으며, 텍스트 위주로 구성되어 있습니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 4 -->
+<!-- ============================================================ -->
+<h2>4. 글로벌 하이테크 기업, 업무 자동화로 연 24만 시간 절감 (하이테크 A사) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/brity-rpa-electric-industry.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">dt_customer007.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>글로벌 하이테크 A사 Brity RPA 도입 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">casestudy_automation_collabo2.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>하이테크 A사 업무 자동화 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">casestudy_automation_collabo2_mo.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>하이테크 A사 업무 자동화 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">brityrpa_hightech.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>하이테크 A사 Brity RPA 도입 단계별 진행 타임라인 - 2017년 4분기 RPA 적용, 2018년 3분기 영업부문 시범 적용, 2018년 4분기 Brity RPA 표준 솔루션 선정, 2019년 4분기 전사 확산(3개 사업장·6개 법인 자동화), 현재 지능화/고도화 단계</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">brityrpa_benefit.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>Brity RPA 적용 효과 비교 인포그래픽 - 사람에 의한 단순/반복 업무 대비 Bot에 의한 신속·정확한 업무처리, 단순작업 감소·고부가가치 업무 집중·HR 효율화, 자동화를 통한 오류 감소·품질 개선, 24/7 중단 없는 업무 수행으로 생산성 향상</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">brityrpa_benefit2.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>하이테크 A사 Brity RPA 적용 효과 Benefit 표: 가로축은 자동화 적용 업무 유형, 세로축은 업무 건수와 절감 효과를 나타낸 표. 현황 공유·보고 83건, 분석·모니터링 82건, 단순 업무 처리 46건, 고객 대응 18건 등 총 230여 개 업무에 RPA를 적용했으며, 2020년 1월 기준 약 24만 시간의 업무 절감 효과를 달성했다. 반복 업무 자동화를 통해 생산성과 업무 정확도를 높인 점을 강조한다.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">brityrpa_advice.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>RPA 성공 구축의 열쇠 - 하이테크 A사가 제시한 5가지 제언(프로세스 전체 고려, 개선 관점 접근, 지속적 운영·관리 방안 수립, 예외 사항 고려, AI 연계 대비)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 5 -->
+<!-- ============================================================ -->
+<h2>5. 제조 시스템(MES)의 글로벌 확산 및 운영을 위한 클라우드 플랫폼(PaaS) 적용 <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/case-study/cloud-mes-paas.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">casestudy_thumb_mes_paas_.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>글로벌 제조사 Cloud Native Platform 적용 고객사례 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">casestudy_mes_paas.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>제조 시스템(MES) 글로벌 확산을 위한 클라우드 플랫폼 적용 고객사례 본문 헤더 이미지(PC용)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">casestudy_mes_paas_mo.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>제조 시스템(MES) 글로벌 확산을 위한 클라우드 플랫폼 적용 고객사례 본문 헤더 이미지(모바일용)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">SDS_Cloud_Manufacturing_System_PaaS.JPG</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>제조 시스템(MES)의 글로벌 확산 및 운영을 위한 클라우드 플랫폼(PaaS) 적용 - 글로벌 제조 환경의 Challenge 영역 다이어그램(단일 시스템 구조, 사업 확대에 따른 규모/복잡도 증가, 산발적 IT 투자, 제조 안정성 저하 등)</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">SDS_Cloud_Manufacturing_System_PaaS2.JPG</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>제조 시스템(MES)의 클라우드 플랫폼(PaaS) 솔루션 아키텍처 다이어그램. 기존 단일 구조의 MES를 클라우드 기반 MSA(Micro Service Architecture)로 전환한 구조도. 컨테이너 기반 PaaS 환경 위에 개발·배포·운영 체계를 표준화하고, CI/CD 자동화와 DevOps 환경을 적용하였다. 또한 머신러닝 분석 환경과 자동 배포 파이프라인을 연계해 글로벌 생산 거점의 MES를 통합 운영할 수 있도록 구성한 아키텍처이다</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">SDS_Cloud_Manufacturing_System_PaaS3.JPG</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>Benefit 이미지: 가로 방향으로 ‘개발 생산성 향상’, ‘운영 효율화’, ‘품질 개선’ 등 주요 효과를 배치한 요약 이미지. MSA·PaaS 기반 전환 이후 개발 환경 구축 시간은 8일에서 1일로 단축되고, 결함 원인 분석 시간은 1일에서 5분으로 감소했다. 또한 CI/CD 자동화와 표준화된 운영 환경을 통해 글로벌 MES 운영 효율성과 서비스 안정성을 높인 효과를 강조한다.</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 6 -->
+<!-- ============================================================ -->
+<h2>6. 삼성SDS의 '온실가스 감축 이야기' (ESG 임팩트 뉴스) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/sustainability-news/reducing-greenhouse-gas-emissions.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">esg_impactnews_GreenhouseGas_kr.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성SDS의 온실가스 감축 이야기 ESG 임팩트 뉴스 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">esgnews_250414_01.jpg</td>
+  <td>수원DC UPS 이미지</td>
+  <td>삼성SDS 수원 데이터센터에 설치된 고효율 UPS(무정전 전원공급 장치) 모습 - 2023년 노후 UPS를 고효율 장비로 교체하여 약 10% 에너지 절감 효과 달성</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">esgnews_250414_02.jpg</td>
+  <td>액침냉각 시범구축 이미지</td>
+  <td>삼성SDS 동탄 데이터센터에 시범 적용 중인 액침냉각 시스템 모습 - 고발열 IT장비의 냉각 효율을 극대화하여 냉방 에너지 절감</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">esgnews_250414_03.jpg</td>
+  <td>(좌)수원DC 전기차충전소, (우)동탄 데이터센터 태양광 발전설비</td>
+  <td class="keep">기존 유지 권장 <span class="badge good">적절</span> - 좌측 수원 DC 전기차 충전소와 우측 동탄 데이터센터 태양광 발전 설비 사진</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">ico_post_heart.png</td>
+  <td>like</td>
+  <td>"좋아요" 아이콘 (장식용이라면 alt="" 처리 권장) — 보강 시 "좋아요"</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 이 페이지는 다른 페이지들에 비해 alt 작성 수준이 개선되어 있습니다(파일 2/3의 alt는 의미를 담고 있음). 특히 파일 4번은 좌우 이미지 설명이 모두 포함되어 모범적입니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 7 -->
+<!-- ============================================================ -->
+<h2>7. '가장 신뢰할 수 있는 기업' 1위 선정 (ESG 임팩트 뉴스) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/sustainability-news/world-trustworthy-comapnies.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">esgnews_thumb_0903_1.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성SDS '가장 신뢰할 수 있는 기업' 1위 선정 ESG 임팩트 뉴스 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">esgnews_img_0903.jpg</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>미국 시사저널 뉴스위크(Newsweek) 선정 '2023년 가장 신뢰할 수 있는 기업' 복합기업 부문 1위 시상이라는 메시지가 있는 이미지</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">ico_post_heart.png</td>
+  <td>like</td>
+  <td>"좋아요" 아이콘 (장식용이라면 alt="" 처리 권장)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 8 -->
+<!-- ============================================================ -->
+<h2>8. 삼성SDS, 2023 환경정보공개 선공개 시범사업 참여 (ESG 스토리) <span class="badge">한글 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/kr/sustainability-insight/env-info.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>이미지 파일명</th><th>현재 Alt 값</th><th>개선된 Alt 값</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">1283845-thum.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>삼성SDS 2023 환경정보공개 선공개 시범사업 참여 ESG 스토리 대표 썸네일</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">1283845-01.png</td>
+  <td class="empty-alt">(빈 값)</td>
+  <td>환경부와 한국환경산업기술원이 운영하는 환경정보공개시스템(env-info.kr) 메인 화면 캡쳐</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">ico_post_heart.png</td>
+  <td>like</td>
+  <td>"좋아요" 아이콘 (장식용이라면 alt="" 처리 권장)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 9 -->
+<!-- ============================================================ -->
+<h2>9. Why Does RAG Sometimes Give Irrelevant Answers? (QAFD-RAG, English page) <span class="badge en">영문 페이지</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/research-blog/qafd-rag-query-aware-flow-diffusion-graph-rag.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">qafd-rag-thumb.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>QAFD-RAG technical blog cover image - Query-Aware Flow Diffusion for Graph-Based RAG</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">260406_1_01.png</td>
+  <td>A visualization comparing how three different graph-based RAG methods (GraphRAG, LightRAG, and QAFD-RAG) extract data in response to the query: 'Introduce Steve Jobs' products at Appl'</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span> — 오타 수정 필요: "...products at Apple"</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">260406_1_02.png</td>
+  <td>A flowchart illustrating the operational process of the QAFD-RAG system, consisting of two main phases: the 'Indexing Stage,' where documents are transformed into a Knowledge Graph (KG), and the 'Query Stage,' where answers are generated based on user queries.</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 10 -->
+<!-- ============================================================ -->
+<h2>10. security-of-llm-and-agentic-ai-systems.htm <span class="badge warn">페이지 없음 (404)</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/research-blog/security-of-llm-and-agentic-ai-systems.htm</div>
+
+<div class="err-box">
+<strong>※ Page access result:</strong> This URL does not exist and redirects to the site's "Page not found" error page. The provided URL ends with <code>.htm</code> (missing the trailing <code>"l"</code>); please verify the URL. The correct URL may end with <code>.html</code>, but the corresponding page was not found either. We recommend double-checking the URL with the page owner.<br><br>
+<strong>※ 페이지 접근 결과:</strong> 이 URL은 존재하지 않으며 사이트의 "Page not found" 오류 페이지로 리다이렉트됩니다. 제공된 URL이 <code>.htm</code>으로 끝나는데(<code>"l"</code> 누락) 정확한 URL인지 확인이 필요합니다. <code>.html</code>로 시도해 봐도 페이지를 찾을 수 없습니다.
+</div>
+
+<!-- ============================================================ -->
+<!-- 종합 권고 -->
+<!-- ============================================================ -->
+<h2>종합 권고 사항 (3차 분석)</h2>
+<ol style="font-size:14px;line-height:1.9;">
+  <li><strong>2개 URL이 404 페이지로 리다이렉트됨</strong>: URL 1번(blockchain-loan-platform.html)과 URL 10번(security-of-llm-and-agentic-ai-systems.htm)은 페이지가 존재하지 않습니다. 페이지가 이전·삭제되었거나 URL 오타일 가능성이 있으니, 원본 URL의 정확성 재확인이 필요합니다.</li>
+  <li><strong>고객사례 페이지의 공통 템플릿 이슈 재확인</strong>: A건설, 하이테크 A사, 글로벌 제조사(MES) 등 고객사례 페이지에서 상단 3종 이미지(썸네일/PC 헤더/모바일 헤더)의 alt가 또다시 모두 빈 값입니다. <strong>CMS 또는 페이지 템플릿 차원에서 일괄 개선</strong>이 시급합니다.</li>
+  <li><strong>ESG/지속가능경영 페이지의 alt 작성 수준이 비교적 양호</strong>: '온실가스 감축 이야기' 페이지(URL 6)는 본문 사진에 한글 캡션을 alt로 활용한 사례가 있어 다른 페이지보다 좋은 수준입니다. 다만 좌/우 사진을 하나의 이미지로 합쳐 사용하는 패턴은 스크린리더 사용자에게 위치 정보(좌/우)를 함께 전달하는 것이 좋으며, 가능하다면 <strong>두 개의 별도 이미지로 분리</strong>하여 각각의 alt를 부여하는 것이 더 권장됩니다.</li>
+  <li><strong>인포그래픽/타임라인 이미지의 정보 손실 심각 (URL 4)</strong>: 하이테크 A사 페이지의 <code>brityrpa_hightech.png</code>(타임라인), <code>brityrpa_benefit.png</code>(효과 비교), <code>brityrpa_benefit2.png</code>(연 24만 시간 절감), <code>brityrpa_advice.png</code>(RPA 성공 비결)은 본문에서 핵심 메시지를 시각적으로 전달하지만 alt가 모두 비어 있어, 스크린리더 사용자는 본문 텍스트 외에는 이 핵심 인포그래픽 정보에 접근할 수 없습니다.</li>
+  <li><strong>"좋아요" 하트 아이콘(<code>ico_post_heart.png</code>)의 alt</strong>: ESG 페이지들에 공통으로 사용되는 이 아이콘은 alt="like"로 되어 있으나, 한글 페이지에는 한글 "좋아요"로 변경하거나, 옆에 숫자 카운트가 텍스트로 표시되는 경우 <strong>장식용으로 처리(<code>alt=""</code> + <code>aria-hidden="true"</code>)</strong>하는 것이 더 적절합니다.</li>
+  <li><strong>영문 페이지 - 모범 사례(URL 9)</strong>: 영문 QAFD-RAG 페이지의 본문 도식 alt는 매우 잘 작성되어 있어 모범 사례입니다. 다만 도식 1번 alt 끝부분의 <code>"Appl"</code>은 <code>"Apple"</code>로 따옴표를 닫지 못한 오타이므로 수정이 필요합니다. 상단 썸네일 alt만 추가하면 영문 페이지로서 완성도가 매우 높아집니다.</li>
+  <li><strong>1차/2차 보고서의 공통 권고는 본 페이지들에도 동일 적용</strong>: 트래킹 픽셀 처리, 공유 아이콘 alt 개선, 페이지 하단 "관련 솔루션" 영역의 작은 썸네일 alt 개선, 다국어 사이트에서 언어별 일관성 유지 등도 동일하게 적용해 주시기 바랍니다.</li>
+</ol>
+
+<footer>
+  본 보고서는 페이지 HTML 소스의 <code>&lt;img&gt;</code> 태그 추출 결과를 기반으로 작성되었습니다. 동적으로 로드되는 이미지나 CSS background-image 등은 별도 점검이 필요할 수 있습니다.<br>
+  © 웹 접근성 분석 보고서 (3차)
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Web Accessibility - Image Alt Text Improvement Report (4th)</title>
+<style>
+  :root{
+    --bg: #f7f7f5;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #1351b4;
+    --accent-soft: #e8efff;
+    --border: #d9d9d9;
+    --warn: #b8860b;
+    --good: #2e7d32;
+    --row-alt: #fafafa;
+    --code-bg: #f0f0ee;
+    --err: #c0392b;
+    --err-soft: #ffe8e0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;}
+  .wrap{max-width:1320px;margin:0 auto;padding:48px 32px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:24px;margin-bottom:32px;}
+  h1{font-size:28px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;}
+  .subtitle{color:var(--muted);font-size:14px;margin:4px 0;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:28px 0 36px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+  .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .card .value{font-size:28px;font-weight:700;margin-top:6px;color:var(--accent);}
+  .note{background:#fffbe6;border-left:4px solid var(--warn);padding:14px 18px;border-radius:4px;margin:24px 0;font-size:14px;}
+  .note strong{color:var(--warn);}
+  h2{font-size:20px;font-weight:700;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  .url-title{font-size:14px;color:var(--accent);word-break:break-all;font-family:'Menlo','Consolas',monospace;background:var(--accent-soft);padding:6px 10px;border-radius:4px;display:inline-block;margin-bottom:12px;}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);font-size:13px;margin-bottom:24px;table-layout:fixed;}
+  thead th{background:var(--ink);color:#fff;text-align:left;padding:12px 10px;font-weight:600;font-size:12px;letter-spacing:0.3px;}
+  tbody td{border-top:1px solid var(--border);padding:12px 10px;vertical-align:top;word-break:break-word;}
+  tbody tr:nth-child(even){background:var(--row-alt);}
+  col.col-no{width:42px;}
+  col.col-file{width:24%;}
+  col.col-current{width:34%;}
+  col.col-improved{width:42%;}
+  .filename{font-family:'Menlo','Consolas',monospace;font-size:12px;color:#444;}
+  .empty-alt{color:var(--err);font-style:italic;}
+  .keep{color:var(--good);font-weight:600;}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent);margin-left:6px;vertical-align:middle;}
+  .badge.warn{background:#ffe8e0;color:var(--err);}
+  .badge.good{background:#e8f6e8;color:var(--good);}
+  .badge.en{background:#e3f2fd;color:#1565c0;}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);}
+  .legend{font-size:12px;color:var(--muted);margin:8px 0 16px;}
+  .info-box{background:#eef5ff;border-left:4px solid var(--accent);padding:10px 14px;border-radius:4px;margin:8px 0 16px;font-size:13px;color:#333;}
+  @media print{
+    body{background:#fff;}
+    .wrap{padding:20px;}
+    table{font-size:11px;page-break-inside:auto;}
+    tr{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>웹 접근성 - 이미지 대체텍스트(Alt) 개선 결과 보고서 (4차)</h1>
+  <p class="subtitle">Target Site: Samsung SDS Global (www.samsungsds.com/en/)</p>
+  <p class="subtitle">분석 일자: 2026-05-14</p>
+</header>
+
+<section>
+  <div class="summary">
+    <div class="card">
+      <div class="label">분석 대상 URL</div>
+      <div class="value">10 개</div>
+    </div>
+    <div class="card">
+      <div class="label">영문 페이지</div>
+      <div class="value">10 개</div>
+    </div>
+    <div class="card">
+      <div class="label">분석 대상 이미지</div>
+      <div class="value">46 개</div>
+    </div>
+    <div class="card">
+      <div class="label">개선 필요 이미지</div>
+      <div class="value">37 개</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>※ 분석 기준 안내</strong><br>
+    1. 사용자에게 보이지 않는 트래킹 픽셀(Facebook Pixel, LinkedIn Insight Tag, GTM 등)은 분석에서 제외하였습니다.<br>
+    2. 공유 아이콘, "OUR OFFERINGS" 영역의 작은 솔루션 썸네일 등은 이전 보고서의 공통 권고를 그대로 적용합니다.<br>
+    3. 모두 영문 페이지이므로 alt 값은 영어로 작성하였습니다.<br>
+    4. <span class="empty-alt">붉은색</span>은 alt 누락, <span class="keep">초록색</span>은 기존 alt가 적절한 경우입니다.<br>
+    5. URL 9번(GS Caltex GDC Digital Transformation)은 페이지 내 alt 작성 수준이 상대적으로 양호한 모범 사례 페이지입니다.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- URL 1 -->
+<!-- ============================================================ -->
+<h2>1. AI's New Frontiers – Attention, Emergence, and Agentic AI <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/research-blog/agentic-ai-emergence-attention.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">agentic-ai_thumb_418x365.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Review of the keynote speech at the Korea Information Processing Society's 2025 IT21 Global Conference - cover thumbnail</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">250721_2_01.jpg</td>
+  <td>250721_2_01_images</td>
+  <td>[Photo 1]: Young-june Gwon, head of Samsung SDS Research, delivering the keynote speech at the IT21 Global Conference. He stands on stage in front of a large presentation screen introducing the topic “From Attention to Language Models: Toward Agentic AI.”</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">250721_2_02.jpg</td>
+  <td>250721_2_02_images</td>
+  <td>[Photo 2] Young-june Gwon explaining the concept of Emergence during the keynote speech</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">250721_2_03.jpg</td>
+  <td>250721_2_03_images</td>
+  <td>[Photo 3] Audience attending the keynote session. Participants are seated in a conference hall and listening attentively to the presentation on AI and Agentic AI technologies.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">250721_2_04.jpg</td>
+  <td>250721_2_04_images</td>
+  <td>[Photo 4] Interactive presentation scene where the speaker asks questions to the audience during the discussion on collaborative agents and the future of Agentic AI</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">250721_2_05.png</td>
+  <td>250721_2_05_images</td>
+  <td>Joon-ho Lee (AI Research Team) presenting "Improving LLM Response Quality through Learning Data Self-Curation"</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">250721_2_06.png</td>
+  <td>250721_2_06_images</td>
+  <td>Hyo-jung Lee (Cloud Research Team) presenting "PAISE: A PIM-Based LLM Inference Acceleration Scheduling Engine"</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td class="filename">250721_2_07.png</td>
+  <td>250721_2_07_images</td>
+  <td>Seok-hyeon Moon (Security Research Team) presenting "Research and Industrial Application of AI-Based Test Auto-Generation Technology"</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td class="filename">250721_2_08.png</td>
+  <td>250721_2_08_images</td>
+  <td>Kyoo-hyung Han (Security Research Team) presenting "Privacy-Enhancing Technologies and Use Cases"</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ 한글 사이트의 동일 페이지(1차 보고서 URL 3번)와 동일한 alt 누락/오류 패턴이 영문 사이트에도 존재합니다. 파일명이 그대로 alt에 들어간 사례로, 의미가 없는 식별자입니다.</p>
+
+<!-- ============================================================ -->
+<!-- URL 2 -->
+<!-- ============================================================ -->
+<h2>2. The Brain of AI, Moving Faster – PAISE <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/research-blog/pim-inference-acceleration.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">card_list_img_cloud.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>The Brain of AI, Moving Faster - Samsung SDS PAISE (PIM-Accelerated Inference Scheduling Engine) cloud research blog cover thumbnail</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">250617_3_01.jpg</td>
+  <td>250617_3_01 images</td>
+  <td>[Figure 1] PAISE Architecture diagram showing the three main components: Scheduling Algorithm, PIM-DLA (Data Layout Adjustment), and IB-GEMM(V)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">250617_3_02.jpg</td>
+  <td>250617_3_02 images</td>
+  <td>[Figure 2] Diagram of the PIM-DLA technique, comparing a conventional data layout with the PIM-DLA optimized layout that partitions and aligns data across memory banks for parallel in-memory computation</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">250617_3_03.jpg</td>
+  <td>250617_3_03 images</td>
+  <td>[Figure 3] Diagram of the IB-GEMV technique, contrasting sequential small matrix-vector multiplications with interleaved batched processing that groups operations to enable parallel execution and maximize memory bandwidth</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">250617_3_04.jpg</td>
+  <td>250617_3_04 images</td>
+  <td>[Figure 4] Bar chart comparing stage-wise LLM inference time between GPU-only and GPU-PIM (PAISE) on GPT-2, OPT, and Llama2. PAISE reduces execution time at every stage, with the largest gains from shorter KV cache updates, and the benefit grows with larger batch sizes</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">250617_3_05.jpg</td>
+  <td>250617_3_05 images</td>
+  <td>[Figure 5] Graph showing that applying PAISE lowers both average GPU power draw and execution time compared to the GPU-only baseline, resulting in about 11.5% less overall energy use alongside up to 48.3% faster inference</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ Important note: The blog body text mentions both "PRAISE" and "PAISE" inconsistently. The correct name appears to be "PAISE" (per the formal citation). This is a content issue rather than an accessibility issue.</p>
+
+<!-- ============================================================ -->
+<!-- URL 3 -->
+<!-- ============================================================ -->
+<h2>3. Balancing Cost and Quality: GS Caltex's GDC Transformation Journey <span class="badge en">English page</span> <span class="badge good">Best practice</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/case-study/gs-caltex-gdc-digital-transformation-success.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">Interview_thumb_en.png</td>
+  <td>Interview GS Caltex's New Standards for Global IT Operations Samsung SDS GDC Executive Vice President Eun-Joo Lee,the DX Center</td>
+  <td>Interview thumbnail featuring Eun-Joo Lee, Executive Vice President of GS Caltex DX Center, on Samsung SDS GDC and new standards for global IT operations</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">250904_interview_02.webp</td>
+  <td>Photo - GS Caltex Yeosu Petrochemical Complex lighting up the night sky of Yeosu</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">250904_interview_03.webp</td>
+  <td>A Screen capture of GS Caltex DAX website</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="filename">250904_interview_04.jpg</td>
+  <td>photo of working Eunjoo Lee</td>
+  <td>Photo of EVP Eunjoo Lee, Head of GS Caltex DX Center, working on a computer</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td class="filename">250904_interview_05.jpg</td>
+  <td>photo- Samsung SDS Vietnam GDC site overview</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+<tr>
+  <td>6</td>
+  <td class="filename">250904_interview_06.jpg</td>
+  <td>image - Samsung SDS GDC Consulting and Transformation RoadMap, written in Korean</td>
+  <td>Samsung SDS GDC consulting and transformation roadmap diagram (in Korean), outlining phased steps from assessment and pilot to full-scale GDC migration</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td class="filename">250904_interview_07.jpg</td>
+  <td>image - GS Caltex's Samsung SDS GDC Utilization Case , written in Korean</td>
+  <td>Diagram (in Korean) illustrating GS Caltex's utilization of Samsung SDS GDC, showing the scope of operations and business systems that have been transitioned to the GDC</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td class="filename">250904_interview_08.jpg</td>
+  <td>a screen capture - Collaboration with GDC through Samsung SDS Brity Works (brity messenger and brity meeting)</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+<tr>
+  <td>9</td>
+  <td class="filename">250904_interview_09.jpg</td>
+  <td>photo - EVP Lee Eunjoo conducting remote meetings with Samsung SDS GDC personnel</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+<tr>
+  <td>10</td>
+  <td class="filename">250904_interview_10.jpg</td>
+  <td>image - Samsung SDS GDC Development and Operation QA system, written in Korean</td>
+  <td class="keep">Keep existing <span class="badge good">Acceptable</span></td>
+</tr>
+<tr>
+  <td>11</td>
+  <td class="filename">250904_interview_11.jpg</td>
+  <td>image - Samsung SDS GDC ZERO TRUST Security System , written in korean</td>
+  <td>Image - Samsung SDS GDC Zero Trust Security System diagram, written in Korean (보강안: 'korean' → 'Korean' 대문자 표기, "Zero Trust" 표기 통일)</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td class="filename">250904_interview_12.jpg</td>
+  <td>image - Samsung SDS GDC Collaboration Tool ProjectView, written in korean</td>
+  <td>Image - Samsung SDS GDC collaboration tool ProjectView screen capture, written in Korean (보강안: 'korean' → 'Korean')</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td class="filename">250904_interview_13.jpg</td>
+  <td>Eunjoo Lee's photo</td>
+  <td>A photo of EVP Eunjoo Lee, Head of GS Caltex DX Center</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td class="filename">customer_detail_new_sample_writer_img.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Profile photo of Bobae Seo, Samsung SDS B2B marketer (the article author)</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ This page demonstrates a relatively high level of alt text quality. Most images have meaningful alt text. The "written in Korean" annotation is particularly helpful as it informs screen-reader users that the in-image text is not in English.</p>
+
+<!-- ============================================================ -->
+<!-- URL 4 -->
+<!-- ============================================================ -->
+<h2>4. Global Manufacturer Revolutionizing Digital Experience through Cloud Migration <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/case-study/aem-migration.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">글로벌제조_Thumb_1.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Global Manufacturer AEM Cloud Migration to AWS - case study cover thumbnail</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">글로벌제조_PC_1.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Global Manufacturer cloud migration case study - body header image (PC version)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">글로벌제조_MO_1.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Global Manufacturer cloud migration case study - body header image (mobile version)</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ Note: Filenames use Korean characters (글로벌제조 = "Global Manufacturing"). For an English page, it's recommended to use English filenames. Also, no body diagrams or screenshots are included in this case study page - it's text-only after the headers.</p>
+
+<!-- ============================================================ -->
+<!-- URL 5 -->
+<!-- ============================================================ -->
+<h2>5. Next-generation e-Government: Open Cloud Platform <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/case-study/1258687_5121.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">benefit_thumb.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Next-generation e-Government - open cloud platform implementation case study cover thumbnail</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ This is a short-form case study page with only one content image (the thumbnail). Note that this page is set to <code>noindex, nofollow</code> in its meta-robots tag, suggesting it may be a less-promoted or legacy page.</p>
+
+<!-- ============================================================ -->
+<!-- URL 6 -->
+<!-- ============================================================ -->
+<h2>6. [2019 i4L White Paper No.5] How Convenience Retail Logistics Works <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/enterprise-asset/EN_WP_How_Convenience_Retail_Logistics_Works.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">EN_WP_How_Convenience_Retail_Logistics_Works_img.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>2019 i4L White Paper No.5 - How Convenience Retail Logistics Works (Case and Strategy) - white paper cover image</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ White paper download landing page with only one content image (the cover).</p>
+
+<!-- ============================================================ -->
+<!-- URL 7 -->
+<!-- ============================================================ -->
+<h2>7. Pharmaceuticals - Implement SCM System Reflecting the Characteristics of Pharmaceuticals <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/case-study/1245996_5121.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">thumb_case-study_SCM2.jpg</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Pharmaceuticals SCM (Supply Chain Management) System implementation case study cover thumbnail</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ This is a short-form case study page with only a cover thumbnail image. The body content appears to be displayed via dynamic loading or limited HTML rendering, so no additional body images were found.</p>
+
+<!-- ============================================================ -->
+<!-- URL 8 -->
+<!-- ============================================================ -->
+<h2>8. [2019 i4L White Paper No.12] Order Center Leads Innovation in Logistics Operation <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/enterprise-asset/EN_WP_Order_Center_in_Logistics_Operation.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">EN_WP_Order_Center_in_Logistics_Operation_img.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>2019 i4L White Paper No.12 - Order Center Leads Innovation in Logistics Operation - white paper cover image</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- URL 9 -->
+<!-- ============================================================ -->
+<h2>9. [2020 i4L White Paper No.13] Transport of Dangerous Goods Samsung SDS Strategy&Case <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/enterprise-asset/Transport_of_Dangerous_Goods_Samsung_SDS_Strategy_Case_en.html</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">2020_i4L_White_Paper_No13_Transport_of_Dangerous_Goods_Samsung_SDS_Strategy_Case_en_img.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>2020 i4L White Paper No.13 - Transport of Dangerous Goods, Samsung SDS Strategy & Case - white paper cover image</td>
+</tr>
+</tbody>
+</table>
+<p class="legend">※ This is the English version of the same white paper covered in the 2nd report (URL 9). The same recommendation applies.</p>
+
+<!-- ============================================================ -->
+<!-- URL 10 -->
+<!-- ============================================================ -->
+<h2>10. Meluha Technologies transforms tablets into personal e-learning devices <span class="badge en">English page</span></h2>
+<div class="url-title">https://www.samsungsds.com/en/case-study/1240163_5121.html</div>
+
+<div class="info-box">
+※ Note: The page title in HTML metadata is shown as <code>"멜루하테크놀로지스"</code> (Korean transliteration of "Meluha Technologies") even though it is an English-language page. This is a content/metadata issue.
+</div>
+
+<table>
+<colgroup>
+  <col class="col-no"><col class="col-file"><col class="col-current"><col class="col-improved">
+</colgroup>
+<thead>
+<tr><th>No.</th><th>Image filename</th><th>Current Alt</th><th>Improved Alt</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td class="filename">1222674_thumb.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Meluha Technologies case study cover thumbnail - Samsung SDS EMM-secured Edu-Tablets for students</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td class="filename">bg_testimonial_emm1.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Meluha Technologies case study testimonial header image (PC version)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td class="filename">bg_testimonial_emm1_mo.png</td>
+  <td class="empty-alt">(empty)</td>
+  <td>Meluha Technologies case study testimonial header image (mobile version)</td>
+</tr>
+</tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- 종합 권고 -->
+<!-- ============================================================ -->
+<h2>종합 권고 사항 (4차 분석)</h2>
+<ol style="font-size:14px;line-height:1.9;">
+  <li><strong>URL 9번(GS Caltex GDC)이 영문 사이트의 모범 사례</strong>: 대부분의 본문 이미지에 의미 있는 alt가 작성되어 있으며, 특히 한국어가 포함된 이미지에는 "written in Korean" 표기를 부가하여 스크린리더 사용자가 이미지 텍스트의 언어를 인지할 수 있도록 한 점은 매우 모범적입니다. <strong>다른 페이지도 이 수준으로 개선</strong>하는 것을 권장합니다.</li>
+  <li><strong>"written in korean" → "written in Korean"</strong>: GS Caltex 페이지 alt 중 일부에서 "korean" 소문자로 표기된 부분이 있습니다. 영어 표기법상 국가/언어명은 대문자로 시작해야 하므로 수정이 필요합니다.</li>
+  <li><strong>한글/영문 사이트의 동일 페이지에서 같은 alt 누락 패턴 확인</strong>: URL 1번(Agentic AI 키노트)은 한글 사이트(1차 보고서)와 동일하게 사진 alt에 파일명(<code>250721_2_01_images</code> 등)이 그대로 들어가 있습니다. 한 번에 양쪽 사이트 모두 일괄 수정해야 합니다. URL 2번(PAISE)도 마찬가지로 <code>250617_3_01 images</code> 같은 파일명 식별자가 alt에 사용되어 있습니다.</li>
+  <li><strong>고객사례 페이지의 한글 파일명 사용</strong>: URL 4번(AEM Migration) 페이지는 영문 페이지인데도 이미지 파일명이 <code>글로벌제조_Thumb_1.png</code> 등 한글로 되어 있습니다. 영문 사이트의 자산 관리 일관성을 위해 영문 파일명 사용을 권장합니다(접근성 직접 영향은 없으나 유지보수 측면).</li>
+  <li><strong>단축형 고객사례 페이지(URL 5, 7, 10)</strong>: <code>noindex, nofollow</code> 메타가 설정된 경우가 있고, 본문 콘텐츠 이미지가 1~3개로 적습니다. 본문이 동적 로딩되거나 PDF/외부 링크로 제공될 가능성이 있어 운영자 측에서 별도 점검이 필요합니다.</li>
+  <li><strong>화이트페이퍼 페이지(URL 6, 8, 9)</strong>: 모두 백서 표지 이미지 1개만 게재되어 있으며 alt가 비어있습니다. 표지가 백서의 주제·시리즈 번호 정보를 시각적으로 전달하므로, <strong>"2019 i4L White Paper No.X - [제목] white paper cover"</strong> 형식의 alt 부여가 필요합니다.</li>
+  <li><strong>영문 페이지 콘텐츠 무결성 이슈</strong>: 
+    <ul>
+      <li>URL 2번(PAISE): 본문에서 'PRAISE'와 'PAISE' 표기 혼용 발견 - 콘텐츠 내용 문제이나 함께 확인 권장</li>
+      <li>URL 10번(Meluha): HTML 메타 타이틀이 한글 "멜루하테크놀로지스"로 표기됨 - 영문 사이트 메타데이터 정합성 문제</li>
+    </ul>
+    이는 alt 문제는 아니지만 다국어 사이트 운영 일관성을 위해 함께 검토 권장.
+  </li>
+  <li><strong>1~3차 보고서의 공통 권고는 본 페이지들에도 동일 적용</strong>: 트래킹 픽셀 처리(<code>alt=""</code>), 공유 아이콘 alt 개선("Share on LinkedIn" 등 동작 명시), "OUR OFFERINGS" 영역의 작은 솔루션 썸네일 alt 개선도 동일하게 적용하시기 바랍니다.</li>
+</ol>
+
+<footer>
+  This report is based on the extraction of <code>&lt;img&gt;</code> tags from the page HTML source. Dynamically loaded images, CSS background images, and video thumbnails may require separate inspection.<br>
+  © Web Accessibility Analysis Report (4th)
+</footer>
+
+</div>
+</body>
+</html>
