@@ -6,7 +6,7 @@ import uvicorn
 import json
 
 app = FastAPI()
-
+ 
 # Root directory of the project
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
