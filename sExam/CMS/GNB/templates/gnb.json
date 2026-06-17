@@ -1,0 +1,78 @@
+{
+    "menuGroup1": [
+        {
+            "title": "디지털 & IT 서비스",
+            "gnb_title": "클라우드 & 인프라",
+            "menuId": "gkr1",
+            "panelType": "offering",
+            "style": "offering",
+            "target": "_self",
+            "items": [
+                {
+                    "type": "offering_main",
+                    "title": "클라우드 & 인프라",
+                    "menuId": "gkr12",
+                    "color": "#364fc7",
+                    "lnb_yn": "T",
+                    "target": "_self",
+                    "items": [
+                        {
+                            "type": "offering_cate",
+                            "title": "오퍼링",
+                            "menuId": "gkr121",
+                            "items": [
+                                {
+                                    "type": "offering_sub",
+                                    "title": "데이터센터/네트워크",
+                                    "url": "javascript:void(0)",
+                                    "menuId": "gkr1215",
+                                    "target": "_self",
+                                    "items": [
+                                        {
+                                            "type": "offering_item_group",
+                                            "title": "데이터센터",
+                                            "menuId": "gkr12151",
+                                            "items": [
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "데이터센터 설계/구축/이전",
+                                                    "url": "/kr/data-center-design-implementation-migration.html",
+                                                    "menuId": "gkr121511"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "데이터센터 운영",
+                                                    "url": "/kr/data-center-operation.html",
+                                                    "menuId": "gkr121512"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "offering_item_group",
+                                            "title": "네트워크",
+                                            "menuId": "gkr12161",
+                                            "items": [
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "국내/해외 데이터 통신 서비스",
+                                                    "url": "/kr/global-and-domestic-network-service.html",
+                                                    "menuId": "gkr121611"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "네트워크 설계/구축",
+                                                    "url": "/kr/network-design-deployment.html",
+                                                    "menuId": "gkr121612"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

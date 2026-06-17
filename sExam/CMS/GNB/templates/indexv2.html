@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Depth GNB / RNB 로컬 테스트 페이지</title>
+    
+    <!-- Load custom styles for GNB depth categories -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <!-- Load jQuery and JS modules from workspace -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/js/libs.js"></script>
+    <script src="/js/common_module.js"></script>
+    <script src="/js/module.js"></script>
+    
+    <!-- Setup global variables expected by module.js -->
+    <script>
+        // Mock global localization configs used in module.js
+        var langSet = {
+            ko: {
+                countryCode: "kr",
+                rnb: { activeStr: "전체메뉴 열기", inactiveStr: "전체메뉴 닫기" },
+                words: { summary: "개요" },
+                history: {
+                    emptyHistory: "방문 기록이 없습니다.",
+                    activeStr: "히스토리 열기",
+                    close: "닫기",
+                    title: "히스토리",
+                    desc: "최근 방문한 페이지",
+                    clearall: "전체 삭제"
+                },
+                search: {
+                    activeStr: "검색 열기",
+                    close: "닫기",
+                    search: "검색",
+                    placeholder: "검색어를 입력하세요",
+                    clear: "지우기"
+                }
+            }
+        };
+        
+        // Mock standard helper function interfaces
+        var getCurrentWidth = function() { return $(window).width(); };
+        var isMobileDevice = function() { return false; };
+        var fixedTab = function() {};
+    </script>
+</head>
+<body>
+    <div id="wrap" class="scroll_chk">
+        
+        <!-- Header element where extension_ko.js inserts layout/header.html -->
+        <header id="header">
+            <div class="M00_A" data-fn="M00_A" data-current="gkr1" data-url="/kr/gnb/gnb.json" data-url-feature="/kr/gnb/feature/feature.html" data-history="false"></div>
+        </header>
+        
+        <!-- Main body content -->
+        <main id="container">
+            <div class="content-box">
+                <h2>5-Depth GNB / RNB 로컬 테스트 환경</h2>
+                <p>
+                    이 페이지는 <code>depth.xlsx</code>에 정의된 5depth 형태의 카테고리 정보가 
+                    <code>gnb.json</code>을 거쳐 화면 상단 네비게이션(GNB) 및 우측 전체메뉴(RNB)에 
+                    정상적으로 바인딩되어 출력되는지 검증하기 위한 환경입니다.
+                </p>
+                
+                <hr>
+                
+                <h3>검증 시나리오 및 방법:</h3>
+                <ol>
+                    <li>
+                        <strong>PC GNB 오버 테스트</strong>: <br>
+                        상단 로고 오른쪽에 나타나는 <strong>"클라우드 & 인프라"</strong> 대메뉴에 마우스를 가져가면(Hover) 하위 메뉴가 표시됩니다.<br>
+                        이때, 4depth인 <strong>"데이터센터/네트워크"</strong> 하위에 5depth인 <strong>"데이터센터"</strong> 및 <strong>"네트워크"</strong> 그룹이 세로형 리스트 형태로 보이며, 그 아래에 최종 6depth 아이템(예: "데이터센터 설계/구축/이전" 등)들이 계층형으로 안전하게 로드되는지 확인합니다.
+                    </li>
+                    <li>
+                        <strong>PC/모바일 RNB 토글 테스트</strong>: <br>
+                        우측 상단의 <strong>"☰ 전체메뉴"</strong> 버튼을 클릭하면 우측 RNB 서브 레이어가 열립니다.<br>
+                        거기서 "클라우드 & 인프라" 대메뉴를 선택해 <strong>"데이터센터/네트워크" ➔ "데이터센터" ➔ "데이터센터 설계/구축/이전"</strong>까지 계층형 아코디언 메뉴 구조가 올바르게 전개되는지 검증합니다.
+                    </li>
+                </ol>
+                
+                <div class="notice-info">
+                    <strong>💡 참고 사항:</strong><br>
+                    이 테스트용 서버는 워크스페이스 상위 폴더에 있는 원본 스크립트 파일들(<code>libs.js</code>, <code>common_module.js</code>, <code>module.js</code>, <code>extension_ko.js</code>)을 직접 불러오므로, 코드가 수정되는 대로 실시간 반영을 확인하실 수 있습니다.
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Load the main extension_ko.js wrapper script last -->
+    <script src="/js/extension_ko.js"></script>
+</body>
+</html>
