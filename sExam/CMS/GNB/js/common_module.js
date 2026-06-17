@@ -3,7 +3,7 @@ document.querySelector("html").setAttribute(
     "data-country",
     window.location.pathname.split("/")[1]
 );
-
+ 
 var pluginObject = {};
 var globalObject = {};
 var eventObject = {};
