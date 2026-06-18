@@ -1,0 +1,79 @@
+# modulejs 폴더 내 GNB 자바스크립트 비교 분석 보고서
+
+본 보고서는 `d:\jqueryUpgrade\modulejs\` 디렉토리에 위치한 두 자바스크립트 파일인 [gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)와 [module.js](file:///d:/jqueryUpgrade/modulejs/module.js)의 기술 스택, 구조적 스타일, 기능적 범위 및 코드 아키텍처를 비교 분석합니다.
+
+---
+
+## 1. 개요 및 스펙 요약
+
+| 항목 | [gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js) | [module.js](file:///d:/jqueryUpgrade/modulejs/module.js) |
+| :--- | :--- | :--- |
+| **파일 크기** | 약 10 KB (332 라인) | 약 182 KB (3,922 라인) |
+| **개발 스타일** | Modern ES6+ Vanilla JS | Legacy Prototype-based jQuery JS |
+| **주요 라이브러리 의존성** | 없음 (Vanilla JS) | jQuery (`$`), matchHeight, OWL Carousel, YouTube Iframe API 등 |
+| **역할 및 대상** | Samsung SDS 스타일 메가 GNB의 HTML 구조 자동 생성 및 단순 이벤트 바인딩 | Samsung SDS 메인/서브 GNB, LNB, RNB, 다국어 처리, 방문 기록(History), Youtube 연동, Sticky 기능 등 포함 종합 헤더 모듈 |
+
+---
+
+## 2. 코드 스타일 & 아키텍처 세부 비교
+
+### ① 객체 지향 모델링 및 모듈화
+*   **[gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)**: 
+    *   현대적인 **ES6 `class` 문법** (`class GNBRenderer`)을 사용합니다.
+    *   `constructor`를 통해 구성 옵션(`jsonUrl`, `containerId`, `currentMenuId`)을 주입받아 인스턴스를 격리 생성합니다.
+    *   역할에 따라 메서드가 명확히 쪼개져 있습니다 (`init`, `render`, `buildMenuItems`, `bindEvents`, `openPanel` 등).
+*   **[module.js](file:///d:/jqueryUpgrade/modulejs/module.js)**:
+    *   고전적인 **함수 생성자 및 프로토타입 패턴** (`function M00_A(el) { ... }`)을 사용합니다.
+    *   함수 내부에서 `_this = this;`, `_proto = M00_A.prototype;`과 같은 변수 캡처 패턴을 사용하고 있어 스코프 오염이나 호이스팅에 취약합니다.
+    *   초기화(`init`) 내부에서 수많은 `Timer` 인스턴스 생성, 윈도우 이벤트 바인딩, 타사 플러그인 로드 등이 뒤엉켜 있습니다.
+
+### ② DOM 생성 및 렌더링 방식
+*   **[gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)**:
+    *   **Template Literals** (백틱 `` ` `` 표현식)을 적극 활용하여 구조적인 HTML 템플릿을 한눈에 알아보기 쉽게 작성했습니다.
+    *   `map().join('')` 또는 삼항 연산자를 활용하여 선언적으로 컴포넌트 형태의 HTML 문자열을 조립한 후 `innerHTML`을 통해 렌더링합니다.
+*   **[module.js](file:///d:/jqueryUpgrade/modulejs/module.js)**:
+    *   **jQuery 객체 조립 방식**과 **Legacy 문자열 누적 방식**이 복잡하게 혼용되어 있습니다.
+    *   `var $cnt = $('<div class="hd-cnt"></div>'); $cnt.append(...)` 와 같이 jQuery 메서드 체이닝을 활용해 노드를 하나하나 수동으로 조립합니다.
+    *   이로 인해 전체 HTML 구조를 코드 흐름상 파악하기 매우 어렵고 유지보수 비용이 큽니다.
+
+### ③ 데이터 연동 (API & Data Parsing)
+*   **[gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)**:
+    *   최신 브라우저 표준인 **`fetch` API**와 `async/await` 구문을 사용하여 비동기적으로 JSON 데이터를 가져옵니다.
+    *   순수 JSON 객체 순회(`Object.values().flat()`, `map()`)를 통해 직관적으로 데이터를 가공합니다.
+*   **[module.js](file:///d:/jqueryUpgrade/modulejs/module.js)**:
+    *   **`$.ajax`**의 `async: false` 옵션을 사용하는 **동기식 Ajax 호출** 방식이 포함되어 있어 브라우저 메인 스레드를 일시적으로 블로킹할 수 있습니다.
+    *   가장 큰 특징으로 JSON 데이터를 가져온 후, 이를 XML 문자열로 변환한 다음 `$.parseXML`을 사용하여 XML DOM 트리로 다시 파싱합니다.
+    *   그 후 `getElementsByTagName` 이나 부모 노드 탐색(`parentNode`)과 같은 복잡한 XML DOM 조작 함수들을 사용해 활성화된 메뉴 정보와 브레드크럼(Breadcrumb) 데이터를 추출합니다. (과거 XML API 시절의 유산이 잔존해 있는 형태입니다.)
+
+### ④ 웹 접근성 (Accessibility) 및 이벤트 바인딩
+*   **[gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)**:
+    *   기본적인 키보드 탭 인덱스 포커스 이벤트(`focus`) 및 `Escape` 키 입력 감지 기능을 가지고 있으며, WAI-ARIA 속성(`aria-haspopup`, `aria-expanded`, `aria-controls`, `role="menuitem"`)을 비교적 정밀하게 주입하여 마크업을 동적 제어합니다.
+*   **[module.js](file:///d:/jqueryUpgrade/modulejs/module.js)**:
+    *   매우 광범위한 브라우저 하위 호환 및 복잡한 키보드 인터랙션(탭 이동 시 1depth 간 이동, 특정 영역 포커스 아웃 시 타이머를 통한 딜레이 후 닫힘 처리 등)을 처리하기 위해 수많은 `Timer` 객체(`menuCloseTimer`, `subMenuCloseTimer`, `rnbMenuCloseTimer` 등)가 작동하고 있습니다.
+
+---
+
+## 3. 기능적 범위 (Scope of Functionality) 비교
+
+`gnb.js`가 오직 GNB 영역의 HTML 렌더링과 Hover 액션에 집중한 경량 컴포넌트라면, `module.js`는 헤더 영역과 관련된 모든 페이지 전반의 유틸리티들이 결합된 거대한 컨트롤러입니다.
+
+1.  **방문 기록 저장 및 렌더링 (History/My Pages)**
+    *   `module.js`는 `localStorage`를 이용해 유저가 최근 방문한 GNB 메뉴와 페이지(OG 메타 태그 정보 활용)를 `visitHistory_*` 키로 저장하고, 이를 RNB(Right Navigation Bar) 영역의 '최근 본 페이지' 슬라이드에 동적으로 그려주는 기능(`writeHistory`, `drawHistory`, `clearHistory`)을 직접 수행합니다.
+2.  **유튜브 플레이어 API 제어**
+    *   헤더 패널 내에 삽입된 홍보용 유튜브 비디오의 자동 정지 및 제어를 위해 `window.onYouTubeIframeAPIReady` 및 `stopAllPlayers` 로직이 내장되어 있습니다.
+3.  **Breadcrumb (브레드크럼) 생성**
+    *   현재 활성화된 메뉴 ID를 XML 트리 내에서 추적하여 `Home > Depth1 > Depth2 > Depth3` 형태의 경로 탐색 네비게이션바(`.brandcolor`, `.breadcrumb`)를 동적 생성하고 상단 배경색(브랜드 컬러)을 설정합니다.
+4.  **Sticky 및 스크롤 이벤트 연동**
+    *   페이지 스크롤에 따른 헤더 높이 변화(`setGnbHeight`), fixed 포지셔닝 전환, 서브 페이지 상단 탭 고정(`fixedTab`), 테일 배너(`tail_wrap`) 존재 여부에 따른 위치 오프셋 연동 등 CSS만으로 해결하기 힘든 스크롤 조작 기능이 JavaScript 내에 강하게 묶여 있습니다.
+
+---
+
+## 4. 요약 및 향후 방향성 제안 (jQuery Upgrade의 시선)
+
+*   **[module.js](file:///d:/jqueryUpgrade/modulejs/module.js)의 상태**:
+    *   현재 구조는 jQuery 1.x ~ 2.x 시절의 전형적인 웹사이트 통합 스크립트 형태입니다. 동기식 Ajax, JSON을 XML로 다시 파싱하여 트리 탐색하는 기법, 수많은 전역 상태 타이머 등은 modern 브라우저 환경에서 성능 저하 및 에러 추적의 어려움을 야기합니다.
+*   **[gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)의 의미**:
+    *   [module.js](file:///d:/jqueryUpgrade/modulejs/module.js)의 거대한 렌더링 엔진 부분을 modern Vanilla JS와 클래스 구조로 깔끔하게 분리하고 경량화하여 재작성한 **리팩토링 버전** 또는 **프로토타입**으로 해석할 수 있습니다.
+*   **권장 마이그레이션 전략**:
+    1.  [gnb.js](file:///d:/jqueryUpgrade/modulejs/gnb.js)의 현대적인 구조를 베이스로 유지하되, [module.js](file:///d:/jqueryUpgrade/modulejs/module.js)에 있는 핵심 기능 중 여전히 실서비스에 필요한 기능들(예: Sticky 스크롤 제어, Breadcrumb 자동 생성, 최근 방문 기록)을 별도의 modern ES6 모듈(클래스)로 쪼개어(Decoupling) 구현해야 합니다.
+    2.  jQuery의 `$()` 선택자 및 Ajax는 전부 Vanilla JS API(`document.querySelector`, `fetch`)로 완전히 대체 가능하므로, 순차적으로 jQuery 의존성을 걷어내는 방향으로 업그레이드를 설계할 수 있습니다.
