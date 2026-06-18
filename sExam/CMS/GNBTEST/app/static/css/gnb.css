@@ -1,0 +1,509 @@
+/* ============================================
+   GNB Project - Samsung SDS Style
+   ============================================ */
+
+:root {
+  --gnb-height: 60px;
+  --gnb-bg: #fff;
+  --gnb-border: #e8e8e8;
+  --gnb-text: #1a1a1a;
+  --gnb-text-hover: #1428a0;
+  --gnb-panel-bg: #fff;
+  --gnb-panel-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  --gnb-accent: #1428a0;
+  --gnb-transition: 0.18s cubic-bezier(0.4,0,0.2,1);
+  --gnb-sub-bg: #f7f8fc;
+  --gnb-sub-title: #1428a0;
+  --gnb-item-hover: #f0f3ff;
+  --gnb-item-active: #1428a0;
+  --font-main: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-main);
+  color: var(--gnb-text);
+  background: #f0f2f7;
+  min-height: 100vh;
+}
+
+/* ---- HEADER ---- */
+#header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  background: var(--gnb-bg);
+  border-bottom: 1px solid var(--gnb-border);
+  box-shadow: 0 2px 12px rgba(20,40,160,0.06);
+}
+
+.gnb-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  height: var(--gnb-height);
+  padding: 0 32px;
+}
+
+/* ---- LOGO ---- */
+.gnb-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 40px;
+  text-decoration: none;
+}
+.gnb-logo-text {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--gnb-accent);
+  line-height: 1;
+}
+.gnb-logo-text span {
+  color: #06c;
+}
+
+/* ---- NAV ---- */
+.gnb-nav {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+}
+
+.gnb-menu {
+  display: flex;
+  list-style: none;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* ---- DEPTH1 ITEM ---- */
+.gnb-menu > li {
+  position: static;
+}
+
+.gnb-depth1-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gnb-text);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+  position: relative;
+  transition: color var(--gnb-transition);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.gnb-depth1-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 18px; right: 18px;
+  height: 2px;
+  background: var(--gnb-accent);
+  transform: scaleX(0);
+  transition: transform var(--gnb-transition);
+  transform-origin: left;
+}
+
+.gnb-menu > li:hover > .gnb-depth1-link,
+.gnb-menu > li.is-open > .gnb-depth1-link {
+  color: var(--gnb-accent);
+}
+
+.gnb-menu > li:hover > .gnb-depth1-link::after,
+.gnb-menu > li.is-open > .gnb-depth1-link::after {
+  transform: scaleX(1);
+}
+
+/* ---- CHILDPANEL (메가 드롭다운) ---- */
+.gnb-childpanel {
+  display: none;
+  position: fixed;
+  top: var(--gnb-height);
+  left: 0; right: 0;
+  background: var(--gnb-panel-bg);
+  box-shadow: var(--gnb-panel-shadow);
+  border-top: 2px solid var(--gnb-accent);
+  z-index: 800;
+  animation: panelFadeIn 0.16s ease;
+}
+
+.gnb-menu > li:hover > .gnb-childpanel,
+.gnb-menu > li.is-open > .gnb-childpanel {
+  display: block;
+}
+
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gnb-childpanel-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 32px 36px;
+  display: flex;
+  gap: 0;
+}
+
+/* ---- offering 패널: 3컬럼 ---- */
+.gnb-childpanel.offering .gnb-childpanel-inner {
+  align-items: flex-start;
+}
+
+/* ---- 오퍼링 헤더 (좌측 대제목) ---- */
+.gnb-offering-header {
+  min-width: 200px;
+  max-width: 220px;
+  padding-right: 32px;
+  border-right: 1px solid #e8e8e8;
+  margin-right: 32px;
+  flex-shrink: 0;
+}
+
+.gnb-offering-header-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gnb-accent);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.gnb-offering-header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gnb-accent);
+  text-decoration: none;
+  margin-top: 12px;
+  opacity: 0.7;
+  transition: opacity var(--gnb-transition);
+}
+.gnb-offering-header-link:hover { opacity: 1; }
+.gnb-offering-header-link::after { content: '→'; }
+
+/* ---- 오퍼링 컬럼 목록 ---- */
+.gnb-offering-cols {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 40px;
+}
+
+.gnb-col {
+  min-width: 180px;
+}
+
+/* ---- 서브 섹션 제목 (데이터센터/네트워크 등) ---- */
+.gnb-sub-section {
+  margin-bottom: 20px;
+}
+
+.gnb-sub-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* ---- 아이템 그룹 ---- */
+.gnb-item-group {
+  margin-bottom: 16px;
+}
+
+.gnb-item-group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gnb-sub-title);
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+.gnb-item-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gnb-item-link {
+  display: block;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #444;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background var(--gnb-transition), color var(--gnb-transition);
+  line-height: 1.4;
+}
+
+.gnb-item-link:hover {
+  background: var(--gnb-item-hover);
+  color: var(--gnb-item-active);
+  font-weight: 500;
+}
+
+/* ---- normal 패널 (고객사례, 인사이트 등) ---- */
+.gnb-childpanel.library .gnb-childpanel-inner,
+.gnb-childpanel.newsroom .gnb-childpanel-inner,
+.gnb-childpanel.about .gnb-childpanel-inner {
+  gap: 40px;
+}
+
+.gnb-normal-group {
+  min-width: 140px;
+}
+
+.gnb-normal-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.gnb-normal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gnb-normal-link {
+  display: block;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background var(--gnb-transition), color var(--gnb-transition);
+  font-weight: 500;
+}
+
+.gnb-normal-link:hover {
+  background: var(--gnb-item-hover);
+  color: var(--gnb-accent);
+}
+
+/* ---- GNB 오버레이 (패널 열렸을때 배경 딤) ---- */
+.gnb-overlay {
+  display: none;
+  position: fixed;
+  inset: var(--gnb-height) 0 0 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 790;
+}
+.gnb-overlay.is-visible {
+  display: block;
+}
+
+/* ---- 모바일 햄버거 ---- */
+.gnb-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  flex-direction: column;
+  gap: 5px;
+}
+.gnb-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--gnb-text);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+/* ---- MAIN CONTENT (데모용) ---- */
+.main-content {
+  margin-top: var(--gnb-height);
+  padding: 60px 32px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.demo-hero {
+  background: linear-gradient(135deg, #1428a0 0%, #0057b8 60%, #1428a0 100%);
+  border-radius: 16px;
+  padding: 64px 48px;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+.demo-hero h1 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+.demo-hero p {
+  font-size: 16px;
+  opacity: 0.8;
+  line-height: 1.7;
+}
+
+.demo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.demo-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.demo-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gnb-accent);
+  margin-bottom: 8px;
+}
+
+.demo-card p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ---- JSON 뷰어 ---- */
+.json-viewer {
+  background: #1e1e2e;
+  border-radius: 12px;
+  padding: 28px;
+  margin-top: 40px;
+  overflow: auto;
+  max-height: 400px;
+}
+.json-viewer pre {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  color: #cdd6f4;
+  line-height: 1.6;
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 1023px) {
+  .gnb-inner { padding: 0 16px; }
+  .gnb-nav { display: none; }
+  .gnb-hamburger { display: flex; }
+
+  .main-content { padding: 40px 16px; }
+  .demo-hero { padding: 40px 24px; }
+  .demo-hero h1 { font-size: 24px; }
+}
+
+/* ---- 모바일 슬라이드 메뉴 ---- */
+.gnb-mobile-panel {
+  display: none;
+  position: fixed;
+  top: var(--gnb-height);
+  left: 0; right: 0; bottom: 0;
+  background: #fff;
+  z-index: 850;
+  overflow-y: auto;
+  padding: 16px 0;
+  border-top: 1px solid #eee;
+  animation: slideDown 0.2s ease;
+}
+.gnb-mobile-panel.is-open { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gnb-mobile-menu { list-style: none; }
+
+.gnb-mobile-item {
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.gnb-mobile-depth1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.gnb-mobile-depth1 .arrow {
+  font-size: 12px;
+  color: #aaa;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.gnb-mobile-item.is-open .gnb-mobile-depth1 .arrow {
+  transform: rotate(180deg);
+}
+
+.gnb-mobile-sub {
+  display: none;
+  background: #f8f9fe;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.gnb-mobile-item.is-open .gnb-mobile-sub { display: block; }
+
+.gnb-mobile-sub-link {
+  display: block;
+  padding: 10px 28px;
+  font-size: 13px;
+  color: #444;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.gnb-mobile-sub-link:hover { color: var(--gnb-accent); }
+
+.gnb-mobile-sub-group {
+  padding: 4px 0;
+}
+
+.gnb-mobile-group-title {
+  padding: 6px 28px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gnb-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
