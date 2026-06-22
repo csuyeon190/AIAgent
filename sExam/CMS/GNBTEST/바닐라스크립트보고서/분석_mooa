@@ -1,0 +1,92 @@
+
+
+Samsung SDS 웹사이트의 메인 헤더 네비게이션 컴포넌트야. 꽤 규모가 큰 레거시 jQuery 기반 모듈이고, 구조를 크게 나눠서 볼게.
+
+아키텍처 개요
+
+패턴: Prototype 기반 OOP (ES5 스타일)
+
+function M00_A(el) {
+    _proto = M00_A.prototype;
+    _this = this;
+    // ...
+    this.init();
+}
+
+
+_this와 _proto를 전역처럼 쓰는 방식인데, 인스턴스가 여러 개면 충돌 위험이 있는 구조야.
+
+주요 기능 흐름
+
+init()
+ ├─ getData()         → JSON으로 메뉴 데이터 Ajax 호출
+ │   └─ setupMenu()  → XML 파싱 + 페이지 타입 분류
+ │       └─ drawGnb() → DOM 동적 생성
+ │           └─ addEventListener() → 이벤트 바인딩
+ └─ setSticky()       → 스크롤 고정 처리
+
+
+
+핵심 구성 요소
+
+1. 페이지 타입 분류 (gnbType)
+
+|타입        |설명                         |
+|----------|---------------------------|
+|`main`    |메인 페이지 - 투명 GNB            |
+|`offering`|솔루션/사업부 페이지 - 브랜드컬러 바 + LNB|
+|`normal`  |일반 서브페이지 - About 등         |
+|`static`  |정적 페이지 - 브레드크럼만            |
+
+
+2. drawGnb() — DOM 생성의 핵심
+
+JSON 메뉴 데이터를 받아서 GNB + RNB(모바일 햄버거) 마크업을 동적으로 생성. depth 1~5까지 재귀적으로 처리하고, panelType이 offering / normal이냐에 따라 구조가 달라짐.
+
+3. GNB 패널 종류
+
+	•	offering — 메가메뉴, 3단 hover 구조 (클라우드 메뉴는 renewal_menu_depth 클래스 별도 처리)
+	•	business / library / newsroom / about — panelStyle로 분기, feature 영역 포함
+
+
+4. 접근성 처리 (웹접근성 작업 흔적이 많음)
+
+주석에 날짜가 붙은 접근성 패치가 많이 보여:
+
+	•	role="tablist/tab/tabpanel" GNB에 적용
+	•	aria-expanded, aria-selected, aria-hidden 동적 토글
+	•	검색창/언어선택/RNB 열릴 때 배경 콘텐츠 tabindex="-1" + aria-hidden 처리
+	•	키보드 Tab 순서 제어 (특히 클라우드 메뉴 3depth)
+
+5. 클라우드 메뉴 리뉴얼 (renewal_menu_depth)
+
+3depth hover 인터랙션이 별도 selectorDepth 객체로 관리됨:
+
+const selectorDepth = {
+    first:  { group, item, link },  // 1depth
+    second: { group, inner, item }, // 2depth
+    third:  { group, outer, inner } // 3depth
+};
+
+
+depth 간 active / current 클래스를 교차 제어하는 방식.
+
+6. YouTube IFrame API 연동
+
+GNB 내 영상 재생 지원. onYouTubeIframeAPIReady 콜백으로 플레이어 등록하고, 메뉴 전환 시 stopAllPlayers() 호출.
+
+7. 스크롤 연동
+
+	•	스크롤 다운 → GNB 숨김 (sc_down)
+	•	스크롤 업 → GNB 복귀
+	•	tail_chk (테일 배너 있는 페이지) 별도 top 계산
+	•	fixed_tab 서브페이지 고정탭 위치도 여기서 같이 처리
+
+
+눈에 띄는 특이점
+
+	•	async: false Ajax가 여러 군데 — 페이지 로딩 블로킹 발생 가능
+	•	_this, _proto가 사실상 전역변수처럼 동작 (var 없이 선언)
+	•	국가별 분기(kr / en / cn / eu / vn 등)가 addEventListener 내부 곳곳에 산재
+	•	접근성 패치가 날짜별로 쌓여있어서 일부 로직이 중복되거나 주석 처리된 채 남아 있음
+	•	20240701, 20241011 등 날짜 주석으로 리뉴얼 이력 추적 가능
