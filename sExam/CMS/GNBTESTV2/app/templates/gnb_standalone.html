@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko" data-country="kr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GNB 프로젝트 - Samsung SDS</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+
+:root {
+  --gnb-height: 60px;
+  --gnb-bg: #fff;
+  --gnb-border: #e8e8e8;
+  --gnb-text: #1a1a1a;
+  --gnb-accent: #1428a0;
+  --gnb-panel-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  --gnb-transition: 0.18s cubic-bezier(0.4,0,0.2,1);
+  --gnb-item-hover: #f0f3ff;
+  --font-main: 'Pretendard Variable', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-main);
+  color: var(--gnb-text);
+  background: #f0f2f7;
+  padding-top: var(--gnb-height);
+}
+
+/* ─── HEADER ─── */
+#header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  box-shadow: 0 2px 12px rgba(20,40,160,0.06);
+  height: var(--gnb-height);
+}
+
+.gnb-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  padding: 0 32px;
+}
+
+/* ─── LOGO ─── */
+.gnb-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 40px;
+  text-decoration: none;
+}
+.gnb-logo-text {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--gnb-accent);
+}
+.gnb-logo-text span { color: #06c; }
+
+/* ─── DESKTOP NAV ─── */
+.gnb-nav {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+}
+
+.gnb-menu {
+  display: flex;
+  list-style: none;
+  align-items: stretch;
+}
+
+.gnb-menu > li { position: static; }
+
+.gnb-depth1-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gnb-text);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+  position: relative;
+  transition: color var(--gnb-transition);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-main);
+}
+
+.gnb-depth1-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 18px; right: 18px;
+  height: 2px;
+  background: var(--gnb-accent);
+  transform: scaleX(0);
+  transition: transform var(--gnb-transition);
+  transform-origin: left;
+}
+
+.gnb-menu > li:hover > .gnb-depth1-link,
+.gnb-menu > li.is-open > .gnb-depth1-link {
+  color: var(--gnb-accent);
+}
+.gnb-menu > li:hover > .gnb-depth1-link::after,
+.gnb-menu > li.is-open > .gnb-depth1-link::after {
+  transform: scaleX(1);
+}
+
+/* ─── CHILDPANEL ─── */
+.gnb-childpanel {
+  display: none;
+  position: fixed;
+  top: var(--gnb-height);
+  left: 0; right: 0;
+  background: #fff;
+  box-shadow: var(--gnb-panel-shadow);
+  border-top: 2px solid var(--gnb-accent);
+  z-index: 800;
+  animation: panelFadeIn 0.16s ease;
+}
+
+.gnb-menu > li:hover > .gnb-childpanel,
+.gnb-menu > li.is-open > .gnb-childpanel {
+  display: block;
+}
+
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gnb-childpanel-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 32px 36px;
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+}
+
+/* Offering header */
+.gnb-offering-header {
+  min-width: 200px;
+  max-width: 220px;
+  padding-right: 32px;
+  border-right: 1px solid #e8e8e8;
+  margin-right: 32px;
+  flex-shrink: 0;
+}
+.gnb-offering-header-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gnb-accent);
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+.gnb-offering-header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gnb-accent);
+  text-decoration: none;
+  margin-top: 12px;
+  opacity: 0.7;
+  transition: opacity var(--gnb-transition);
+}
+.gnb-offering-header-link:hover { opacity: 1; }
+.gnb-offering-header-link::after { content: ' →'; }
+
+/* Offering cols */
+.gnb-offering-cols {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 40px;
+}
+.gnb-col { min-width: 180px; }
+
+.gnb-sub-section { margin-bottom: 20px; }
+.gnb-sub-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.gnb-item-group { margin-bottom: 16px; }
+.gnb-item-group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gnb-accent);
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+.gnb-item-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.gnb-item-link {
+  display: block;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #444;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background var(--gnb-transition), color var(--gnb-transition);
+  line-height: 1.4;
+  font-family: var(--font-main);
+}
+.gnb-item-link:hover {
+  background: var(--gnb-item-hover);
+  color: var(--gnb-accent);
+  font-weight: 500;
+}
+
+/* Normal panel */
+.gnb-childpanel.library .gnb-childpanel-inner,
+.gnb-childpanel.newsroom .gnb-childpanel-inner,
+.gnb-childpanel.about .gnb-childpanel-inner {
+  gap: 40px;
+}
+.gnb-normal-group { min-width: 140px; }
+.gnb-normal-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.gnb-normal-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.gnb-normal-link {
+  display: block;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background var(--gnb-transition), color var(--gnb-transition);
+  font-weight: 500;
+  font-family: var(--font-main);
+}
+.gnb-normal-link:hover {
+  background: var(--gnb-item-hover);
+  color: var(--gnb-accent);
+}
+
+/* Overlay */
+.gnb-overlay {
+  display: none;
+  position: fixed;
+  inset: var(--gnb-height) 0 0 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 790;
+}
+.gnb-overlay.is-visible { display: block; }
+
+/* Hamburger */
+.gnb-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  flex-direction: column;
+  gap: 5px;
+}
+.gnb-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--gnb-text);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.gnb-hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gnb-hamburger.is-active span:nth-child(2) { opacity: 0; }
+.gnb-hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile panel */
+.gnb-mobile-panel {
+  display: none;
+  position: fixed;
+  top: var(--gnb-height);
+  left: 0; right: 0; bottom: 0;
+  background: #fff;
+  z-index: 850;
+  overflow-y: auto;
+  padding: 8px 0;
+  border-top: 2px solid var(--gnb-accent);
+  animation: slideDown 0.2s ease;
+}
+.gnb-mobile-panel.is-open { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gnb-mobile-menu { list-style: none; }
+.gnb-mobile-item { border-bottom: 1px solid #f4f4f4; }
+.gnb-mobile-depth1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-main);
+}
+.gnb-mobile-depth1 .arrow {
+  font-size: 10px;
+  color: #aaa;
+  transition: transform 0.2s;
+}
+.gnb-mobile-item.is-open .gnb-mobile-depth1 .arrow { transform: rotate(180deg); }
+.gnb-mobile-sub {
+  display: none;
+  background: #f8f9fe;
+  padding: 8px 0;
+  list-style: none;
+}
+.gnb-mobile-item.is-open .gnb-mobile-sub { display: block; }
+.gnb-mobile-sub-link {
+  display: block;
+  padding: 10px 28px;
+  font-size: 13px;
+  color: #444;
+  text-decoration: none;
+  transition: color 0.15s;
+  font-family: var(--font-main);
+}
+.gnb-mobile-sub-link:hover { color: var(--gnb-accent); }
+.gnb-mobile-group-title {
+  padding: 6px 28px 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gnb-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* ─── MAIN CONTENT ─── */
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+.demo-hero {
+  background: linear-gradient(135deg, #1428a0 0%, #0057b8 60%, #1428a0 100%);
+  border-radius: 16px;
+  padding: 56px 48px;
+  color: #fff;
+  margin-bottom: 36px;
+}
+.demo-hero h1 { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+.demo-hero p { font-size: 15px; opacity: 0.85; line-height: 1.7; }
+.demo-hero code { background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+
+.demo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+.demo-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 26px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.demo-card h3 { font-size: 14px; font-weight: 700; color: var(--gnb-accent); margin-bottom: 8px; }
+.demo-card p { font-size: 13px; color: #666; line-height: 1.6; }
+.demo-card code { background: #f0f3ff; padding: 1px 5px; border-radius: 3px; font-size: 12px; color: var(--gnb-accent); }
+
+.section-label {
+  font-size: 11px; font-weight: 700; color: var(--gnb-accent);
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
+}
+.section-title { font-size: 20px; font-weight: 800; color: #1a1a1a; margin-bottom: 10px; letter-spacing: -0.5px; }
+.section-desc { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 16px; }
+
+.json-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gnb-accent);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: var(--font-main);
+}
+.json-toggle:hover { background: #0057b8; }
+
+.json-section { display: none; margin-top: 16px; }
+.json-section.is-visible { display: block; }
+.json-viewer {
+  background: #1e1e2e;
+  border-radius: 12px;
+  padding: 24px;
+  overflow: auto;
+  max-height: 400px;
+}
+.json-viewer pre {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  color: #cdd6f4;
+  line-height: 1.6;
+}
+
+@media (max-width: 1023px) {
+  .gnb-inner { padding: 0 16px; }
+  .gnb-nav { display: none; }
+  .gnb-hamburger { display: flex; }
+  .main-content { padding: 32px 16px 60px; }
+  .demo-hero { padding: 36px 24px; }
+  .demo-hero h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<header id="header" role="banner"></header>
+
+<main id="container">
+  <div class="main-content">
+    <div class="demo-hero">
+      <h1>GNB 렌더링 데모</h1>
+      <p>
+        <code>gnb.json</code>을 읽어 GNB를 동적으로 생성합니다.<br>
+        상단 메뉴에 마우스를 올려 메가 드롭다운을 확인하세요.
+      </p>
+    </div>
+
+    <div class="demo-cards">
+      <div class="demo-card">
+        <h3>📦 JSON 기반 렌더링</h3>
+        <p><code>gnb.json</code>의 menuGroup 구조를 파싱해 depth1 ~ depth4까지 HTML을 자동 생성합니다.</p>
+      </div>
+      <div class="demo-card">
+        <h3>🎨 offering / normal 분기</h3>
+        <p><code>panelType: "offering"</code>은 3컬럼 메가 드롭다운, <code>"normal"</code>은 링크 목록으로 렌더링됩니다.</p>
+      </div>
+      <div class="demo-card">
+        <h3>♿ 웹 접근성</h3>
+        <p>ARIA role, aria-expanded, aria-haspopup 자동 적용. <kbd>Esc</kbd>로 패널 닫기 지원.</p>
+      </div>
+      <div class="demo-card">
+        <h3>📱 반응형</h3>
+        <p>1024px 미만에서는 햄버거 버튼 + 모바일 아코디언 메뉴로 전환됩니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">Source Data</div>
+      <div class="section-title">gnb.json 구조</div>
+      <div class="section-desc">실제 로드된 JSON 데이터를 확인할 수 있습니다.</div>
+      <button class="json-toggle" id="jsonToggle">📋 JSON 데이터 보기</button>
+      <div class="json-section" id="jsonSection">
+        <div class="json-viewer">
+          <pre id="jsonOutput">로딩 중...</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ============================================================
+  gnb.json (인라인 데이터 — FastAPI 없이 독립 실행 가능)
+  실제 서비스에서는 fetch('/kr/gnb/gnb.json')으로 교체하세요
+============================================================ -->
+<script>
+// ── GNB JSON 데이터 (인라인) ──
+const GNB_JSON_DATA = {
+  "menuGroup1": [
+    {
+      "title": "디지털 & IT 서비스",
+      "gnb_title": "클라우드 & 인프라",
+      "menuId": "gkr1",
+      "panelType": "offering",
+      "style": "offering",
+      "url": "javascript:void(0)",
+      "items": [
+        {
+          "type": "offering_main",
+          "title": "클라우드 & 인프라",
+          "menuId": "gkr12",
+          "url": "/kr/cloud-infrastructure.html",
+          "items": [
+            {
+              "type": "offering_cate",
+              "title": "오퍼링",
+              "menuId": "gkr121",
+              "items": [
+                {
+                  "type": "offering_sub",
+                  "title": "데이터센터/네트워크",
+                  "url": "javascript:void(0)",
+                  "menuId": "gkr1215",
+                  "items": [
+                    {
+                      "type": "offering_item_group",
+                      "title": "데이터센터",
+                      "menuId": "gkr12151",
+                      "items": [
+                        { "title": "데이터센터 설계/구축/이전", "url": "/kr/data-center-design.html", "menuId": "gkr121511" },
+                        { "title": "데이터센터 운영", "url": "/kr/data-center-operation.html", "menuId": "gkr121512" }
+                      ]
+                    },
+                    {
+                      "type": "offering_item_group",
+                      "title": "네트워크",
+                      "menuId": "gkr12161",
+                      "items": [
+                        { "title": "국내/해외 데이터 통신 서비스", "url": "/kr/global-network.html", "menuId": "gkr121611" },
+                        { "title": "네트워크 설계/구축", "url": "/kr/network-design.html", "menuId": "gkr121612" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "offering_sub",
+                  "title": "클라우드 플랫폼",
+                  "url": "/kr/cloud-platform.html",
+                  "menuId": "gkr1216",
+                  "items": [
+                    {
+                      "type": "offering_item_group",
+                      "title": "삼성 클라우드 플랫폼",
+                      "menuId": "gkr12162",
+                      "items": [
+                        { "title": "SCP 컴퓨트", "url": "/kr/scp-compute.html", "menuId": "gkr121621" },
+                        { "title": "SCP 스토리지", "url": "/kr/scp-storage.html", "menuId": "gkr121622" },
+                        { "title": "SCP 네트워크", "url": "/kr/scp-network.html", "menuId": "gkr121623" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "스마트 물류",
+      "menuId": "gkr2",
+      "panelType": "offering",
+      "style": "smart",
+      "url": "javascript:void(0)",
+      "items": [
+        {
+          "type": "offering_main",
+          "title": "스마트 물류",
+          "menuId": "gkr21",
+          "url": "/kr/smart-logistics.html",
+          "items": [
+            {
+              "type": "offering_cate",
+              "title": "솔루션",
+              "menuId": "gkr211",
+              "items": [
+                {
+                  "type": "offering_sub",
+                  "title": "물류 플랫폼",
+                  "url": "/kr/logistics-platform.html",
+                  "menuId": "gkr2111",
+                  "items": [
+                    {
+                      "type": "offering_item_group",
+                      "title": "첼로 스퀘어",
+                      "menuId": "gkr21111",
+                      "items": [
+                        { "title": "해상 운임 조회", "url": "/kr/cello-square-ocean.html", "menuId": "gkr211111" },
+                        { "title": "항공 운임 조회", "url": "/kr/cello-square-air.html", "menuId": "gkr211112" },
+                        { "title": "육상 운송 관리", "url": "/kr/cello-square-land.html", "menuId": "gkr211113" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "menuGroup2": [
+    {
+      "title": "고객사례",
+      "menuId": "gkr3",
+      "panelType": "normal",
+      "style": "library",
+      "url": "/kr/customer-story.html",
+      "items": [
+        {
+          "type": "normal_main",
+          "title": "고객사례",
+          "menuId": "gkr31",
+          "items": [
+            {
+              "type": "normal_cate",
+              "title": "산업별",
+              "menuId": "gkr311",
+              "items": [
+                { "title": "제조", "url": "/kr/customer-manufacturing.html", "menuId": "gkr3111" },
+                { "title": "금융", "url": "/kr/customer-finance.html", "menuId": "gkr3112" },
+                { "title": "유통/물류", "url": "/kr/customer-retail.html", "menuId": "gkr3113" },
+                { "title": "공공", "url": "/kr/customer-public.html", "menuId": "gkr3114" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "인사이트",
+      "menuId": "gkr4",
+      "panelType": "normal",
+      "style": "newsroom",
+      "url": "/kr/insights.html",
+      "items": [
+        {
+          "type": "normal_main",
+          "title": "인사이트",
+          "menuId": "gkr41",
+          "items": [
+            {
+              "type": "normal_cate",
+              "title": "콘텐츠 유형",
+              "menuId": "gkr411",
+              "items": [
+                { "title": "블로그", "url": "/kr/insights-blog.html", "menuId": "gkr4111" },
+                { "title": "백서", "url": "/kr/insights-whitepaper.html", "menuId": "gkr4112" },
+                { "title": "인포그래픽", "url": "/kr/insights-infographic.html", "menuId": "gkr4113" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "menuGroup3": [
+    {
+      "title": "뉴스룸",
+      "menuId": "gkr5",
+      "panelType": "no-child",
+      "url": "/kr/newsroom.html"
+    },
+    {
+      "title": "회사소개",
+      "menuId": "gkr6",
+      "panelType": "normal",
+      "style": "about",
+      "url": "/kr/about.html",
+      "items": [
+        {
+          "type": "normal_main",
+          "title": "회사소개",
+          "menuId": "gkr61",
+          "items": [
+            {
+              "type": "normal_cate",
+              "title": "회사",
+              "menuId": "gkr611",
+              "items": [
+                { "title": "기업 개요", "url": "/kr/company-overview.html", "menuId": "gkr6111" },
+                { "title": "경영진", "url": "/kr/leadership.html", "menuId": "gkr6112" },
+                { "title": "지속가능경영", "url": "/kr/sustainability.html", "menuId": "gkr6113" },
+                { "title": "채용", "url": "/kr/careers.html", "menuId": "gkr6114" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ── GNBRenderer ──
+class GNBRenderer {
+  constructor(options = {}) {
+    this.jsonUrl = options.jsonUrl || null;
+    this.inlineData = options.inlineData || null;
+    this.containerId = options.containerId || 'header';
+    this.menuData = null;
+  }
+
+  async init() {
+    try {
+      if (this.inlineData) {
+        this.menuData = this.inlineData;
+      } else if (this.jsonUrl) {
+        const res = await fetch(this.jsonUrl);
+        if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
+        this.menuData = await res.json();
+      } else {
+        throw new Error('jsonUrl 또는 inlineData가 필요합니다.');
+      }
+      this.render();
+      this.bindEvents();
+    } catch (e) {
+      console.error('[GNB] 초기화 실패:', e);
+    }
+  }
+
+  render() {
+    const container = document.getElementById(this.containerId);
+    if (!container) return;
+    container.innerHTML = this.buildHeaderHTML();
+  }
+
+  buildHeaderHTML() {
+    return `
+      <nav class="gnb-inner" role="navigation" aria-label="메인 내비게이션">
+        <a href="/kr/index.html" class="gnb-logo" aria-label="Samsung SDS 홈">
+          <span class="gnb-logo-text">SAMSUNG <span>SDS</span></span>
+        </a>
+        <ul class="gnb-menu gnb-nav" role="menubar">
+          ${this.buildMenuItems()}
+        </ul>
+        <button class="gnb-hamburger" id="gnbHamburger"
+          aria-label="전체 메뉴 열기" aria-expanded="false" aria-controls="gnbMobilePanel">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+      <div class="gnb-overlay" id="gnbOverlay" aria-hidden="true"></div>
+      ${this.buildMobilePanel()}`;
+  }
+
+  buildMenuItems() {
+    if (!this.menuData) return '';
+    return Object.values(this.menuData).flat()
+      .map(item => this.buildDepth1Item(item)).join('');
+  }
+
+  buildDepth1Item(item) {
+    const label = item.gnb_title || item.title;
+    const hasChild = item.items?.length > 0 && item.panelType !== 'no-child';
+    const linkAttrs = hasChild
+      ? `href="javascript:void(0)" role="menuitem" aria-haspopup="true" aria-expanded="false"`
+      : `href="${item.url || '#'}" target="${item.target || '_self'}" role="menuitem"`;
+
+    return `
+      <li class="gnb-menu-item${!hasChild ? ' no-child' : ''}" data-menu-id="${item.menuId}" role="none">
+        <a class="gnb-depth1-link" ${linkAttrs}>${label}</a>
+        ${hasChild ? this.buildChildPanel(item) : ''}
+      </li>`;
+  }
+
+  buildChildPanel(item) {
+    const style = item.style || '';
+    const pType = item.panelType || '';
+    const content = pType === 'offering'
+      ? this.buildOfferingPanel(item)
+      : this.buildNormalPanel(item);
+
+    return `
+      <div class="gnb-childpanel ${style}" role="region" aria-label="${item.title} 하위 메뉴">
+        <div class="gnb-childpanel-inner">${content}</div>
+      </div>`;
+  }
+
+  buildOfferingPanel(d1Item) {
+    const om = d1Item.items?.[0];
+    if (!om) return '';
+    const cates = om.items || [];
+    let cols = '';
+    cates.forEach(cate => (cate.items || []).forEach(sub => { cols += this.buildOfferingCol(sub); }));
+
+    const headerLink = om.url && om.url !== 'javascript:void(0)'
+      ? `<a href="${om.url}" class="gnb-offering-header-link">전체 보기</a>` : '';
+
+    return `
+      <div class="gnb-offering-header">
+        <div class="gnb-offering-header-title">${om.title}</div>
+        ${headerLink}
+      </div>
+      <div class="gnb-offering-cols">${cols}</div>`;
+  }
+
+  buildOfferingCol(sub) {
+    const groups = (sub.items || []).map(group => {
+      const items = (group.items || []).map(it =>
+        `<li role="none"><a href="${it.url || '#'}" class="gnb-item-link" role="menuitem">${it.title}</a></li>`
+      ).join('');
+      return `
+        <div class="gnb-item-group">
+          <div class="gnb-item-group-title">${group.title}</div>
+          <ul class="gnb-item-list" role="menu">${items}</ul>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="gnb-col">
+        <div class="gnb-sub-section">
+          <div class="gnb-sub-title">${sub.title}</div>
+          ${groups}
+        </div>
+      </div>`;
+  }
+
+  buildNormalPanel(d1Item) {
+    const nm = d1Item.items?.[0];
+    if (!nm) return '';
+    return (nm.items || []).map(cate => {
+      const items = (cate.items || []).map(it =>
+        `<li role="none"><a href="${it.url || '#'}" class="gnb-normal-link" role="menuitem">${it.title}</a></li>`
+      ).join('');
+      return `
+        <div class="gnb-normal-group">
+          <div class="gnb-normal-title">${cate.title}</div>
+          <ul class="gnb-normal-list" role="menu">${items}</ul>
+        </div>`;
+    }).join('');
+  }
+
+  buildMobilePanel() {
+    if (!this.menuData) return '';
+    const items = Object.values(this.menuData).flat().map(item => {
+      const label = item.gnb_title || item.title;
+      const hasChild = item.items?.length > 0 && item.panelType !== 'no-child';
+      if (!hasChild) {
+        return `<li class="gnb-mobile-item no-child">
+          <a href="${item.url || '#'}" class="gnb-mobile-depth1">${label}</a></li>`;
+      }
+      return `
+        <li class="gnb-mobile-item">
+          <button class="gnb-mobile-depth1" aria-expanded="false">
+            ${label}<span class="arrow">▼</span>
+          </button>
+          <ul class="gnb-mobile-sub">${this.getMobileSubLinks(item)}</ul>
+        </li>`;
+    }).join('');
+
+    return `
+      <div class="gnb-mobile-panel" id="gnbMobilePanel">
+        <ul class="gnb-mobile-menu">${items}</ul>
+      </div>`;
+  }
+
+  getMobileSubLinks(d1Item) {
+    const links = [];
+    if (d1Item.panelType === 'offering') {
+      const om = d1Item.items?.[0];
+      if (om?.url && om.url !== 'javascript:void(0)')
+        links.push(`<li><a href="${om.url}" class="gnb-mobile-sub-link" style="font-weight:700;color:#1428a0">${om.title} 전체보기</a></li>`);
+      (om?.items || []).forEach(cate =>
+        (cate.items || []).forEach(sub =>
+          (sub.items || []).forEach(group => {
+            links.push(`<li><div class="gnb-mobile-group-title">${group.title}</div></li>`);
+            (group.items || []).forEach(it =>
+              links.push(`<li><a href="${it.url || '#'}" class="gnb-mobile-sub-link">${it.title}</a></li>`)
+            );
+          })
+        )
+      );
+    } else if (d1Item.panelType === 'normal') {
+      const nm = d1Item.items?.[0];
+      (nm?.items || []).forEach(cate =>
+        (cate.items || []).forEach(it =>
+          links.push(`<li><a href="${it.url || '#'}" class="gnb-mobile-sub-link">${it.title}</a></li>`)
+        )
+      );
+    }
+    return links.join('');
+  }
+
+  bindEvents() {
+    this.overlay = document.getElementById('gnbOverlay');
+
+    // Desktop hover
+    document.querySelectorAll('.gnb-menu-item:not(.no-child)').forEach(li => {
+      li.addEventListener('mouseenter', () => this.openPanel(li));
+      li.addEventListener('mouseleave', () => this.closePanel(li));
+    });
+
+    if (this.overlay) this.overlay.addEventListener('click', () => this.closeAll());
+
+    // Keyboard
+    document.querySelectorAll('.gnb-depth1-link').forEach(link => {
+      link.addEventListener('focus', e => {
+        const li = e.target.closest('.gnb-menu-item');
+        if (li && !li.classList.contains('no-child')) {
+          this.closeAllPanels();
+          this.openPanel(li);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') this.closeAll();
+    });
+
+    // Mobile hamburger
+    const hamburger = document.getElementById('gnbHamburger');
+    const mobilePanel = document.getElementById('gnbMobilePanel');
+    if (hamburger && mobilePanel) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = mobilePanel.classList.toggle('is-open');
+        hamburger.setAttribute('aria-expanded', isOpen);
+        hamburger.classList.toggle('is-active', isOpen);
+      });
+    }
+
+    // Mobile accordion
+    document.querySelectorAll('.gnb-mobile-item:not(.no-child) .gnb-mobile-depth1').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const li = btn.closest('.gnb-mobile-item');
+        const isOpen = li.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', isOpen);
+      });
+    });
+  }
+
+  openPanel(li) {
+    li.classList.add('is-open');
+    li.querySelector('.gnb-depth1-link')?.setAttribute('aria-expanded', 'true');
+    this.overlay?.classList.add('is-visible');
+  }
+
+  closePanel(li) {
+    li.classList.remove('is-open');
+    li.querySelector('.gnb-depth1-link')?.setAttribute('aria-expanded', 'false');
+    if (!document.querySelector('.gnb-menu-item.is-open'))
+      this.overlay?.classList.remove('is-visible');
+  }
+
+  closeAllPanels() {
+    document.querySelectorAll('.gnb-menu-item.is-open').forEach(li => this.closePanel(li));
+  }
+
+  closeAll() {
+    this.closeAllPanels();
+    this.overlay?.classList.remove('is-visible');
+  }
+}
+
+// ── 초기화 ──
+const gnb = new GNBRenderer({
+  inlineData: GNB_JSON_DATA,   // ← 인라인 데이터 사용 (독립 실행)
+  // jsonUrl: '/kr/gnb/gnb.json', // ← FastAPI 서버 사용 시 이걸로 교체
+  containerId: 'header'
+});
+
+gnb.init().then(() => {
+  document.getElementById('jsonOutput').textContent =
+    JSON.stringify(gnb.menuData, null, 2);
+});
+
+// JSON 토글
+document.getElementById('jsonToggle').addEventListener('click', function() {
+  const sec = document.getElementById('jsonSection');
+  const isVisible = sec.classList.toggle('is-visible');
+  this.textContent = isVisible ? '📋 JSON 데이터 닫기' : '📋 JSON 데이터 보기';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+{
+    "menuGroup1": [
+        {
+            "title": "디지털 & IT 서비스",
+            "gnb_title": "클라우드 & 인프라",
+            "menuId": "gkr1",
+            "featureId": "gkr1",
+            "panelType": "offering",
+            "style": "offering",
+            "target": "_self",
+            "url": "javascript:void(0)",
+            "items": [
+                {
+                    "type": "offering_main",
+                    "title": "클라우드 & 인프라",
+                    "menuId": "gkr12",
+                    "color": "#364fc7",
+                    "lnb_yn": "T",
+                    "target": "_self",
+                    "url": "/kr/cloud-infrastructure.html",
+                    "items": [
+                        {
+                            "type": "offering_cate",
+                            "title": "오퍼링",
+                            "menuId": "gkr121",
+                            "items": [
+                                {
+                                    "type": "offering_sub",
+                                    "title": "데이터센터/네트워크",
+                                    "url": "javascript:void(0)",
+                                    "menuId": "gkr1215",
+                                    "target": "_self",
+                                    "items": [
+                                        {
+                                            "type": "offering_item_group",
+                                            "title": "데이터센터",
+                                            "menuId": "gkr12151",
+                                            "items": [
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "데이터센터 설계/구축/이전",
+                                                    "url": "/kr/data-center-design-implementation-migration.html",
+                                                    "menuId": "gkr121511"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "데이터센터 운영",
+                                                    "url": "/kr/data-center-operation.html",
+                                                    "menuId": "gkr121512"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "offering_item_group",
+                                            "title": "네트워크",
+                                            "menuId": "gkr12161",
+                                            "items": [
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "국내/해외 데이터 통신 서비스",
+                                                    "url": "/kr/global-and-domestic-network-service.html",
+                                                    "menuId": "gkr121611"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "네트워크 설계/구축",
+                                                    "url": "/kr/network-design-deployment.html",
+                                                    "menuId": "gkr121612"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "offering_sub",
+                                    "title": "클라우드 플랫폼",
+                                    "url": "/kr/cloud-platform.html",
+                                    "menuId": "gkr1216",
+                                    "target": "_self",
+                                    "items": [
+                                        {
+                                            "type": "offering_item_group",
+                                            "title": "삼성 클라우드 플랫폼",
+                                            "menuId": "gkr12162",
+                                            "items": [
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "SCP 컴퓨트",
+                                                    "url": "/kr/scp-compute.html",
+                                                    "menuId": "gkr121621"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "SCP 스토리지",
+                                                    "url": "/kr/scp-storage.html",
+                                                    "menuId": "gkr121622"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "SCP 네트워크",
+                                                    "url": "/kr/scp-network.html",
+                                                    "menuId": "gkr121623"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "스마트 물류",
+            "menuId": "gkr2",
+            "featureId": "gkr2",
+            "panelType": "offering",
+            "style": "smart",
+            "target": "_self",
+            "url": "javascript:void(0)",
+            "items": [
+                {
+                    "type": "offering_main",
+                    "title": "스마트 물류",
+                    "menuId": "gkr21",
+                    "color": "#0a7152",
+                    "target": "_self",
+                    "url": "/kr/smart-logistics.html",
+                    "items": [
+                        {
+                            "type": "offering_cate",
+                            "title": "솔루션",
+                            "menuId": "gkr211",
+                            "items": [
+                                {
+                                    "type": "offering_sub",
+                                    "title": "물류 플랫폼",
+                                    "url": "/kr/logistics-platform.html",
+                                    "menuId": "gkr2111",
+                                    "target": "_self",
+                                    "items": [
+                                        {
+                                            "type": "offering_item_group",
+                                            "title": "첼로 스퀘어",
+                                            "menuId": "gkr21111",
+                                            "items": [
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "해상 운임 조회",
+                                                    "url": "/kr/cello-square-ocean.html",
+                                                    "menuId": "gkr211111"
+                                                },
+                                                {
+                                                    "type": "offering_item",
+                                                    "title": "항공 운임 조회",
+                                                    "url": "/kr/cello-square-air.html",
+                                                    "menuId": "gkr211112"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuGroup2": [
+        {
+            "title": "고객사례",
+            "menuId": "gkr3",
+            "featureId": "gkr3",
+            "panelType": "normal",
+            "style": "library",
+            "target": "_self",
+            "url": "/kr/customer-story.html",
+            "items": [
+                {
+                    "type": "normal_main",
+                    "title": "고객사례",
+                    "menuId": "gkr31",
+                    "items": [
+                        {
+                            "type": "normal_cate",
+                            "title": "산업별",
+                            "menuId": "gkr311",
+                            "items": [
+                                { "type": "normal_item", "title": "제조", "url": "/kr/customer-manufacturing.html", "menuId": "gkr3111" },
+                                { "type": "normal_item", "title": "금융", "url": "/kr/customer-finance.html", "menuId": "gkr3112" },
+                                { "type": "normal_item", "title": "유통/물류", "url": "/kr/customer-retail.html", "menuId": "gkr3113" },
+                                { "type": "normal_item", "title": "공공", "url": "/kr/customer-public.html", "menuId": "gkr3114" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "인사이트",
+            "menuId": "gkr4",
+            "featureId": "gkr4",
+            "panelType": "normal",
+            "style": "newsroom",
+            "target": "_self",
+            "url": "/kr/insights.html",
+            "items": [
+                {
+                    "type": "normal_main",
+                    "title": "인사이트",
+                    "menuId": "gkr41",
+                    "items": [
+                        {
+                            "type": "normal_cate",
+                            "title": "콘텐츠 유형",
+                            "menuId": "gkr411",
+                            "items": [
+                                { "type": "normal_item", "title": "블로그", "url": "/kr/insights-blog.html", "menuId": "gkr4111" },
+                                { "type": "normal_item", "title": "백서", "url": "/kr/insights-whitepaper.html", "menuId": "gkr4112" },
+                                { "type": "normal_item", "title": "인포그래픽", "url": "/kr/insights-infographic.html", "menuId": "gkr4113" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuGroup3": [
+        {
+            "title": "뉴스룸",
+            "menuId": "gkr5",
+            "panelType": "no-child",
+            "url": "/kr/newsroom.html",
+            "target": "_self"
+        },
+        {
+            "title": "회사소개",
+            "menuId": "gkr6",
+            "featureId": "gkr6",
+            "panelType": "normal",
+            "style": "about",
+            "target": "_self",
+            "url": "/kr/about.html",
+            "items": [
+                {
+                    "type": "normal_main",
+                    "title": "회사소개",
+                    "menuId": "gkr61",
+                    "items": [
+                        {
+                            "type": "normal_cate",
+                            "title": "회사",
+                            "menuId": "gkr611",
+                            "items": [
+                                { "type": "normal_item", "title": "기업 개요", "url": "/kr/company-overview.html", "menuId": "gkr6111" },
+                                { "type": "normal_item", "title": "경영진", "url": "/kr/leadership.html", "menuId": "gkr6112" },
+                                { "type": "normal_item", "title": "지속가능경영", "url": "/kr/sustainability.html", "menuId": "gkr6113" },
+                                { "type": "normal_item", "title": "채용", "url": "/kr/careers.html", "menuId": "gkr6114" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
