@@ -1,0 +1,178 @@
+좋은 질문이에요! GNB 프로젝트에서 쓸 수 있는 패턴이네요. 목적에 따라 방법이 달라집니다.
+
+버튼 클릭 시 특정 영역에 HTML 띄우기
+
+크게 두 가지 패턴이 있어요.
+
+패턴 1 — 인라인 영역에 HTML 삽입 (특정 컨테이너 안에 렌더링)
+
+<button id="loadBtn">HTML 불러오기</button>
+<div id="target-area"></div>
+
+
+document.getElementById('loadBtn').addEventListener('click', () => {
+  const html = `<div class="box"><h2>동적으로 삽입된 HTML</h2><p>내용입니다.</p></div>`;
+  document.getElementById('target-area').innerHTML = html;
+});
+
+
+→ GNB 아래 특정 <div>에 렌더링할 때 적합
+
+패턴 2 — 레이어 팝업 (오버레이) 방식
+
+<button id="openBtn">팝업 열기</button>
+
+<!-- 오버레이 레이어 -->
+<div id="overlay" style="display:none;">
+  <div id="popup">
+    <button id="closeBtn">닫기</button>
+    <div id="popup-content">
+      <!-- 여기에 HTML 동적 삽입 -->
+    </div>
+  </div>
+</div>
+
+
+#overlay {
+  position: fixed;
+  inset: 0;                    /* top/right/bottom/left: 0 */
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#popup {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  min-width: 400px;
+  position: relative;
+}
+
+
+const overlay = document.getElementById('overlay');
+const content = document.getElementById('popup-content');
+
+document.getElementById('openBtn').addEventListener('click', () => {
+  content.innerHTML = `<h2>팝업 내용</h2><p>동적으로 생성된 HTML입니다.</p>`;
+  overlay.style.display = 'flex';
+  
+  // 웹접근성: 포커스 이동
+  overlay.querySelector('button').focus();
+});
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  overlay.style.display = 'none';
+});
+
+// Esc 키로 닫기 (웹접근성)
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') overlay.style.display = 'none';
+});
+
+
+패턴 3 — FastAPI에서 HTML 가져와서 삽입 (Su 프로젝트에 맞는 방식)
+
+
+document.getElementById('loadBtn').addEventListener('click', async () => {
+  const res = await fetch('/api/partial-html');  // FastAPI 엔드포인트
+  const html = await res.text();
+  document.getElementById('target-area').innerHTML = html;
+});
+
+
+
+# FastAPI
+from fastapi.responses import HTMLResponse
+
+@app.get("/api/partial-html")
+async def partial_html():
+    return HTMLResponse(content="<div><h2>서버에서 온 HTML</h2></div>")
+
+
+
+|상황                     |추천 패턴  |
+|-----------------------|-------|
+|페이지 내 특정 영역 교체         |패턴 1   |
+|화면 위에 팝업으로 띄우기         |패턴 2   |
+|서버(FastAPI)에서 HTML 받아오기|패턴 3   |
+|GNB 메가드롭다운 패널          |패턴 2 변형|
+
+
+방법 1 — fetch로 HTML 파일 불러와서 삽입
+
+URL 경로는 /kr/tes.html처럼 보이지만, 실제로는 해당 파일을 fetch해서 특정 영역에 뿌리는 방식입니다.
+
+
+document.getElementById('loadBtn').addEventListener('click', async () => {
+  const res = await fetch('/kr/tes.html');
+  const html = await res.text();
+  document.getElementById('target-area').innerHTML = html;
+});
+
+
+FastAPI에서 /kr/tes.html을 static 파일로 서빙하면 됩니다.
+
+
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/kr", StaticFiles(directory="kr"), name="kr")
+
+
+단점: URL 주소창은 바뀌지 않음
+
+방법 2 — History API로 URL도 바꾸면서 HTML 삽입
+
+주소창 URL까지 /kr/tes.html로 바뀌게 하고 싶을 때
+
+
+async function loadPage(path) {
+  const res = await fetch(path);
+  const html = await res.text();
+  
+  // 특정 영역에만 삽입
+  document.getElementById('target-area').innerHTML = html;
+  
+  // 주소창 URL 변경 (페이지 리로드 없음)
+  history.pushState({ path }, '', path);
+}
+
+document.getElementById('loadBtn').addEventListener('click', () => {
+  loadPage('/kr/tes.html');
+});
+
+// 브라우저 뒤로가기 대응
+window.addEventListener('popstate', (e) => {
+  if (e.state?.path) loadPage(e.state.path);
+});
+
+
+→ SPA처럼 동작하면서 URL도 /kr/tes.html로 표시됩니다.
+
+방법 3 — <iframe> 으로 띄우기
+
+가장 단순하게 독립된 HTML 페이지를 그대로 띄울 때
+
+
+<div id="target-area">
+  <iframe id="frame" src="" width="100%" height="600px" frameborder="0"></iframe>
+</div>
+
+
+document.getElementById('loadBtn').addEventListener('click', () => {
+  document.getElementById('frame').src = '/kr/tes.html';
+});
+
+
+→ /kr/tes.html이 완전히 독립된 페이지일 때 적합, 단 웹접근성 처리 별도 필요
+
+
+|방법                 |URL 변경         |난이도|추천 상황        |
+|-------------------|---------------|---|-------------|
+|fetch + innerHTML  |❌              |쉬움 |부분 영역 교체     |
+|fetch + History API|✅              |중간 |SPA처럼 동작 원할 때|
+|iframe             |❌ (iframe src만)|쉬움 |완전히 독립된 페이지  |
+
+
