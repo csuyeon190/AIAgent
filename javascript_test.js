@@ -28,3 +28,34 @@ El.prototype.off = function(event, cb){
         this.map.delete(key);
     }
 };
+
+
+================
+
+
+"use strict";
+
+let El = function(el){
+    this.el = el;
+    this.map = new Map(); // key: cb, value: { event, handler }
+};
+
+El.prototype.on = function(event, cb, context){
+    let handler = cb.bind(context || this);
+    this.map.set(cb, { event, handler });
+    this.el.addEventListener(event, handler, false);
+};
+
+El.prototype.off = function(event, cb){
+    let entry = this.map.get(cb);
+    if(entry && entry.event === event){
+        this.el.removeEventListener(event, entry.handler);
+        this.map.delete(cb);
+    }
+};
+
+
+
+
+
+
