@@ -1,0 +1,62 @@
+<script>
+	// 미디어 쿼리 조건 설정
+const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+// 화면 크기 변화 감지 함수
+function handleTabletChange(e) {
+  if (e.matches) {
+    // 768px 이하일 때 실행할 로직
+    console.log("모바일 화면입니다.");
+
+
+  } else {
+    // 769px 이상일 때 실행할 로직
+    console.log("데스크탑 화면입니다.");
+
+
+  }
+}
+
+// 이벤트 리스너 등록 (화면 크기가 바뀔 때마다 실행)
+mediaQuery.addEventListener("change", handleTabletChange);
+// 초기 실행 (현재 화면 크기 체크)
+handleTabletChange(mediaQuery);
+</script>
+<li class="visual-item--type visual-item--type-03 swiper-slide white">
+
+
+	<div class="visual-item--type-03--bg">
+			<img src="[[--ArtfieldValue,key_img_web--]][[--query--]]]" class="cm_pc" alt="">
+			<img src="[[--ArtfieldValue,key_img_mob--]][[--query--]]" class="cm_mo" alt="">
+	</div>
+	<div class="visual-item--type__info visual-item--type-00__info">
+			<dl>
+					<dt class="color-white" id="title_subject">
+REAL Summit 2026
+							
+					</dt>
+					<dd class="visual-item--type-00--description visual-description--ani color-white block">
+삼성SDS AI 풀스택으로 완성하는 성공적인 AX 혁신의 미래<br/>
+AX 혁신 전략부터 실제 성공 사례까지, REAL Summit 2026에서 만나보세요.
+					</dd>
+
+					<dd class="visual-btn--bx--ani">
+							<div class="visual-item--btn common-btn">
+									<a class="common-btn--blue" href="kr/news/aiex-260623.html">
+											<div class="common-btn--content color-white">
+													<span class="common-btn__text">사전등록 바로가기 </span>
+													<div class="common-btn_arrow--bx">
+															<img class="common-btn_arrow"
+																	src="[[--ImgRootDir--]]module_src/images/new/btn_arrow_right_white.svg[[--query--]]"
+																	alt="">
+													</div>
+											</div>
+											<div class="common-btn__over--bg"></div>
+									</a>
+							</div>
+                       
+					</dd>
+
+			</dl>
+	</div>
+</li>
