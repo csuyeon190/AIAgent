@@ -14,7 +14,7 @@ El.prototype.on = function(event, cb, context){
     let hendler = cb.bind(context || this);
     this.map.set([event, cb], handler);
     this.el.addEventListener(event, handler, false);
-};
+}; 
 
 /*
     이벤트 핸들러 구독 중지
@@ -29,8 +29,7 @@ El.prototype.off = function(event, cb){
     }
 };
 
-
-================
+/************************************************************** */
 
 
 "use strict";
