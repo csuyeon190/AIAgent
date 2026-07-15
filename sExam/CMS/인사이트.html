@@ -1,7 +1,469 @@
 <!-- 인사이트 -->
+이 코드는 인사이트 리포트 페이지의 검색/필터 UI 스크립트입니다. 크게 4개 파트로 나뉩니다.
+
+1. 반응형 레이아웃 핸들러 (pageLayoutHandler)
+
+1024px을 기준으로 화면 크기 변화에 반응하는 핸들러입니다. 특이한 점은 onOver(1024 초과, 
+즉 PC 전환 시)에서 검색창이 포커스 상태(is-focus)면 NonScroll.disable()을 호출한다는 것 
+— 모바일에서 검색창 열 때 배경 스크롤을 막아뒀는데, PC로 전환되면 그 잠금을 풀어주는 방어 로직입니다.
+
+2. 선택된 필터 태그 렌더링 (renderSelectedArea)
+
+.js-show-selected 셀렉트박스들을 순회하면서 aria-selected='true'인 옵션(단, “전체” 옵션은 제외)을 찾아
+#selectedArea에 삭제 버튼이 달린 태그 칩으로 그려줍니다. 매번 empty() 후 전체를 다시 그리는 방식이고,
+칩에 data-select-name과 data-value를 심어서 나중에 어느 셀렉트박스의 어떤 값인지 역추적할 수 있게 합니다.
+칩이 하나라도 있으면 부모에 has-items 클래스를 붙여 CSS로 영역 표시를 제어합니다.
+3. 이벤트 바인딩 (문서 준비 후)
+
+	•	셀렉트박스 change.customSelect → 칩 다시 렌더링
+	•	칩의 삭제 버튼 클릭 → data-select-name으로 해당 셀렉트박스를 찾아 CustomSelectbox.unselect() 호출. 
+이러면 change 이벤트가 다시 돌면서 칩도 갱신되는 구조입니다 (이벤트 위임 $(document).on("click", ...)을 쓴 건 칩이 동적 생성되기 때문)
+	•	리셋 버튼 → 키워드 입력값 비우기 + 모든 셀렉트박스 초기화 + 칩 영역 비우기 + 포커스 상태 해제
+
+4. 검색창 열기/닫기 로직 (가장 정교한 부분)
+
+포커스 시 is-focus 클래스를 붙이고, 모바일(layout-mo)이면 NonScroll.enable()로 배경 스크롤을 잠급니다. 닫는 경로가 세 가지인데:
+
+	•	바깥 클릭: click.searchForm에서 클릭 대상이 검색창 내부가 아니면 닫기
+	•	Tab 키로 포커스 이탈: isTabKey 플래그가 핵심입니다. focusout은 마우스 클릭으로도 발생하는데, 
+클릭 케이스는 위의 click 핸들러가 처리하므로 중복을 피하려고 “직전 입력이 Tab이었을 때만” focusout에서 닫습니다.
+e.relatedTarget(다음 포커스 대상)이 검색창 내부면 아직 안에 있는 것이니 닫지 않고요
+	•	검색 버튼 / 키워드 버튼 클릭: 명시적으로 closeSearchForm() 호출. 
+키워드 버튼은 추가로 해당 키워드를 input에 넣고 trigger("input")으로 입력 이벤트를 발생시킵니다
+
+한 가지 눈에 띄는 점: closeSearchForm($searchForm)처럼 인자를 넘기는 곳이 있지만
+함수 정의는 인자를 받지 않아서 무시됩니다(동작엔 문제없음). 
+그리고 칩 렌더링 시 text를 템플릿 리터럴에 그대로 넣고 있어서,
+옵션 텍스트가 서버/사용자 입력에서 온다면 XSS 관점에서 이스케이프를 고려할 만합니다 
 
 
 
+네, 섹션별로 상세하게 분석하겠습니다.
+
+1. 브레이크포인트 핸들러
+const pageLayoutHandler = createBreakpointHandler({
+    breakpoint: 1024,
+    namespace: ".pageLayoutHandler",
+    ...
+});
+
+
+
+
+	•	onReset: 초기화 시점 콜백 (여기선 빈 함수)
+	•	onUnder: 1024px 이하로 진입했을 때
+	•	onOver: 1024px 초과로 진입했을 때
+	•	onChange: 경계를 넘나들 때마다
+
+namespace: ".pageLayoutHandler"는 jQuery 이벤트 네임스페이스입니다. 핸들러 내부에서 resize.pageLayoutHandler처럼 이벤트를 바인딩해두면, 나중에 $(window).off(".pageLayoutHandler")로 이 핸들러가 등록한 이벤트만 선택적으로 제거할 수 있습니다. 같은 페이지에 다른 resize 핸들러가 있어도 충돌하지 않게 하는 관례죠.
+
+핵심 로직은 onOver 안에 있습니다:
+
+if ($(".insight-report__search.is-focus").length > 0) {
+    NonScroll.disable();
+}
+
+
+
+	1.	모바일에서 검색창에 포커스 → NonScroll.enable()로 body 스크롤 잠금
+	2.	사용자가 기기를 회전하거나 브라우저 창을 늘려서 1024px 초과가 됨
+	3.	PC 레이아웃에선 스크롤 잠금이 필요 없는데, 잠금이 걸린 채로 남으면 페이지 전체가 스크롤 불가 상태로 고착됨
+	4.	그래서 경계를 넘는 순간 잠금을 해제
+
+이런 “상태가 걸린 채로 레이아웃이 전환되는” 엣지 케이스 처리는 반응형 UI에서 자주 빠뜨리는 부분인데, 잘 챙긴 코드입니다.
+
+2. renderSelectedArea — 선택 칩 렌더링
+
+const $selectedAreaParent = $(".insight-report__selected-area");
+const $selectedArea = $("#selectedArea");
+
+$selectedArea.empty();
+
+
+변수명 앞의 $는 “jQuery 객체”임을 나타내는 헝가리안 표기 관례입니다. empty()로 기존 칩을 전부 지우고 처음부터 다시 그리는 전체 재렌더링 방식입니다. 차이만 계산해서 부분 갱신하는 것보다 코드가 단순하고, 칩 개수가 많지 않은 필터 UI에선 성능 문제도 없습니다. React의 리렌더링 철학과 비슷한 접근이죠.
+
+$(".js-show-selected").each(function() {
+    const $select = $(this);
+    const selectName = $select.find(".custom-selectbox__input").attr("name");
+
+js- 접두사 클래스는 “스타일용이 아니라 JS 훅용”이라는 관례입니다. CSS 담당자가 이 클래스를 건드리면 안 된다는 신호죠. each 콜백 안에서 this는 현재 순회 중인 DOM 요소이고, $(this)로 감싸서 jQuery 메서드를 쓸 수 있게 합니다. 각 셀렉트박스의 숨겨진 input에서 name을 뽑아 이 셀렉트박스의 식별자로 사용합니다.
+
+$select
+    .find(".custom-selectbox__option[aria-selected='true']")
+    .not(".custom-selectbox__option--all")
+    .each(function() {
+
+
+두 가지 포인트가 있습니다:
+
+	•	aria-selected='true'를 상태 저장소로 활용: 별도의 JS 상태 변수 없이 접근성 속성 자체가 “선택됨”의 단일 진실 공급원(single source of truth)입니다. 스크린리더 호환성과 로직이 자연스럽게 일치하게 되는, 접근성 작업하시는 입장에서 익숙한 좋은 패턴입니다.
+	•	.not("--all"): “전체” 옵션은 칩으로 표시할 의미가 없으므로 제외합니다.
+	
+	const value = $option.find(".custom-selectbox__checkbox").val();
+const text = $.trim($option.find(".custom-selectbox__text").text());
+
+
+$.trim()은 ES5 시절 String.prototype.trim()이 IE8에 없던 때의 유물입니다. 지금은 text.trim()으로 충분하고, jQuery 3.5+에서 $.trim은 deprecated 상태라 jQuery 4.0 업그레이드 시 제거 대상입니다. 지금 진행 중이신 4.0 마이그레이션에서 걸릴 항목이네요.
+
+$selectedArea.append(`
+    <div class="selected-area__item" data-select-name="${selectName}" data-value="${value}">
+        <span class="selected-area__text">${text}</span>
+        <button type="button" class="selected-area__delete" aria-label="${text} 삭제"></button>
+    </div>
+`);
+
+•	data-select-name, data-value: 칩 → 원본 셀렉트박스 역추적용 메타데이터. 삭제 시 이 정보로 어떤 셀렉트박스의 어떤 옵션을 해제할지 찾습니다.
+	•	type="button": 명시하지 않으면 버튼 기본값이 submit이라, form 안에 있을 경우 클릭 시 폼이 제출돼버립니다. 필수 방어 코드입니다.
+	•	aria-label="${text} 삭제": 삭제 버튼이 아이콘만 있으므로(텍스트 없음) 스크린리더가 “서울 삭제”처럼 읽도록 레이블 제공.
+	•	주의점: ${text}가 이스케이프 없이 HTML로 삽입됩니다. 옵션 텍스트가 개발자가 작성한 정적 마크업이면 실질적 위험은 낮지만, CMS나 API에서 오는 데이터라면 <img src=x onerror=...> 같은 문자열이 그대로 실행될 수 있는 XSS 벡터입니다.
+		
+		
+		if ($(".selected-area__item").length > 0) $selectedAreaParent.addClass("has-items");
+else $selectedAreaParent.removeClass("has-items");
+
+
+선택 항목 유무를 CSS 상태 클래스로 노출합니다. has-items가 있을 때만 영역에 여백/테두리를 주는 식으로 스타일링하겠죠. $selectedAreaParent.toggleClass("has-items", $(".selected-area__item").length > 0) 한 줄로 줄일 수도 있습니다.
+
+3. 초기화 및 이벤트 바인딩
+
+
+$(function() {
+    CustomSelectbox.init();
+    pageLayoutHandler.init();
+
+
+$(function(){...})는 $(document).ready()의 축약형으로, DOM 파싱 완료 후 실행됩니다. 커스텀 셀렉트박스 모듈과 레이아웃 핸들러를 초기화합니다.
+
+$(".custom-selectbox").on("change.customSelect", function() {
+    renderSelectedArea();
+});
+
+
+change.customSelect는 네이티브 change가 아니라 CustomSelectbox 모듈이 trigger하는 커스텀 네임스페이스 이벤트로 보입니다. 옵션 선택/해제가 일어날 때마다 칩 영역을 통째로 다시 그립니다.
+
+$(".js-order").on("change.customSelect", function(e, v, txt) {
+    console.log(v, txt);
+});
+
+정렬용 셀렉트박스입니다. trigger("change.customSelect", [value, text])처럼 추가 인자를 넘기면 핸들러의 두 번째, 세 번째 매개변수로 들어옵니다. 지금은 console.log만 있는 걸 보면 실제 정렬 로직(AJAX 재조회 등)은 아직 구현 전인 자리표시자입니다. 배포 전에 console.log는 제거해야겠죠.
+
+칩 삭제 — 이벤트 위임
+
+$(document).on("click", ".selected-area__delete", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+
+
+여기서 $(".selected-area__delete").on("click", ...)이 아니라 $(document).on("click", "선택자", ...)를 쓴 이유가 중요합니다. 칩은 renderSelectedArea()가 실행될 때마다 동적으로 생성/파괴되는데, 직접 바인딩하면 새로 생긴 칩에는 핸들러가 없습니다. 이벤트 위임은 document에서 클릭을 받아 타겟이 선택자와 일치하는지 검사하므로, 미래에 생길 요소에도 동작합니다. 버블링을 활용한 패턴이죠.
+
+stopPropagation()은 이 클릭이 document의 click.searchForm 핸들러(바깥 클릭 감지)까지 버블링돼서 의도치 않게 검색창을 닫는 걸 막습니다.
+
+const $item = $(this).closest(".selected-area__item");
+const selectName = $item.attr("data-select-name");
+const value = $item.attr("data-value");
+
+const $select = $(".custom-selectbox").filter(function() {
+    return $(this).find(".custom-selectbox__input").attr("name") === selectName;
+});
+
+CustomSelectbox.unselect($select, value);
+
+
+흐름: 삭제 버튼 → closest()로 칩 컨테이너 상승 → 렌더링 때 심어둔 메타데이터 회수 → filter()로 name이 일치하는 셀렉트박스 탐색 → 모듈 API로 해당 값 선택 해제.
+
+주목할 점은 여기서 칩 DOM을 직접 제거하지 않는다는 것입니다. unselect()가 내부에서 change.customSelect를 trigger하면 → 위에서 바인딩한 핸들러가 → renderSelectedArea()를 호출해서 칩이 자연히 사라집니다. 데이터(셀렉트박스 상태)를 바꾸면 뷰(칩)는 따라온다는 단방향 흐름으로, 상태와 화면이 어긋날 여지를 없앤 설계입니다.
+
+
+4. 검색창 열기/닫기
+
+$("#insightKeyword").on("focus", function() {
+    $(this).closest(".insight-report__search").addClass("is-focus");
+    if ($("html").hasClass("layout-mo")) {
+        NonScroll.enable();
+    }
+});
+입력창 포커스 → is-focus 클래스 부여(CSS로 추천 키워드 패널 등을 펼치는 트리거). layout-mo는 아마 브레이크포인트 핸들러 쪽에서 html에 붙이는 모바일 상태 클래스로 보이며, 모바일일 때만 배경 스크롤을 잠급니다. 모바일에서 검색 패널이 전체 화면을 덮는 형태라 뒤 스크롤이 새면 안 되기 때문입니다.
+
+function closeSearchForm() {
+    const $searchForm = $(".insight-report__search");
+    if (!$searchForm.hasClass("is-focus")) return;
+    $searchForm.removeClass("is-focus");
+    if ($("html").hasClass("layout-mo")) {
+        NonScroll.disable();
+    }
+}
+얼리 리턴(is-focus가 없으면 즉시 종료)으로 불필요한 작업과 중복 disable 호출을 방지합니다. 열기와 대칭으로, 모바일일 때만 스크롤 잠금 해제.
+
+Tab 키 추적 — 이 코드의 백미
+
+let isTabKey = false;
+
+$(document)
+    .off("keydown.searchForm pointerdown.searchForm click.searchForm")
+    .on("keydown.searchForm", function(e) {
+        isTabKey = e.key === "Tab";
+    })
+    .on("pointerdown.searchForm", function() {
+        isTabKey = false;
+    })
+    .on("click.searchForm", function(e) {
+        if ($(e.target).closest(".insight-report__search").length) return;
+        closeSearchForm();
+    });
+
+
+
+
+	•	검색창을 닫는 트리거는 두 가지: 바깥 클릭과 키보드(Tab)로 포커스가 검색창 밖으로 나감
+	•	그런데 focusout 이벤트는 마우스 클릭으로 다른 곳을 눌러도 발생합니다
+	•	클릭 케이스를 focusout에서도 처리하면 click 핸들러와 이중 처리되고, 특히 “검색창 내부의 버튼을 클릭”하는 순간에도 focusout이 먼저 발생해서 패널이 닫혀버리는 레이스 컨디션이 생깁니다
+
+그래서 “마지막 사용자 입력이 무엇이었는가”를 추적합니다:
+
+	•	키를 눌렀는데 Tab이면 isTabKey = true, 다른 키면 false
+	•	마우스/터치(pointerdown)가 오면 false로 리셋
+
+즉 focusout이 발생한 시점에 이 플래그를 보면 “이 포커스 이탈이 Tab 때문인지, 클릭 때문인지”를 구분할 수 있습니다.
+
+$(".insight-report__search").on("focusout", function(e) {
+    if (!isTabKey) return;
+
+    const nextFocus = e.relatedTarget;
+    if (nextFocus && $(this).has(nextFocus).length) return;
+
+    closeSearchForm();
+});
+
+	•	!isTabKey면 리턴: 클릭에 의한 focusout은 무시 (click 핸들러가 담당)
+	•	e.relatedTarget: focusout에서 이 속성은 포커스가 이동해 가는 다음 요소입니다. $(this).has(nextFocus).length로 그 요소가 검색창 내부인지 확인 — 내부면 (입력창 → 키워드 버튼으로 Tab 이동 같은 경우) 아직 검색창 안에 있으니 닫지 않음
+	•	검색창 밖으로 Tab이 나갔을 때만 닫기
+
+이건 키보드 사용자를 위한 접근성 처리입니다. 마우스 사용자만 고려했다면 click 핸들러만으로 끝났겠지만, 키보드로 검색 패널을 지나쳐 가는 사용자에게도 패널이 제대로 닫히게 한 것이죠. focusout을 쓴 것도 의도적인데, blur와 달리 focusout은 버블링되므로 컨테이너에 한 번만 바인딩해서 내부 모든 요소의 포커스 이탈을 감지할 수 있습니다.
+
+$(".insight-report__search-button").on("click", function(e) {
+    closeSearchForm();
+});
+
+
+검색 실행 버튼 — 검색을 실행하면(실제 검색 로직은 다른 곳에 있거나 미구현) 패널을 닫습니다.
+
+
+$(".insight-report__search__keyword-button").on("click", function(e) {
+    e.preventDefault();
+
+    const keyword = $.trim($(this).text());
+    const $searchForm = $(this).closest(".insight-report__search");
+    const $input = $searchForm.find("#insightKeyword");
+
+    $input.val(keyword).trigger("input");
+    closeSearchForm($searchForm);
+});
+
+추천/인기 키워드 버튼입니다. 버튼 텍스트를 입력창에 넣고 trigger("input")을 호출하는데, 이게 중요합니다 — .val()로 프로그래밍적으로 값을 바꾸면 input 이벤트가 자동으로 발생하지 않기 때문에, 입력값 변화를 감시하는 다른 코드(자동완성, 유효성 검사 등)가 있다면 알아채지 못합니다. 수동 trigger로 “사용자가 직접 타이핑한 것처럼” 알려주는 겁니다.
+
+한 가지 사소한 불일치: closeSearchForm($searchForm)으로 인자를 넘기지만, 함수 정의는 매개변수가 없어서 무시되고 내부에서 $(".insight-report__search")를 다시 조회합니다. 페이지에 검색폼이 하나뿐이라 동작은 같지만, 함수 시그니처를 closeSearchForm($form)으로 바꿔 인자를 받게 하거나 호출부에서 인자를 빼는 게 깔끔합니다.
+
+$(".insight-report__reset-button").on("click", function(e) {
+    $("#insightKeyword").val("");
+
+    $(".custom-selectbox").each(function() {
+        CustomSelectbox.reset($(this));
+    });
+
+    $("#selectedArea").empty();
+
+    $("#insightKeyword").closest(".insight-report__search").removeClass("is-focus");
+});
+
+
+
+	•	#selectedArea를 직접 empty()하는 건 위에서 본 단방향 흐름과 어긋납니다. CustomSelectbox.reset()이 change를 trigger한다면 어차피 renderSelectedArea()가 비워줄 것이고, trigger하지 않는다면 has-items 클래스가 제거되지 않고 남는 버그가 됩니다 (칩은 없는데 영역 스타일은 살아있는 상태). 직접 empty 대신 마지막에 renderSelectedArea()를 한 번 호출하는 게 일관됩니다.
+	•	removeClass("is-focus")를 직접 하는데, 모바일이면 NonScroll.disable()이 빠집니다. closeSearchForm()을 호출하는 게 안전합니다 — 안 그러면 모바일에서 패널 연 상태로 리셋을 누르면 스크롤 잠금이 남을 수 있습니다.
+
+전체 구조 요약
+
+이 코드의 설계 사상을 한 줄로 정리하면: 셀렉트박스의 aria 상태를 유일한 진실로 두고, 칩 UI는 그 상태의 투영으로만 취급하며, 변경은 반드시 CustomSelectbox 모듈 API를 거친다는 것입니다. 다만 리셋 버튼 쪽에서 이 원칙이 두 군데 깨지고 있고(직접 empty, 직접 removeClass), $.trim은 jQuery 4.0 마이그레이션 시 String.prototype.trim으로 교체가 필요하며, 칩 템플릿의 ${text} 삽입은 데이터 출처에 따라 이스케이프 처리를 검토하시면 좋겠습니다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- 페이지 스크릷트 -->
+	<script>
+		const pageLayoutHandler = createBreakpointHandler({
+			breakpoint: 1024,
+			namespace: ".pageLayoutHandler",
+
+			onReset: function() {},
+
+			onUnder: function() {
+				// 1024 이하
+			},
+
+			onOver: function() {
+				// 1024 초과
+				if ($(".insight-report__search.is-focus").length > 0) {
+					NonScroll.disable();
+				}
+			},
+
+			onChange: function() {
+				// breakpoint 변경 시 필요한 작업 있으면 추가
+			},
+		});
+
+		function renderSelectedArea() {
+			const $selectedAreaParent = $(".insight-report__selected-area");
+			const $selectedArea = $("#selectedArea");
+
+			$selectedArea.empty();
+
+			$(".js-show-selected").each(function() {
+				const $select = $(this);
+				const selectName = $select.find(".custom-selectbox__input").attr("name");
+
+				$select
+					.find(".custom-selectbox__option[aria-selected='true']")
+					.not(".custom-selectbox__option--all")
+					.each(function() {
+						const $option = $(this);
+						const value = $option.find(".custom-selectbox__checkbox").val();
+						const text = $.trim($option.find(".custom-selectbox__text").text());
+
+            
+						$selectedArea.append(`
+                                <div class="selected-area__item" data-select-name="${selectName}" data-value="${value}">
+                                    <span class="selected-area__text">${text}</span>
+                                    <button type="button" class="selected-area__delete" aria-label="${text} 삭제"></button>
+                                </div>
+                            `);
+					});
+			});
+
+
+
+			if ($(".selected-area__item").length > 0) $selectedAreaParent.addClass("has-items");
+			else $selectedAreaParent.removeClass("has-items");
+		}
+
+		$(function() {
+			CustomSelectbox.init();
+			pageLayoutHandler.init();
+
+			$(".custom-selectbox").on("change.customSelect", function() {
+				renderSelectedArea();
+				//console.log($("[name='chk02']").val());
+			});
+
+			// 정렬 selectbox
+			$(".js-order").on("change.customSelect", function(e, v, txt) {
+				console.log(v, txt);
+			});
+
+			// 삭제
+			$(document).on("click", ".selected-area__delete", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+
+				const $item = $(this).closest(".selected-area__item");
+				const selectName = $item.attr("data-select-name");
+				const value = $item.attr("data-value");
+
+				const $select = $(".custom-selectbox").filter(function() {
+					return $(this).find(".custom-selectbox__input").attr("name") === selectName;
+				});
+
+				CustomSelectbox.unselect($select, value);
+			});
+
+			// 검색 포커스
+			$("#insightKeyword").on("focus", function() {
+				$(this).closest(".insight-report__search").addClass("is-focus");
+				if ($("html").hasClass("layout-mo")) {
+					NonScroll.enable();
+				}
+			});
+			// 검생창 닫기
+			function closeSearchForm() {
+				const $searchForm = $(".insight-report__search");
+
+				if (!$searchForm.hasClass("is-focus")) return;
+
+				$searchForm.removeClass("is-focus");
+
+				if ($("html").hasClass("layout-mo")) {
+					NonScroll.disable();
+				}
+			}
+
+			let isTabKey = false;
+
+			$(document)
+				.off("keydown.searchForm pointerdown.searchForm click.searchForm")
+				.on("keydown.searchForm", function(e) {
+					isTabKey = e.key === "Tab";
+				})
+				.on("pointerdown.searchForm", function() {
+					isTabKey = false;
+				})
+				.on("click.searchForm", function(e) {
+					if ($(e.target).closest(".insight-report__search").length) return;
+
+					closeSearchForm();
+				});
+
+			$(".insight-report__search").on("focusout", function(e) {
+				if (!isTabKey) return;
+
+				const nextFocus = e.relatedTarget;
+
+				if (nextFocus && $(this).has(nextFocus).length) return;
+
+				closeSearchForm();
+			});
+			// 검색 버튼 클릭 시
+			$(".insight-report__search-button").on("click", function(e) {
+				closeSearchForm();
+			});
+
+			// 키워드 클릭 시
+			$(".insight-report__search__keyword-button").on("click", function(e) {
+				e.preventDefault();
+
+				const keyword = $.trim($(this).text());
+				const $searchForm = $(this).closest(".insight-report__search");
+				const $input = $searchForm.find("#insightKeyword");
+
+				$input.val(keyword).trigger("input");
+				closeSearchForm($searchForm);
+			});
+
+			//리셋 버튼
+			$(".insight-report__reset-button").on("click", function(e) {
+				$("#insightKeyword").val("");
+
+				$(".custom-selectbox").each(function() {
+					CustomSelectbox.reset($(this));
+				});
+
+				$("#selectedArea").empty();
+
+				$("#insightKeyword").closest(".insight-report__search").removeClass("is-focus");
+			});
+		});
+	</script>
+</body>
+
+</html>
 
 
 
