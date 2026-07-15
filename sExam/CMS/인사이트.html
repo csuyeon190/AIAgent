@@ -2,6 +2,173 @@
 
 
 
+	<!-- 페이지 스크릷트 -->
+	<script>
+		const pageLayoutHandler = createBreakpointHandler({
+			breakpoint: 1024,
+			namespace: ".pageLayoutHandler",
+
+			onReset: function() {},
+
+			onUnder: function() {
+				// 1024 이하
+			},
+
+			onOver: function() {
+				// 1024 초과
+				if ($(".insight-report__search.is-focus").length > 0) {
+					NonScroll.disable();
+				}
+			},
+
+			onChange: function() {
+				// breakpoint 변경 시 필요한 작업 있으면 추가
+			},
+		});
+
+		function renderSelectedArea() {
+			const $selectedAreaParent = $(".insight-report__selected-area");
+			const $selectedArea = $("#selectedArea");
+
+			$selectedArea.empty();
+
+			$(".js-show-selected").each(function() {
+				const $select = $(this);
+				const selectName = $select.find(".custom-selectbox__input").attr("name");
+
+				$select
+					.find(".custom-selectbox__option[aria-selected='true']")
+					.not(".custom-selectbox__option--all")
+					.each(function() {
+						const $option = $(this);
+						const value = $option.find(".custom-selectbox__checkbox").val();
+						const text = $.trim($option.find(".custom-selectbox__text").text());
+
+            
+						$selectedArea.append(`
+                                <div class="selected-area__item" data-select-name="${selectName}" data-value="${value}">
+                                    <span class="selected-area__text">${text}</span>
+                                    <button type="button" class="selected-area__delete" aria-label="${text} 삭제"></button>
+                                </div>
+                            `);
+					});
+			});
+
+
+
+			if ($(".selected-area__item").length > 0) $selectedAreaParent.addClass("has-items");
+			else $selectedAreaParent.removeClass("has-items");
+		}
+
+		$(function() {
+			CustomSelectbox.init();
+			pageLayoutHandler.init();
+
+			$(".custom-selectbox").on("change.customSelect", function() {
+				renderSelectedArea();
+				//console.log($("[name='chk02']").val());
+			});
+
+			// 정렬 selectbox
+			$(".js-order").on("change.customSelect", function(e, v, txt) {
+				console.log(v, txt);
+			});
+
+			// 삭제
+			$(document).on("click", ".selected-area__delete", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+
+				const $item = $(this).closest(".selected-area__item");
+				const selectName = $item.attr("data-select-name");
+				const value = $item.attr("data-value");
+
+				const $select = $(".custom-selectbox").filter(function() {
+					return $(this).find(".custom-selectbox__input").attr("name") === selectName;
+				});
+
+				CustomSelectbox.unselect($select, value);
+			});
+
+			// 검색 포커스
+			$("#insightKeyword").on("focus", function() {
+				$(this).closest(".insight-report__search").addClass("is-focus");
+				if ($("html").hasClass("layout-mo")) {
+					NonScroll.enable();
+				}
+			});
+			// 검생창 닫기
+			function closeSearchForm() {
+				const $searchForm = $(".insight-report__search");
+
+				if (!$searchForm.hasClass("is-focus")) return;
+
+				$searchForm.removeClass("is-focus");
+
+				if ($("html").hasClass("layout-mo")) {
+					NonScroll.disable();
+				}
+			}
+
+			let isTabKey = false;
+
+			$(document)
+				.off("keydown.searchForm pointerdown.searchForm click.searchForm")
+				.on("keydown.searchForm", function(e) {
+					isTabKey = e.key === "Tab";
+				})
+				.on("pointerdown.searchForm", function() {
+					isTabKey = false;
+				})
+				.on("click.searchForm", function(e) {
+					if ($(e.target).closest(".insight-report__search").length) return;
+
+					closeSearchForm();
+				});
+
+			$(".insight-report__search").on("focusout", function(e) {
+				if (!isTabKey) return;
+
+				const nextFocus = e.relatedTarget;
+
+				if (nextFocus && $(this).has(nextFocus).length) return;
+
+				closeSearchForm();
+			});
+			// 검색 버튼 클릭 시
+			$(".insight-report__search-button").on("click", function(e) {
+				closeSearchForm();
+			});
+
+			// 키워드 클릭 시
+			$(".insight-report__search__keyword-button").on("click", function(e) {
+				e.preventDefault();
+
+				const keyword = $.trim($(this).text());
+				const $searchForm = $(this).closest(".insight-report__search");
+				const $input = $searchForm.find("#insightKeyword");
+
+				$input.val(keyword).trigger("input");
+				closeSearchForm($searchForm);
+			});
+
+			//리셋 버튼
+			$(".insight-report__reset-button").on("click", function(e) {
+				$("#insightKeyword").val("");
+
+				$(".custom-selectbox").each(function() {
+					CustomSelectbox.reset($(this));
+				});
+
+				$("#selectedArea").empty();
+
+				$("#insightKeyword").closest(".insight-report__search").removeClass("is-focus");
+			});
+		});
+	</script>
+</body>
+
+</html>
 
 
 
