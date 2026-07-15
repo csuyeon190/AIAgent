@@ -3,15 +3,21 @@
 
 1. 반응형 레이아웃 핸들러 (pageLayoutHandler)
 
-1024px을 기준으로 화면 크기 변화에 반응하는 핸들러입니다. 특이한 점은 onOver(1024 초과, 즉 PC 전환 시)에서 검색창이 포커스 상태(is-focus)면 NonScroll.disable()을 호출한다는 것 — 모바일에서 검색창 열 때 배경 스크롤을 막아뒀는데, PC로 전환되면 그 잠금을 풀어주는 방어 로직입니다.
+1024px을 기준으로 화면 크기 변화에 반응하는 핸들러입니다. 특이한 점은 onOver(1024 초과, 
+즉 PC 전환 시)에서 검색창이 포커스 상태(is-focus)면 NonScroll.disable()을 호출한다는 것 
+— 모바일에서 검색창 열 때 배경 스크롤을 막아뒀는데, PC로 전환되면 그 잠금을 풀어주는 방어 로직입니다.
 
 2. 선택된 필터 태그 렌더링 (renderSelectedArea)
 
-.js-show-selected 셀렉트박스들을 순회하면서 aria-selected='true'인 옵션(단, “전체” 옵션은 제외)을 찾아 #selectedArea에 삭제 버튼이 달린 태그 칩으로 그려줍니다. 매번 empty() 후 전체를 다시 그리는 방식이고, 칩에 data-select-name과 data-value를 심어서 나중에 어느 셀렉트박스의 어떤 값인지 역추적할 수 있게 합니다. 칩이 하나라도 있으면 부모에 has-items 클래스를 붙여 CSS로 영역 표시를 제어합니다.
+.js-show-selected 셀렉트박스들을 순회하면서 aria-selected='true'인 옵션(단, “전체” 옵션은 제외)을 찾아
+#selectedArea에 삭제 버튼이 달린 태그 칩으로 그려줍니다. 매번 empty() 후 전체를 다시 그리는 방식이고,
+칩에 data-select-name과 data-value를 심어서 나중에 어느 셀렉트박스의 어떤 값인지 역추적할 수 있게 합니다.
+칩이 하나라도 있으면 부모에 has-items 클래스를 붙여 CSS로 영역 표시를 제어합니다.
 3. 이벤트 바인딩 (문서 준비 후)
 
 	•	셀렉트박스 change.customSelect → 칩 다시 렌더링
-	•	칩의 삭제 버튼 클릭 → data-select-name으로 해당 셀렉트박스를 찾아 CustomSelectbox.unselect() 호출. 이러면 change 이벤트가 다시 돌면서 칩도 갱신되는 구조입니다 (이벤트 위임 $(document).on("click", ...)을 쓴 건 칩이 동적 생성되기 때문)
+	•	칩의 삭제 버튼 클릭 → data-select-name으로 해당 셀렉트박스를 찾아 CustomSelectbox.unselect() 호출. 
+이러면 change 이벤트가 다시 돌면서 칩도 갱신되는 구조입니다 (이벤트 위임 $(document).on("click", ...)을 쓴 건 칩이 동적 생성되기 때문)
 	•	리셋 버튼 → 키워드 입력값 비우기 + 모든 셀렉트박스 초기화 + 칩 영역 비우기 + 포커스 상태 해제
 
 4. 검색창 열기/닫기 로직 (가장 정교한 부분)
@@ -19,10 +25,17 @@
 포커스 시 is-focus 클래스를 붙이고, 모바일(layout-mo)이면 NonScroll.enable()로 배경 스크롤을 잠급니다. 닫는 경로가 세 가지인데:
 
 	•	바깥 클릭: click.searchForm에서 클릭 대상이 검색창 내부가 아니면 닫기
-	•	Tab 키로 포커스 이탈: isTabKey 플래그가 핵심입니다. focusout은 마우스 클릭으로도 발생하는데, 클릭 케이스는 위의 click 핸들러가 처리하므로 중복을 피하려고 “직전 입력이 Tab이었을 때만” focusout에서 닫습니다. e.relatedTarget(다음 포커스 대상)이 검색창 내부면 아직 안에 있는 것이니 닫지 않고요
-	•	검색 버튼 / 키워드 버튼 클릭: 명시적으로 closeSearchForm() 호출. 키워드 버튼은 추가로 해당 키워드를 input에 넣고 trigger("input")으로 입력 이벤트를 발생시킵니다
+	•	Tab 키로 포커스 이탈: isTabKey 플래그가 핵심입니다. focusout은 마우스 클릭으로도 발생하는데, 
+클릭 케이스는 위의 click 핸들러가 처리하므로 중복을 피하려고 “직전 입력이 Tab이었을 때만” focusout에서 닫습니다.
+e.relatedTarget(다음 포커스 대상)이 검색창 내부면 아직 안에 있는 것이니 닫지 않고요
+	•	검색 버튼 / 키워드 버튼 클릭: 명시적으로 closeSearchForm() 호출. 
+키워드 버튼은 추가로 해당 키워드를 input에 넣고 trigger("input")으로 입력 이벤트를 발생시킵니다
 
-한 가지 눈에 띄는 점: closeSearchForm($searchForm)처럼 인자를 넘기는 곳이 있지만 함수 정의는 인자를 받지 않아서 무시됩니다(동작엔 문제없음). 그리고 칩 렌더링 시 text를 템플릿 리터럴에 그대로 넣고 있어서, 옵션 텍스트가 서버/사용자 입력에서 온다면 XSS 관점에서 이스케이프를 고려할 만합니다 — 지금 하고 계신 DOMPurify 하드닝 작업 범위에 포함시켜도 좋겠네요.
+한 가지 눈에 띄는 점: closeSearchForm($searchForm)처럼 인자를 넘기는 곳이 있지만
+함수 정의는 인자를 받지 않아서 무시됩니다(동작엔 문제없음). 
+그리고 칩 렌더링 시 text를 템플릿 리터럴에 그대로 넣고 있어서,
+옵션 텍스트가 서버/사용자 입력에서 온다면 XSS 관점에서 이스케이프를 고려할 만합니다 
+
 
 	<!-- 페이지 스크릷트 -->
 	<script>
