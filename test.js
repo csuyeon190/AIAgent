@@ -1,5 +1,5 @@
 "use strict";
-
+##
 ##test
 var proto = {
     bar: "bar",
