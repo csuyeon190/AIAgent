@@ -29,7 +29,7 @@
     if($M124_B_ty.length> 0){
         insightModule = "M124_B";
     }
-	var catId = 'kr1_355';
+	var catId = 'kr_aaa';
     if(insightModule!=""){ //인사이트모듈(M20_A, M124_A가 존재할때만 실행)
    // get data
    $.getJSON('/kr/insights/insight_latest.txt', function (res) {
@@ -52,7 +52,7 @@
             }
             else if(insightModule=="M124_A"){
             	var ins_default_cnt= 2;
-            	if(catId == 'kr1_355') ins_default_cnt= 6;
+            	if(catId == 'kr_aaa') ins_default_cnt= 6;
                 firstLoad = insightLatestNewsList.length >= ins_default_cnt ? ins_default_cnt : insightLatestNewsList.length;
                 $('.cont.M124_A').show(); // insight 영역 show
             }else if(insightModule=="M124_B"){
