@@ -1,3 +1,50 @@
+
+let rafId = null;
+let inView = true;
+
+function tick(now) {
+  rafId = null;
+  if (!playing || !inView) return;
+  const dt = Math.min((now - tPrev) / 1000, 0.05);
+  tPrev = now;
+  tAcc += dt;
+  mouse.x += (target.x - mouse.x) * 0.04;
+  mouse.y += (target.y - mouse.y) * 0.04;
+  if (ready) draw();
+  rafId = requestAnimationFrame(tick);
+}
+
+const io = new IntersectionObserver(([entry]) => {
+  inView = entry.isIntersecting;
+  if (inView && playing && !rafId) {
+    tPrev = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+}, { threshold: 0 });
+io.observe(canvas);
+
+
+
+
+
+function start() {
+  up();
+  const parent = canvas.parentElement;
+  computeProtect(parent.clientWidth, parent.clientHeight || window.innerHeight);
+  tPrev = performance.now();
+  if (playing) { rafId = requestAnimationFrame(tick); }
+  else draw();
+}
+
+
+
+
+
+
+
+
+
+
  <script>
 (function() {
   const canvas = document.getElementById('hero');
