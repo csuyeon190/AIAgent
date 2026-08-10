@@ -1,0 +1,225 @@
+ <script>
+(function() {
+  const canvas = document.getElementById('hero');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  const art = document.getElementById('art');
+  const copy = document.getElementById('copy');
+  const fallback = document.getElementById('fallback');
+
+  if (!gl) {
+    if (fallback) fallback.style.display = 'flex';
+    return;
+  }
+
+  const P = 7.0;
+
+  const VERT = 'attribute vec2 aPos;void main(){gl_Position=vec4(aPos,0.0,1.0);}';
+  const FRAG = `
+    precision highp float;
+    uniform sampler2D uTex; uniform vec2 uRes; uniform vec2 uImg; uniform vec2 uFocal;
+    uniform vec2 uMouse; uniform float uTime,uW; uniform vec4 uProtect;
+    vec2 hash2(float n){ return fract(sin(vec2(n,n+1.7))*vec2(43758.5453,22578.145)); }
+    void main(){
+      vec2 uv=gl_FragCoord.xy/uRes.xy; float t=uTime; float aspect=uRes.x/uRes.y;
+      float ca=uRes.x/uRes.y, ia=uImg.x/uImg.y;
+      vec2 scale=(ca>ia)?vec2(1.0,ia/ca):vec2(ca/ia,1.0);
+      vec2 st=(uv-0.5)*scale+uFocal;
+      vec2 cc=st-uFocal;
+      float ang=0.0050*sin(uW*t*0.5)+(uMouse.x-0.5)*0.003;
+      float s=sin(ang),co=cos(ang); cc=mat2(co,-s,s,co)*cc; cc*=(1.0+0.003*sin(uW*t*0.7));
+      st=cc+uFocal+vec2(0.0030*sin(uW*t*0.6),0.0042*sin(uW*t*0.9+1.0))+(uMouse-0.5)*0.004;
+      vec3 col=texture2D(uTex,clamp(st,0.0,1.0)).rgb;
+
+      float lum=dot(col,vec3(0.299,0.587,0.114));
+      float blueish=clamp((col.b-max(col.r,col.g))*2.0,0.0,1.0);
+      float glass=smoothstep(0.35,0.85,lum)*(0.30+0.70*blueish);
+
+      vec3 energy=vec3(0.0);
+      energy+=glass*(0.045*sin(uW*t))*vec3(0.40,0.60,1.0);
+      float axis=st.x*0.7+(1.0-st.y)*0.7;
+      float band=exp(-pow((fract(axis*1.5 - t*0.09)-0.5)/0.10,2.0));
+      energy+=band*glass*0.10*vec3(0.60,0.80,1.0);
+      float part=0.0;
+      for(int i=0;i<26;i++){
+        vec2 h=hash2(float(i)*1.7);
+        float basex=0.86+(h.x-0.5)*0.16;
+        float rise=fract(h.y*2.0 + t*(0.020+0.05*h.x));
+        float pImgy=0.28+0.46*rise;
+        vec2 pUv=vec2((basex-uFocal.x)/scale.x+0.5,(pImgy-uFocal.y)/scale.y+0.5);
+        vec2 duv=(uv-pUv)*vec2(aspect,1.0);
+        float d=length(duv);
+        float tw=0.5+0.5*sin(t*1.3+float(i)*2.1);
+        float fade=smoothstep(0.0,0.12,rise)*smoothstep(1.0,0.86,rise);
+        part+=smoothstep(0.009,0.0,d)*tw*fade;
+      }
+      energy+=part*0.28*vec3(0.55,0.72,1.0);
+
+      float mm=0.05;
+      float px=smoothstep(uProtect.x-mm,uProtect.x,uv.x)*smoothstep(uProtect.z+mm,uProtect.z,uv.x);
+      float py=smoothstep(uProtect.y-mm,uProtect.y,uv.y)*smoothstep(uProtect.w+mm,uProtect.w,uv.y);
+      energy*=(1.0-px*py);
+
+      col+=energy;
+      gl_FragColor=vec4(col,1.0);
+    }
+  `;
+
+  function comp(type, source) {
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh, source);
+    gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(sh));
+      return null;
+    }
+    return sh;
+  }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, comp(gl.VERTEX_SHADER, VERT));
+  gl.attachShader(prog, comp(gl.FRAGMENT_SHADER, FRAG));
+  gl.linkProgram(prog);
+
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(prog));
+    if (fallback) fallback.style.display = 'flex';
+    return;
+  }
+
+  gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+
+  const aPos = gl.getAttribLocation(prog, 'aPos');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  const U = {};
+  ['uTex', 'uRes', 'uImg', 'uFocal', 'uMouse', 'uTime', 'uW', 'uProtect'].forEach(n => {
+    U[n] = gl.getUniformLocation(prog, n);
+  });
+
+  let playing = true, tPrev = 0, tAcc = 0, ready = false;
+  let mouse = { x: 0.5, y: 0.5 }, target = { x: 0.5, y: 0.5 };
+  let focal = [0.5, 0.5], protect = [0.3, 0.36, 0.7, 0.84];
+  const tex = gl.createTexture();
+
+  function up() {
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, art);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.uniform1i(U.uTex, 0);
+    ready = true;
+  }
+
+  function computeFocal(w, h) {
+    const ar = w / h;
+    if (ar >= 1.7) focal = [0.5, 0.5];
+    else if (ar >= 1.0) focal = [0.62, 0.5];
+    else focal = [0.72, 0.5];
+  }
+
+  function computeProtect(w, h) {
+    if (!copy) return;
+    const parentRect = canvas.parentElement.getBoundingClientRect();
+    const r = copy.getBoundingClientRect();
+
+    let x0 = (r.left - parentRect.left) / w;
+    let x1 = (r.right - parentRect.left) / w;
+    let y1 = 1 - (r.top - parentRect.top) / h;
+    let y0 = 1 - (r.bottom - parentRect.top) / h;
+
+    x0 -= 0.03; x1 += 0.03; y0 -= 0.03; y1 += 0.03;
+
+    if (x0 < 0.12) x0 = 0.0;
+    if (x1 > 0.88) x1 = 1.0;
+    if (y1 > 0.86) y1 = 1.0;
+    if (y0 < 0.14) y0 = 0.0;
+
+    protect = [Math.max(0, x0), Math.max(0, y0), Math.min(1, x1), Math.min(1, y1)];
+  }
+
+  function resize() {
+    const parent = canvas.parentElement;
+    if (!parent) return;
+
+    const w = parent.clientWidth;
+    const h = parent.clientHeight || window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    gl.viewport(0, 0, canvas.width, canvas.height);
+
+    computeFocal(w, h);
+    computeProtect(w, h);
+  }
+
+  const resizeObserver = new ResizeObserver(() => requestAnimationFrame(resize));
+  if (canvas.parentElement) {
+    resizeObserver.observe(canvas.parentElement);
+  }
+
+  window.addEventListener('orientationchange', () => setTimeout(resize, 150));
+  resize();
+
+  window.addEventListener('pointermove', e => {
+    const rect = canvas.getBoundingClientRect();
+    target.x = (e.clientX - rect.left) / rect.width;
+    target.y = 1.0 - ((e.clientY - rect.top) / rect.height);
+  }, { passive: true });
+
+  function draw() {
+    gl.uniform2f(U.uRes, canvas.width, canvas.height);
+    gl.uniform2f(U.uImg, art.naturalWidth || 1920, art.naturalHeight || 1079);
+    gl.uniform2f(U.uFocal, focal[0], focal[1]);
+    gl.uniform2f(U.uMouse, mouse.x, mouse.y);
+    gl.uniform4f(U.uProtect, protect[0], protect[1], protect[2], protect[3]);
+    gl.uniform1f(U.uTime, tAcc);
+    gl.uniform1f(U.uW, (2 * Math.PI) / P);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
+
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) playing = false;
+
+  function loop(now) {
+    if (!playing) return;
+    const dt = Math.min((now - tPrev) / 1000, 0.05);
+    tPrev = now;
+    tAcc += dt;
+
+    mouse.x += (target.x - mouse.x) * 0.04;
+    mouse.y += (target.y - mouse.y) * 0.04;
+
+    if (ready) draw();
+    requestAnimationFrame(loop);
+  }
+
+  function start() {
+    up();
+    const parent = canvas.parentElement;
+    computeProtect(parent.clientWidth, parent.clientHeight || window.innerHeight);
+    tPrev = performance.now();
+    if (playing) requestAnimationFrame(loop);
+    else draw();
+  }
+
+  if (art.complete && art.naturalWidth) start();
+  else art.onload = start;
+  
+  if(!gl.isContextLost()){
+    gl.deleteBuffer(buf);
+    gl.deleteTexture(tex);
+    gl.getExtension("WEBGL_lose_context").loseContext();
+  }
+
+})();
+</script>
