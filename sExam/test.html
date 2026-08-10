@@ -1,0 +1,549 @@
+
+  <!-- // Common dev Module (M19,M27,M27_B):: script-->
+<script type="text/javascript">
+    var insightLatestNewsList = [];
+    $(function() {
+    var likeCntMap = {};
+    var $M20_A_ty = $('.M20_A_cont .owl-carousel.module_ty');
+    var $M20_A_moreBtn = $('.M20_A_cont .btn_more a');
+
+    var $M124_A_ty = $('div.M124_A_cont ul.board_ty');
+    var $M124_A_moreBtn = $('div.M124_A_cont .btn_more a');
+
+    var $M124_B_ty = $('div.M124_B_cont ul.thumb_ty');
+    var $M124_B_moreBtn = $('div.M124_B_cont .btn_more a');
+
+    var M124_artCnt =1;
+
+    var idx = 1;
+    var firstLoad = 0;
+    var flag = false;
+
+    var insightModule = "";
+    if($M20_A_ty.length> 0 ){
+        insightModule = "M20_A";
+    }
+    if($M124_A_ty.length> 0){
+        insightModule = "M124_A";
+    }
+    if($M124_B_ty.length> 0){
+        insightModule = "M124_B";
+    }
+	var catId = 'kr1_355';
+    if(insightModule!=""){ //인사이트모듈(M20_A, M124_A가 존재할때만 실행)
+   // get data
+   $.getJSON('/kr/insights/insight_latest.txt', function (res) {
+    var news = {};
+    
+    var offeringId = catId.substring(catId.indexOf('_') + 1);
+    for (var i = 0; i < res.length; i++) {
+        news = res[i];
+        if (news.solutionid.split(',').indexOf('sol_' + offeringId) > -1) {
+            insightLatestNewsList.push(news);
+        }
+    }
+    }).success(function () {
+        // console.log('getJSON success');
+        if (insightLatestNewsList.length > 0) {
+            var html = '';
+            if(insightModule=="M20_A"){
+                firstLoad = insightLatestNewsList.length >= 3 ? 3 : insightLatestNewsList.length;
+                $('.cont.M20_A').show(); // insight 영역 show
+            }
+            else if(insightModule=="M124_A"){
+            	var ins_default_cnt= 2;
+            	if(catId == 'kr1_355') ins_default_cnt= 6;
+                firstLoad = insightLatestNewsList.length >= ins_default_cnt ? ins_default_cnt : insightLatestNewsList.length;
+                $('.cont.M124_A').show(); // insight 영역 show
+            }else if(insightModule=="M124_B"){
+                firstLoad = insightLatestNewsList.length >= 4 ? 4 : insightLatestNewsList.length;
+                $('.cont.M124_B').show(); // insight 영역 show
+            }
+
+            
+            // 조회수, 좋아요 가져오기
+            var artIds = insightLatestNewsList.map(function(news) { return news.artid; });
+            $.ajax({
+                type: 'GET',
+                url: 'https://www.samsungsds.com/app/getLikeCntList?artIds=' + artIds.toString(),
+                dataType: 'json',
+                success: function (result,status) {
+                    flag = true;
+                    html = renderItem(result);
+                },
+                error: function(request,status,error) {
+                    console.log('API error :: ' + error);
+                    html = renderItem();
+                }
+            })
+            .always(function(){
+                    // item append
+                    if(insightModule == "M20_A"){
+                        $M20_A_ty.append($(html));
+                        if (insightLatestNewsList.length <= 3 || insightLatestNewsList.length == firstLoad) {
+                            $('.M20_A_cont .btn_more').remove(); // remove more button
+                        }
+                    }else if(insightModule == "M124_A"){
+                        $M124_A_ty.append($(html));
+                        if (insightLatestNewsList.length <= 2 || insightLatestNewsList.length == firstLoad) {
+                            $('.M124_A_cont .btn_more').remove(); // remove more button
+                        }
+                    }else if(insightModule == "M124_B"){
+                        $M124_B_ty.append($(html));
+                        if (insightLatestNewsList.length <= 4 || insightLatestNewsList.length == firstLoad) {
+                            $('.M124_B_cont .btn_more').remove(); // remove more button
+                        }
+                    }
+                    
+
+
+                    moduleAlign(); // 컨텐트 제목 영역 높이 맞추기
+                    if(scroll > 0){
+                        $('html,body').animate({ scrollTop : scroll }, 100);
+                        scroll = 0;
+                    }
+            });
+        } else{
+            $('.cont.M20_A').remove();
+        }
+    }).error(function () {
+        console.log('getJSON error');
+    });
+
+    }
+ 
+    var renderItem = function (data) {
+        var html = '';
+        isLocationHash();
+        if(flag){
+            for (var i=0; i<data.result.likeCntList.length; i++) {
+                var cObj = data.result.likeCntList[i];
+                likeCntMap[cObj.artId] = cObj.like_cnt;
+            }
+        }
+        // item 영역 생성
+        if(defaultPage['M20'] > 1){
+            firstLoad = defaultPage['M20']*3;
+
+            if(firstLoad >= insightLatestNewsList.length){
+                firstLoad = insightLatestNewsList.length
+            }
+        }
+
+        if(M124_artCnt > 1){
+            firstLoad = M124_artCnt*2;
+
+            if(firstLoad >= insightLatestNewsList.length){
+                firstLoad = insightLatestNewsList.length
+            }
+        }
+
+        for (var i = 0; i < firstLoad; i++) {
+            var solNews = insightLatestNewsList[i];
+            html += getItem(solNews, likeCntMap, i+1);
+        }
+
+        return html;
+    }
+
+// 인사이트 item 생성
+    var getItem = function (newsItem, count, index) {
+        var html;
+        var thisArticleLikeCount = 0; // 해당 인사이트 좋아요 수
+        var isLikeOn = ''; // 좋아요 한 게시물일 경우 'on'
+        var thumbImg = ''; // 썸네일 이미지 (없으면 default 이미지)
+        var thumbImgAlt = ''; // 썸네일 이미지 대체텍스트
+        var layerPopupTitle =  $("html").attr("lang") == "ko" ? ` title = "레이어 팝업 열림" `: ` title = "Layer pop-up open" `;
+        var seeMore = "자세히 보기";
+        if (count[newsItem.artid]) { // 좋아요 개수 리스트에 존재 여부 확인
+            thisArticleLikeCount = count[newsItem.artid];
+            var cookieArticles = getCookieLikeInsight('article');
+            if (cookieArticles) { // 좋아요 쿠키 여부 판단
+                var checkId = cookieArticles.split(',');
+                var checkIdx = checkId.indexOf(newsItem.artid);
+                if (checkIdx > -1) {
+                    isLikeOn = ' on';
+                }
+            }
+        }
+
+
+
+        if (newsItem.thumbnail.indexOf('no_thumb.png') > -1) {
+            thumbImg = 'http://70.225.30.31:8002/resource/en/images/comp_image_'+parseInt(Math.floor((Math.random()*5) + 1))+'.jpg?queryString=20260810093541';
+        } else {
+            thumbImg = newsItem.thumbnail
+        }
+
+        if(insightModule == "M20_A"){
+
+thumbImgAlt = newsItem.hasOwnProperty("thumbImgAlt")?newsItem.thumbImgAlt : newsItem.eyebrow+` `+newsItem.title;
+
+            html = '<div id="movePoint_M20_'+defaultPage['M20']+index+'" class="item">' +
+            '<div class="img">' +
+            '<p class="hit">' +
+            '<img src="' + thumbImg + '" alt="">' +
+            '</p>' +
+            '<a href="' + newsItem.link + '" class="md_link">' +
+            '<span class="img_p imgLiquid_bgSize imgLiquid_ready" style="background-image: url(&quot;' + thumbImg + '&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat;">' +
+            '<img src="' + thumbImg + '" alt="" style="display: none;">' +
+              '<div class="blind">'+thumbImgAlt+'</div>'+
+            '</span><!-- image size : 646*364px -->' +
+            '</a>' +
+            '</div>' +
+            '<ul class="txt">' +
+            '<li class="md_tit">' + newsItem.eyebrow + '</li>' +
+            '<li class="md_txt02 tit_s"><a href="' + newsItem.link + '" class="md_link">' + newsItem.title + '</a></li>' +
+            '<li class="md_txt">' + newsItem.content + '</li>' +
+            '<li class="md_btn">' +
+            '<a href="' + newsItem.link + '" class="btn_arrow"><span>자세히 보기</span></a>' +
+            '<!-- 새창 열림 시 <a href="CTA Link" class="btn_arrow" target="_blank" title="해당페이지이름 새창열림"><span>CTA Text</span></a> -->' +
+            '</li>' +
+            '<li class="md_sns">' +
+            '<a href="#" onclick="md_btn_like(this, &quot;' + newsItem.artid + '&quot;, ' + thisArticleLikeCount + ')" class="md_btn_like' + isLikeOn + '">' ;
+            var  likeBtnTitle ;
+            if(isLikeOn ==""){
+                likeBtnTitle = '좋아요 누르기';
+            }else{
+                likeBtnTitle = '좋아요 선택됨';
+            }
+            html+='<span class="blind">'+likeBtnTitle+'</span>' +
+            '<strong>' + thisArticleLikeCount + '</strong>' +
+            '</a>' +
+            '<button class="md_btn_share" '+layerPopupTitle+' onclick="md_pop_share_insight(this, &quot;' + newsItem.link + '&quot;, &quot;' + newsItem.artid + '&quot;);"><span class="blind">공유하기 열기</span></button>' +
+            '</li>' +
+            '</ul>' +
+            '</div>';
+        }else if(insightModule == "M124_A"){
+            
+                thumbImgAlt = newsItem.hasOwnProperty("thumbImgAlt")?newsItem.thumbImgAlt : newsItem.eyebrow+` `+newsItem.title;            
+            html = `<li class="li" data-pos="`+M124_artCnt+`">
+            <div class="img">
+                <a href="`+ newsItem.link +`" class="md_link">
+                    <p class="img_p imgLiquid_bgSize imgLiquid_ready" style="background-image: url('`+thumbImg+`?queryString=20260810093541'); background-size: cover; background-position: center center; background-repeat: no-repeat;"><img src="`+thumbImg+`?queryString=20260810093541" alt="" aria-hidden="true" style="display: none;"></p>
+                <div class="blind">`+thumbImgAlt+`</div></a>
+            </div>
+            <div class="txt">
+                <p class="cate">
+                    <span class="bold">`+ newsItem.eyebrow +`</span>
+                    <span>`+ newsItem.releaseDate+`</span>
+                </p>
+                <strong class="md_tit tit_s"><a href="`+ newsItem.link +`" class="md_link">`+newsItem.title+`</a></strong>
+                <p class="md_txt">`+newsItem.content+`</p>
+                <p class="md_btn"><a href="`+ newsItem.link +`" class="btn_arrow"><span>`+seeMore+`</span></a></p>
+
+                <div class="md_sns">
+                    <a href="#" class="md_btn_like`+ isLikeOn + `" onclick="md_btn_like(this, '`+newsItem.artid+`',`+thisArticleLikeCount+` )">`;
+            var  likeBtnTitle ;
+            if(isLikeOn ==""){
+                likeBtnTitle = '좋아요 누르기';
+            }else{
+                likeBtnTitle = '좋아요 선택됨'
+            }
+                
+            html+=`<span class="blind">`+likeBtnTitle+`</span>
+                        <strong class="post_likeNum">` + thisArticleLikeCount + `</strong>
+                    </a>
+                    <button class="md_btn_share" onclick="md_pop_share_insight(this, '` + newsItem.link + `', '` + newsItem.artid + `');" `+layerPopupTitle+`><span class="blind">공유하기 열기</span></button>
+                </div>
+            </div>
+        </li>`;
+
+        }else if(insightModule == "M124_B"){
+thumbImgAlt = newsItem.hasOwnProperty("thumbImgAlt")?newsItem.thumbImgAlt : newsItem.eyebrow+` `+newsItem.title;                        
+            html = `<li class="li" data-pos="`+M124_artCnt+`">
+                <a href="`+ newsItem.link +`" class="md_link">
+                   <img src="`+thumbImg+`?queryString=20260810093541" alt=""/>
+                <div class="blind">`+thumbImgAlt+`</div></a></li>`;
+
+        }
+        return html;
+    }
+
+    // 더보기 버튼 클릭
+    $M20_A_moreBtn.on("click", function (e) {
+        // e.preventDefault();
+        var loadedItem = $('.M20_A_cont .owl-carousel.module_ty .item');
+        var nextLoad = insightLatestNewsList.length - loadedItem.length;
+        if (nextLoad > 0) {
+            defaultPage['M20']++;
+            idx = 1;
+            var html = '';
+            var thisTimeLoad = nextLoad >= 3 ? 3 : nextLoad;
+            for (var i = loadedItem.length; i < loadedItem.length + thisTimeLoad; i++) {
+                var solNews = insightLatestNewsList[i];
+                html += getItem(solNews, likeCntMap, idx++);
+            }
+            $M20_A_ty.append($(html));
+            if (nextLoad <= 3) {
+                for (var i=0; i<3-nextLoad; i++) {
+                    $M20_A_ty.append('<div class="item"></div>');
+                }
+                $('.M20_A_cont .btn_more').remove(); // remove more button
+            }
+            moduleAlign(); // 컨텐트 제목 영역 높이 맞추기
+            var position = $(window).scrollTop(); // S :: 더보기 했을 때 스크롤 위치 조정
+            var offset = $("#movePoint_M20_" + defaultPage['M20'] + '1').offset();
+            if(offset.top > position){
+                $('html,body').animate({scrollTop : offset.top - $('.gnb').height()}, 1500);
+            } else{
+                $('html,body').animate({scrollTop : offset.top - $('.M00_A').height()}, 1500); // E :: 더보기 했을 때 스크롤 위치 조정
+            }
+        }
+    });
+
+
+    $M124_A_moreBtn.on("click", function (e) {
+        // e.preventDefault();
+        var loadedItem = $('div.M124_A_cont ul.board_ty .li');
+        var moreItemCnt = 2;
+        var catId = 'kr1_355';
+        if(catId == "kr1_355") moreItemCnt = 6; //디지털공공 6개씩씩
+
+        var nextLoad = insightLatestNewsList.length - loadedItem.length;
+        if (nextLoad > 0) {
+            M124_artCnt++;
+            idx = 1;
+            var html = '';
+            var thisTimeLoad = nextLoad >= moreItemCnt ? moreItemCnt : nextLoad;
+            for (var i = loadedItem.length; i < loadedItem.length + thisTimeLoad; i++) {
+                var solNews = insightLatestNewsList[i];
+                html += getItem(solNews, likeCntMap, idx++);
+            }
+            $M124_A_ty.append($(html));
+            if (nextLoad <= 2) {
+                for (var i=0; i<moreItemCnt-nextLoad; i++) {
+                    $M124_A_ty.append('<li class="li"></li>');
+                }
+                $('div.M124_A_cont .btn_more').remove(); // remove more button
+            }
+            moduleAlign(); // 컨텐트 제목 영역 높이 맞추기
+
+         
+
+
+        }
+    });
+
+        $M124_B_moreBtn.on("click", function (e) {
+        e.preventDefault();
+        var loadedItem = $('div.M124_B_cont ul.thumb_ty .li');
+        var nextLoad = insightLatestNewsList.length - loadedItem.length;
+        if (nextLoad > 0) {
+            M124_artCnt++;
+            idx = 1;
+            var html = '';
+            var thisTimeLoad = nextLoad >= 4 ? 4 : nextLoad;
+            for (var i = loadedItem.length; i < loadedItem.length + thisTimeLoad; i++) {
+                var solNews = insightLatestNewsList[i];
+                html += getItem(solNews, likeCntMap, idx++);
+            }
+            $M124_B_ty.append($(html));
+            if (nextLoad <= 4) {
+                for (var i=0; i<4-nextLoad; i++) {
+                    $M124_B_ty.append('<li class="li"></li>');
+                }
+                $('div.M124_B_cont .btn_more').remove(); // remove more button
+            }
+            moduleAlign(); // 컨텐트 제목 영역 높이 맞추기
+
+
+        //    setTimeout(function(){
+        //     var position = $(window).scrollTop(); // S :: 더보기 했을 때 스크롤 위치 조정
+        //     var offset = $("#movePoint_M124_A_" + M124_artCnt + '1').offset();
+        //     var offset = $M124_B_ty.children("[data-pos='"+(M124_artCnt)+"']").last();
+        //     if(offset.top > position){
+        //         $('html,body').animate({scrollTop : offset.top - $('.gnb').height()}, 1500);
+        //     } else{
+        //         $('html,body').animate({scrollTop : offset.top - $('.M00_A').height()}, 1500); // E :: 더보기 했을 때 스크롤 위치 조정
+        //     }
+        //      } , 500);
+
+        }
+    });
+
+});
+
+    var clicked = false;
+
+    // 좋아요 버튼 클릭(인사이트 리스트에서만 사용)
+    function md_pop_share_insight(obj, url, itemArtId) {
+        if($(obj).hasClass('on')){
+            $(obj).removeClass('on');
+            $(obj).children('.blind').text('Share Open');
+            $('.md_share_area').removeClass('on off');
+            $('.md_btn_share').removeClass('on');
+        }else{
+            var offsetPosition = $(obj).offset();
+            var w = ($(window).width() - $('#wrap').width()) * 0.5;
+            var x = offsetPosition.left + 30 - w;
+            var y = offsetPosition.top - 2;
+            $('#md_share_area').addClass('on');
+            $('#md_share_area').css('left', x).css('top', y);
+            // $('.md_share_box').attr('tabindex', 0);
+            // $('.md_share_box').focus();
+            $('.md_share_box a').attr('href', url);
+            $('.ico_share_box').attr('tabindex', 0);
+            $('.ico_share_box').focus();
+            //$('.ico_share_box a').attr('href', url);
+            $('.ico_share_box button').attr('data-url', url);
+            $('.ico_share_box button').attr('data-artid', itemArtId);
+            shareArtId = itemArtId; // 전역 값 세팅
+            shareTypeId = 'insight'; // 전역 값 세팅
+
+            $('.md_btn_share').removeClass('on');
+            $(obj).addClass('on');
+            $(obj).children('.blind').text('Share Close');
+            
+            lastActivatedButton = $(obj);
+            
+            focusTrapOn($('.md_share_area'));
+        }
+        return false;
+    }
+
+    function md_btn_like(obj, artId, likeCount) {
+        if($(obj).hasClass('on')){
+            $(obj).removeClass('on');
+            $(obj).children('.blind').text('좋아요 누르기');
+        } else {
+            $(obj).addClass('on');
+            $(obj).children('.blind').text('좋아요 선택됨')
+        }
+        if (!clicked) setCookieLikeWithId(obj, artId, likeCount);
+        clicked = true;
+        return false;
+    }
+
+    // 좋아요 스크립트
+    var setCookieLikeWithId = function (obj, id, likeCount) {
+        artId = id;
+        setCookieLikeInsight('article', artId, 99999, obj, likeCount)
+    }
+
+    // 쿠키 저장
+    var setCookieLikeInsight = function (name, value, exp, obj, likeCount) {
+        var articles = getCookieLikeInsight(name);
+        if(articles){
+            var check = articles.split(',')
+            var idx =  check.indexOf(value)
+            if(idx > -1) { // 쿠키에 아티클 아이디 있을때
+                addremoveLikeInsight('remove', obj); // 좋아요 -1
+                check.splice(idx, 1)
+                articles = check.toString()
+            } else {
+                articles +=  ',' + value
+                if (likeCount > 0) {
+                    addremoveLikeInsight('add', obj); // 좋아요 +1
+                } else {
+                    addremoveLikeInsight('set', obj); // 좋아요 데이터 생성 및 0 -> 1
+                }
+            }
+        } else {
+            articles = value
+            if (likeCount > 0) {
+                addremoveLikeInsight('add', obj);
+            } else {
+                addremoveLikeInsight('set', obj);
+            }
+        }
+        saveCookieInsight(name, articles, exp);
+    };
+
+    // 쿠키 불러오기
+    var getCookieLikeInsight = function (name) {
+        var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value ? value[2] : null;
+    };
+
+    //쿠키 쓰기
+    var saveCookieInsight = function (name,val, exp){
+        var date = new Date();
+        date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + val + ';expires=' + date.toUTCString() + ';path=/';
+    }
+
+    // 좋아요 누름
+    var addremoveLikeInsight = function (flag, obj) {
+        var type = flag === 'set' ? '&typeId=insight' : '' // set 모드 일경우 typeId 추가
+        $.ajax({
+            type: 'GET',
+            url: 'https://www.samsungsds.com/app/'+ flag +'Like?artId=' + artId + type,
+            dataType: 'JSON',
+            success: function (data) {
+                if (flag === 'set') { // 각 모드별 리턴이 다름
+                    $(obj).find('strong').html(data.result);
+                } else {
+                    $(obj).find('strong').html(data.result.likeCnt);
+                }
+                clicked = false;
+            }
+        });
+    }
+
+    $(document).on('click', '.M20_A_cont .module_ty .md_btn a' ,function(){
+        hrefClick($(this))
+    });
+  
+    $(document).on('click', '.M20_A_cont .module_ty div>.md_link' ,function(){
+        hrefClick($(this))
+    });
+
+    $(document).on('click', '.M20_A_cont .module_ty ul>.md_txt02' ,function(){
+        hrefClick($(this))
+    });
+</script>
+<!-- //M20_A Insight Reports :: script -->
+<!-- M24_A Resources :: script-->
+<script type="text/javascript">
+    $(function(){
+        var curData = new Array();
+        var $cont = $('#res_cont');
+        var $btn = $('#loadMoreBtn_M19_A');
+
+        $.getJSON('/kr/resources/resource_latest.txt',function(result) {
+            curData = filterData(result.data,solId);
+            if(curData.length === 0){
+                $('.M19_A').remove()
+            }else{
+                $('.M19_A').show()
+                isLocationHash();
+                contentRender(curData,'M19',$cont,$btn);
+                if(scroll > 0){
+                    $('html,body').animate({ scrollTop : scroll }, 100);
+                    scroll = 0;
+                }
+            }
+        }).fail(function(jqXHR, textStatus, errorThrown) { console.log('getJSON Error :: Network Error occurred'); })
+
+        $(document).on('click','#loadMoreBtn_M19_A',function(){
+            moreBtnClick(curData,'M19',$cont,$btn);
+        })
+
+        $(document).on('click', '#res_cont a' ,function(){
+            hrefClick($(this))
+        });
+    })
+
+<!-- //M24_A Resources :: script -->
+</script>
+
+<div class="cont M124_A bg" data-tit="" data-section="">
+        <div class="inner ban">
+            <h2 class="tit_e">인사이트</h2>
+            <!--h2 class="tit_m">내부 검토와 의사결정에 활용할 수 있는 인사이트를 제시합니다</h2-->
+            <p class="tit_sub">
+            공공기관의 AX·디지털 전환은 정책 변화, 업무 환경, 보안 요구사항, 운영 체계를 함께 고려해야 합니다.<br>
+삼성SDS는 공공 AX, AI 활용, 클라우드 전환, 지능형 업무관리 플랫폼 고도화 관련 인사이트를 통해 기관의 전환 방향과 우선 과제 검토를 지원합니다.
+
+            </p>
+
+            <div class="M124_A_cont">
+                <ul class="board_ty"></ul>
+                <div class="btn_more">
+                    <a href="#" class="btn_m btn_ty"><span>더 보기</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
